@@ -19,9 +19,13 @@
   },
   "homepage": "https://github.com/Sidore/GameBook#readme",
   "devDependencies": {
+    "@types/config": "0.0.34",
     "@types/express": "^4.16.1",
+    "@types/jsonwebtoken": "^8.3.2",
     "@types/node": "^12.0.2",
+    "config": "^3.1.0",
     "express": "^4.17.0",
+    "jsonwebtoken": "^8.5.1",
     "nodemon": "^1.19.0",
     "ts-node": "^8.1.0",
     "typescript": "^3.4.5"

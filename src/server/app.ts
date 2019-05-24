@@ -12,6 +12,7 @@ export class GameBookApp {
     init(): Promise<boolean> {
         return new Promise((resolve, reject) => {
             if (this.server) {
+                this.setUpServer(this.server);
                 this.server.listen(this.PORT, () => {
                     console.log("why are you running?!");
                     resolve();
@@ -21,6 +22,21 @@ export class GameBookApp {
             }
         })
         
+    }
+
+    setUpServer(server : express.Application) {
+        this.setUpMiddleWares(server);
+        this.setUpRoutes(server);
+    }
+
+    setUpMiddleWares(server : express.Application) {
+        server.use(express.json());
+    }
+
+    setUpRoutes(server : express.Application) {
+        server.use('/', (req, res) => {
+            res.send("hello from route");
+        });
     }
 
 }
