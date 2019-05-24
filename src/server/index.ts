@@ -1,11 +1,9 @@
 import * as express from "express";
 
-const app = express();
 
-app.get("/", (req, res) => {
-    res.send("hello1");
-});
+import { GameBookApp } from "./app";
 
-app.listen(2503, () => {
-    console.log("why are you running?!")
-})
+const server = express();
+const app = new GameBookApp(server);
+
+app.init();
