@@ -1,17 +1,26 @@
 
 import * as express from "express";
+import * as mongoose from "mongoose";
+
+import GameRoomRoutes from "./routes/api/GameRooms";
 export class GameBookApp {
 
     private server: express.Application;
     private PORT: number;
+    private db: any;
 
     constructor(server : express.Application) {
         this.server = server;
     }
 
-    init(PORT: number): Promise<boolean> {
+    async init(PORT: number): Promise<boolean>  {
         this.PORT = PORT;
-        return new Promise((resolve, reject) => {
+        await mongoose.connect("mongodb+srv://Sidore:Co8lZkc0mZyj9Ij3@gamebookcluster-iqnhu.mongodb.net/test?retryWrites=true", { useNewUrlParser: true })
+            .then(() => {
+                console.log("Mongo is connected");
+            });
+
+        await new Promise((resolve, reject) => {
             if (this.server) {
                 this.setUpServer(this.server);
                 this.server.listen(this.PORT, () => {
@@ -21,6 +30,8 @@ export class GameBookApp {
                 reject();
             }
         })
+
+        return true;
         
     }
 
@@ -34,9 +45,13 @@ export class GameBookApp {
     }
 
     setUpRoutes(server : express.Application) {
-        server.use('/', (req, res) => {
+
+        server.use("/api/gameroom", GameRoomRoutes)
+
+        server.use("/", (req, res) => {
             res.send("hello from route");
         });
+
     }
 
 }
