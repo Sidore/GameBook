@@ -1,8 +1,12 @@
 
 import * as express from "express";
 import * as mongoose from "mongoose";
+import * as config from "config";
 
 import GameRoomRoutes from "./routes/api/GameRooms";
+import UserRoutes from "./routes/api/User";
+import AuthRoutes from "./routes/api/Auth";
+
 export class GameBookApp {
 
     private server: express.Application;
@@ -15,7 +19,7 @@ export class GameBookApp {
 
     async init(PORT: number): Promise<boolean>  {
         this.PORT = PORT;
-        await mongoose.connect("mongodb+srv://Sidore:Co8lZkc0mZyj9Ij3@gamebookcluster-iqnhu.mongodb.net/test?retryWrites=true", { useNewUrlParser: true })
+        await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true })
             .then(() => {
                 console.log("Mongo is connected");
             });
@@ -47,6 +51,8 @@ export class GameBookApp {
     setUpRoutes(server : express.Application) {
 
         server.use("/api/gameroom", GameRoomRoutes)
+        server.use("/api/user", UserRoutes)
+        server.use("/api/auth", AuthRoutes)
 
         server.use("/", (req, res) => {
             res.send("hello from route");

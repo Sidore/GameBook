@@ -3,6 +3,8 @@ import {Router} from "express";
 
 import {GameRoom} from "../../../models/GameRoom";
 
+import {auth} from "../../auth/middleware";
+
 const router = Router();
 
 // @route GET api/gameroom
@@ -17,7 +19,7 @@ router.get('/', (req, res) => {
 
 // @route POST api/gameroom
 // @access public
-router.post('/', (req, res) => {
+router.post('/', auth, (req, res) => {
     const newGameRoom = new GameRoom({
         name: req.body.name
     });
@@ -31,7 +33,7 @@ router.post('/', (req, res) => {
 
 // @route DELETE api/gameroom/:id
 // @access public
-router.delete('/:id', (req, res) => {
+router.delete('/:id', auth, (req, res) => {
     GameRoom.findById(req.params.id)
         .then((gameroom) => {
             gameroom.remove()
