@@ -3,18 +3,18 @@ import * as express from "express";
 export class GameBookApp {
 
     private server: express.Application;
-    private PORT: number = 2503;
+    private PORT: number;
 
     constructor(server : express.Application) {
         this.server = server;
     }
 
-    init(): Promise<boolean> {
+    init(PORT: number): Promise<boolean> {
+        this.PORT = PORT;
         return new Promise((resolve, reject) => {
             if (this.server) {
                 this.setUpServer(this.server);
                 this.server.listen(this.PORT, () => {
-                    console.log("why are you running?!");
                     resolve();
                 })
             } else {
