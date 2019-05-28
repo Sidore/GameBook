@@ -1,6 +1,6 @@
 import * as React from "react";
 import { render } from "react-dom";
 
-import Counter from "./components/Counter";
+import MainLayout from "./Layouts";
 
-render(<Counter />, document.getElementById("main"));
+render(<MainLayout />, document.getElementById("main"));

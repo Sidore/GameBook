@@ -3,7 +3,7 @@ import {Router} from "express";
 
 import {GameRoom} from "../../../models/GameRoom";
 
-import {auth} from "../../auth/middleware";
+import {auth} from "../../middleware/auth";
 
 const router = Router();
 

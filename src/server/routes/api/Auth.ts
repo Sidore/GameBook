@@ -2,7 +2,7 @@
 import { Router } from "express";
 
 import { User } from "../../../models/User";
-import {auth} from "../../auth/middleware";
+import {auth} from "../../middleware/auth";
 
 import * as bcrypt from "bcryptjs";
 import * as config from "config";

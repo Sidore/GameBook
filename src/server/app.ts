@@ -19,7 +19,7 @@ export class GameBookApp {
 
     async init(PORT: number): Promise<boolean>  {
         this.PORT = PORT;
-        await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true })
+        await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true , "useCreateIndex": true })
             .then(() => {
                 console.log("Mongo is connected");
             });
