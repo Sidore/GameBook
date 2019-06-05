@@ -22,3 +22,4 @@ const UserSchema = new Schema({
 });
 
 export let User = model<UserType>("user", UserSchema);
+
