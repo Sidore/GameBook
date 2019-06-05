@@ -1,7 +1,9 @@
 import { Document } from 'mongoose';
 
-export interface IUserDocument extends Document {
+export interface IGameRoom {
     email: string;
     name: string;
     password: string;
 }
+
+export type GameRoomType = IGameRoom & Document;

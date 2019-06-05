@@ -1,11 +1,5 @@
 import {Schema, Model, model} from "mongoose";
-import { IUserDocument } from './IUserDocument';
-
-export interface IUser extends IUserDocument {
-}
-
-export interface IUserModel extends Model<IUser> {
-}
+import {IUser, UserType } from './IUser';
 
 const UserSchema = new Schema({
     name : {
@@ -27,4 +21,4 @@ const UserSchema = new Schema({
     }
 });
 
-export let User: IUserModel = model<IUser, IUserModel>("user", UserSchema);
+export let User = model<UserType>("user", UserSchema);
