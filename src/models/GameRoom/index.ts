@@ -1,4 +1,5 @@
 import {Schema, model} from "mongoose";
+import {GameRoomType} from "./IGameRoom";
 
 const RoomSchema = new Schema({
     name : {
@@ -11,4 +12,4 @@ const RoomSchema = new Schema({
     }
 });
 
-export let GameRoom = model("gameroom", RoomSchema);
+export let GameRoom = model<GameRoomType>("gameroom", RoomSchema);

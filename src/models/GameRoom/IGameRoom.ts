@@ -6,4 +6,4 @@ export interface IGameRoom {
     password: string;
 }
 
-export type GameRoomType = IGameRoom & Document;
+export interface GameRoomType extends Document, IGameRoom {}
