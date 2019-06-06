@@ -1,5 +1,5 @@
 import { Document } from 'mongoose';
-export default interface IGame {
+export interface IGame {
     title: string;
     date: Date;
     players: [string];
