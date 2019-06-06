@@ -3,6 +3,8 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 import * as config from "config";
 
+import { Server as WebSocketServer } from "ws";
+
 import GameRoomRoutes from "./routes/api/GameRooms";
 import UserRoutes from "./routes/api/User";
 import AuthRoutes from "./routes/api/Auth";
@@ -12,6 +14,7 @@ export class GameBookApp {
     private server: express.Application;
     private PORT: number;
     private db: any;
+    private wss: WebSocketServer;
 
     constructor(server : express.Application) {
         this.server = server;
@@ -23,6 +26,8 @@ export class GameBookApp {
             .then(() => {
                 console.log("Mongo is connected");
             });
+
+        this.wss = new WebSocketServer({ port: 8081 });
 
         await new Promise((resolve, reject) => {
             if (this.server) {
