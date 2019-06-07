@@ -5,6 +5,10 @@ import * as config from "config";
 
 import { Server as WebSocketServer } from "ws";
 
+import { IGameRoom } from "./../models/GameRoom/IGameRoom";
+import { IGameAction } from "./../models/Game/IGame";
+import Player from "./../models/Player";
+
 import GameRoomRoutes from "./routes/api/GameRooms";
 import UserRoutes from "./routes/api/User";
 import AuthRoutes from "./routes/api/Auth";
@@ -15,6 +19,8 @@ export class GameBookApp {
     private PORT: number;
     private db: any;
     private wss: WebSocketServer;
+    private gameRooms: IGameRoom[];
+    // private connections: []
 
     constructor(server : express.Application) {
         this.server = server;
@@ -27,7 +33,6 @@ export class GameBookApp {
                 console.log("Mongo is connected");
             });
 
-        this.wss = new WebSocketServer({ port: 8081 });
 
         await new Promise((resolve, reject) => {
             if (this.server) {
@@ -47,10 +52,43 @@ export class GameBookApp {
     setUpServer(server : express.Application) {
         this.setUpMiddleWares(server);
         this.setUpRoutes(server);
+        this.setUpWS();
     }
 
     setUpMiddleWares(server : express.Application) {
         server.use(express.json());
+    }
+
+    setUpWS() {
+        const wss = this.wss = new WebSocketServer({ port: 8081 });
+        console.log("ws is connected...")
+        wss.on("connection", (ws) => {
+            let player: Player = null;
+            let game: IGameAction = null;
+
+            ws.on("message", (message) => {
+                if (player && game) {
+                    game.playerAction(message.toString() ,player);
+                } else {
+                    const { type , roomTitle } = JSON.parse(message.toString());
+                    if (type === "auth" && roomTitle) {
+                        const buffRoom: IGameRoom = this.gameRooms.find((room) => {
+                            return room.title === roomTitle;
+                        });
+                        if (buffRoom) {
+                            game = buffRoom.game;
+                            player = game.createPlayerFromWS(null,ws);
+                        } else {
+                            ws.send("Такой игры нет");
+                        }
+                    }
+                }
+            });
+          });
+          
+        // wss.on("close", (ws) => {
+        //     app.removeUser(ws);
+        //   });
     }
 
     setUpRoutes(server : express.Application) {

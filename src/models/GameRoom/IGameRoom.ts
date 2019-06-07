@@ -1,9 +1,10 @@
 import { Document } from 'mongoose';
+import { IGameAction } from '../Game/IGame';
 
 export interface IGameRoom {
-    email: string;
-    name: string;
-    password: string; 
+    title: string;
+    date: Date;
+    game: IGameAction;
 }
 
 export interface GameRoomType extends Document, IGameRoom {}
