@@ -115,6 +115,23 @@
                       let el = document.createElement("li");
                       el.innerHTML = element.name;
                       list.appendChild( el );
+
+                      let btn = document.createElement("button");
+                      btn.innerHTML = "x";
+                      btn.onclick = function() {
+                        let req1 = new XMLHttpRequest();
+                        req1.open('DELETE', 'http://localhost:2503/api/gameroom/' + element._id); 
+                        req1.setRequestHeader("Content-Type", "application/json");
+                        req1.setRequestHeader("Authorization", "Bearer " + token);
+                        req1.onreadystatechange = function() {
+                            if (req.readyState == 4) {
+                                if(req.status == 200) {
+                                    console.log("ok")
+                                }
+                            }
+                        }
+                        req1.send();
+                      }
                   });
                   
                 //   .innerHTML = req.responseText;
