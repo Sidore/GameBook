@@ -9,7 +9,7 @@ const router = Router();
 
 // @route GET api/gameroom
 // @access public
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
     GameRoom.find()
         .sort({ date: -1 })
         .then((gamerooms) => {

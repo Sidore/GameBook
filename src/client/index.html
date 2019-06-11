@@ -12,15 +12,21 @@
   <input type="text" id="login"> login <br>
   <input type="text" id="password"> pass <br>
   <input type="text" id="email"> email <br>
+  <input type="text" id="room"> new Room <br>
 
   <button id="register">register</button>
   <button id="loginB">login</button>
 
   <!-- <button id="sender">send json</button> -->
-  <button id="game">try get game</button>
+  <button id="game">try get room</button>
+  <button id="room1">try create room</button>
   <p id="output">
 
   </p>
+
+  <ul id="list">
+
+  </ul>
 
     <script>
       let token = "";
@@ -95,14 +101,24 @@
       let gameButton = document.getElementById("game");
       gameButton.onclick = function(){
           let req = new XMLHttpRequest();
-          req.open('POST', 'http://localhost:2503/conflict'); 
+          req.open('GET', 'http://localhost:2503/api/gameroom'); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + token);
           req.onreadystatechange = function() {
           if (req.readyState == 4) {
               if(req.status == 200) {
-                  document.getElementById("output").innerHTML = req.responseText;
+
                   const response = JSON.parse(req.responseText);
+                  const list = document.getElementById("list");
+
+                  response.forEach(element => {
+                      let el = document.createElement("li");
+                      el.innerHTML = element.name;
+                      list.appendChild( el );
+                  });
+                  
+                //   .innerHTML = req.responseText;
+                  
                   if (response.redirect) {
                       setTimeout(() => {
                           window.location.assign(response.redirect);
@@ -113,6 +129,25 @@
           };
   
           req.send();
+      }
+
+      let senderButton2 = document.getElementById("room1");
+      senderButton2.onclick = function(){
+          let req = new XMLHttpRequest();
+          req.open('POST', 'http://localhost:2503/api/gameroom'); 
+          req.setRequestHeader("Content-Type", "application/json");
+          req.setRequestHeader("Authorization", "Bearer " + token);
+          req.onreadystatechange = function() {
+          if (req.readyState == 4) {
+              // if(req.status == 200) {
+                  document.getElementById("output").innerHTML = req.responseText;
+                  console.log(JSON.parse(req.responseText));
+              // }
+          }
+          };
+          req.send(JSON.stringify({
+              name : document.getElementById("room").value,
+          }));
       }
   </script>  
   <script src="./App.tsx"></script>
