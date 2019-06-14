@@ -4,15 +4,23 @@ import Hall from "./Hall";
 
 export default class MainLayout extends React.Component {
   state = {
-    title: "lolka"
+    title: "lolka",
+    output: ""
   };
+
+  statusHandler(params) {
+    console.log("statusHandler", params);
+  }
 
   render () {
     return (
       <div>
         <h1>{this.state.title}</h1>
         {/* <Counter/> */}
-        <Hall/>
+        <Hall onStatusChange={this.statusHandler.bind(this)}/>
+        <div>
+          {this.state.output}
+        </div>
       </div>
     );
   }

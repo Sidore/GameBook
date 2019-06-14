@@ -6,11 +6,25 @@ export default class HallLayout extends React.Component {
         newUser : false
     }
 
+    props: {
+        onStatusChange
+    }
+
+
     toggleHandler(params) {
         this.setState({
             newUser: !this.state.newUser
         })
     }
+
+    reg() {
+        this.props.onStatusChange = {
+            email : "lol"
+        }
+
+    }
+
+    
 
     render() {
 
@@ -19,10 +33,14 @@ export default class HallLayout extends React.Component {
         if (this.state.newUser) {
             form = <div>
                         login form
+                        
                     </div>
         } else {
             form = <div>
                         reg form
+                        <button onClick={this.reg.bind(this)}>
+                            reg
+                            </button>
                     </div>
         }
 
