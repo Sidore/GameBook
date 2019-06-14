@@ -29,7 +29,7 @@ export default class HallLayout extends React.Component {
         return(
             <div>
                 <div>form type toggle <br/>
-                    <input type="checkbox" onChange={this.toggleHandler}/>
+                    <input type="checkbox" onChange={this.toggleHandler.bind(this)}/>
                 </div>
                 
                 {form}
