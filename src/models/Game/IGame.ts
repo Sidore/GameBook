@@ -7,7 +7,7 @@ import ws from "ws";
 export interface IGame {
     title: string;
     date: Date;
-    players: [string];
+    players: Player[];
     round: number;
 }
 

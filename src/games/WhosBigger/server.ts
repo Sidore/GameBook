@@ -7,6 +7,18 @@ import ws from "ws";
 export default class WhosBiggerGame implements IGame,IGameAction  {
 
     round: number;
+    title: string;
+    date: Date;
+    players: Player[];
+    
+    constructor(){
+        this.init();
+    }
+
+    init() {
+
+    }
+
     roundEnd() {
         throw new Error("Method not implemented.");
     }
@@ -18,18 +30,6 @@ export default class WhosBiggerGame implements IGame,IGameAction  {
     }
     createPlayerFromWS(user: IUser, ws: ws) {
         throw new Error("Method not implemented.");
-    }
-    
-    constructor(){
-        this.init();
-    }
-
-    title: string;
-    date: Date;
-    players: [string];
-
-    init() {
-
     }
 
 
