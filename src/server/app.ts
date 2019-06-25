@@ -75,19 +75,29 @@ export class GameBookApp {
 
             ws.on("message", (message) => {
                 if (player && game) {
-                    game.playerAction(message.toString() ,player);
+                    game.playerAction(message.toString(), player);
                 } else {
-                    const { type , roomTitle } = JSON.parse(message.toString());
-                    if (type === "auth" && roomTitle) {
-                        const buffRoom: IGameRoom = this.gameRooms.find((room) => {
-                            return room.title === roomTitle;
-                        });
-                        if (buffRoom) {
-                            game = buffRoom.game;
-                            player = game.createPlayerFromWS(null,ws);
+                    const { type , roomTitle, user } = JSON.parse(message.toString());
+                    if (type === "auth") {
+                        if (roomTitle) {
+                            if (user) {
+                                const buffRoom: IGameRoom = this.gameRooms.find((room) => {
+                                    return room.title === roomTitle;
+                                });
+                                if (buffRoom) {
+                                    game = buffRoom.game;
+                                    player = game.createPlayerFromWS(user, ws);
+                                    ws.send(`Вы вошли в игру ${game.title}`);
+                                } else {
+                                    ws.send("Такой игры игровой комнаты");
+                                }
+                            } else {
+                                ws.send("Вы не авторизированы");
+                            }
                         } else {
-                            ws.send("Такой игры нет");
+                            ws.send("Вы не указали комнату");
                         }
+                        
                     }
                 }
             });
