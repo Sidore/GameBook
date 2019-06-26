@@ -2,7 +2,7 @@ import { IGame, IGameAction } from "../../models/Game/IGame";
 import { Message } from "../../models/Message";
 import { IUser } from "../../models/User/IUser";
 import Player from "../../models/Player";
-import ws from "ws";
+import * as ws from "ws";
 
 export default class WhosBiggerGame implements IGame,IGameAction  {
 
@@ -16,7 +16,9 @@ export default class WhosBiggerGame implements IGame,IGameAction  {
     }
 
     init() {
-
+        console.log("game WhosBiggerGame inited");
+        this.title = "WhosBiggerGame";
+        this.round = 0;
     }
 
     roundEnd() {
@@ -32,5 +34,8 @@ export default class WhosBiggerGame implements IGame,IGameAction  {
         throw new Error("Method not implemented.");
     }
 
+    toString() {
+        return this.title + " " + this.round;
+    }
 
 }

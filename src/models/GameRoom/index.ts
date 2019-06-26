@@ -9,6 +9,10 @@ const RoomSchema = new Schema({
     date : {
         type : Date,
         default: Date.now
+    },
+    game : {
+        type : Object,
+        default : {}
     }
 });
 

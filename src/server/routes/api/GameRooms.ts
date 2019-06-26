@@ -4,6 +4,9 @@ import {Router} from "express";
 import {GameRoom} from "../../../models/GameRoom";
 
 import {auth} from "../../middleware/auth";
+import { Game } from "../../../models/Game";
+
+import GameFabric from "../../../controllers/GameFabric";
 
 const router = Router();
 
@@ -28,6 +31,25 @@ router.post('/', auth, (req, res) => {
         .then((gameroom) => {
             res.json(gameroom);
         })
+    
+})
+
+// @route POST api/gameroom/:id/game
+// @access public
+router.post('/:id/game/:name', auth, (req, res) => {
+    GameRoom.findById(req.params.id)
+        .then((gameroom) => {
+            const gameItem = GameFabric(req.params.name);
+            gameroom.game = gameItem;
+            
+            gameroom.save()
+                .then(() => {
+                    res.json({gameroom, gameItem});
+                })
+        })
+        .catch((err) => {
+            res.status(404).json({success: false})
+        });
     
 })
 

@@ -94,10 +94,9 @@ export class GameBookApp {
                             } else {
                                 ws.send("Вы не авторизированы");
                             }
-                        } else {
+                        } else { 
                             ws.send("Вы не указали комнату");
                         }
-                        
                     }
                 }
             });
