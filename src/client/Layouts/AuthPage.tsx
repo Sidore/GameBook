@@ -6,7 +6,8 @@ export default class AuthPage extends React.Component {
         newUser : true,
         password : "",
         nickname : "",
-        email : ""
+        email : "",
+        token : ""
     }
 
     props: {
@@ -35,13 +36,35 @@ export default class AuthPage extends React.Component {
             password : this.state.password,
             nickname : this.state.nickname
         })
+
+        
     }
 
     login() {
-        console.log("login with creds",{
+
+        const creds = {
             email : this.state.email,
             password : this.state.password
-        })
+        }
+
+        console.log("login with creds", creds)
+
+        let req = new XMLHttpRequest();
+          req.open('POST', 'http://localhost:2503/api/auth'); 
+          req.setRequestHeader("Content-Type", "application/json");
+          req.onreadystatechange = () => {
+          if (req.readyState == 4) {
+              // if(req.status == 200) {
+                //   document.getElementById("output").innerHTML = req.responseText;
+                  console.log(JSON.parse(req.responseText));
+                //   this.state.token = ;
+                  this.setState({
+                      token : JSON.parse(req.responseText).token
+                  })
+              // }
+          }
+          };
+          req.send(JSON.stringify(creds));
     }
 
     handleChange(event) {
@@ -105,6 +128,8 @@ export default class AuthPage extends React.Component {
                 </div>
                 
                 {form}
+
+                <i>{this.state.token}</i>
             </div>
             
         );
