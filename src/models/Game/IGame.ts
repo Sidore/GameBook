@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 import { Message } from "../Message";
 import { IUser } from "../User/IUser";
 import Player from "../Player";
-import ws from "ws";
+import * as ws from "ws";
 
 export interface IGame {
     title: string;

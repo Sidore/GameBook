@@ -60,10 +60,10 @@ export default class MainLayout extends React.Component {
                 )}
               />
 
-            <Route path="/rooms/:id" render={() => (
+            <Route path="/rooms/:id" render={(props) => (
                 !this.state.token ?
                 (<Redirect to="/login"/>) : 
-                (<Game/>)
+                (<Game token={this.state.token} {...props}/>)
               )} 
               />
           </div>

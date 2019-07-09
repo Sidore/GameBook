@@ -34,12 +34,21 @@ router.post('/', auth, (req, res) => {
     
 })
 
-// @route POST api/gameroom/:id/game
+// @route GET api/gameroom/:id/game
+// @access public
+router.get('/:id/game', auth, (req, res) => {
+    
+        res.json(GameFabric.getList());
+                
+})
+
+
+// @route POST api/gameroom/:id/game/:name
 // @access public
 router.post('/:id/game/:name', auth, (req, res) => {
-    GameRoom.findById(req.params.id)
+    GameRoom.findOne({name : req.params.id})
         .then((gameroom) => {
-            const gameItem = GameFabric(req.params.name);
+            const gameItem = GameFabric.create(req.params.name);
             gameroom.game = gameItem;
             
             gameroom.save()
@@ -48,7 +57,7 @@ router.post('/:id/game/:name', auth, (req, res) => {
                 })
         })
         .catch((err) => {
-            res.status(404).json({success: false})
+            res.status(404).json({success: false, err})
         });
     
 })
