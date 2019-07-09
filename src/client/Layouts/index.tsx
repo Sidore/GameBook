@@ -41,28 +41,31 @@ export default class MainLayout extends React.Component {
                   <Link to="/login">Login</Link>
                 </li>
                 <li>
-                  <Link to="/game/">Game</Link>
+                  <Link to="/rooms/lol">Game</Link>
                 </li>
               </ul>
             </nav>
 
             <Route path="/login" render={() => (
-              <Auth onToken={this.tokenHandler}/>
-            )} />            
+                this.state.token ? 
+                  (<Redirect to="/"/>) :
+                  (<Auth onToken={this.tokenHandler}/>)
+                )} 
+              />            
 
             <Route path="/" exact render={() => (
-              !this.state.token ? (
-                <Redirect to="/login"/>
-              ) : (
-                <Lobby token={this.state.token}/>
-              ))}/>
+                !this.state.token ? 
+                  (<Redirect to="/login"/>) : 
+                  (<Lobby token={this.state.token}/>)
+                )}
+              />
 
-            <Route path="/game/" render={() => (
-              !this.state.token ? (
-                <Redirect to="/login"/>
-              ) : (
-                <Game/>
-              ))} />
+            <Route path="/rooms/:id" render={() => (
+                !this.state.token ?
+                (<Redirect to="/login"/>) : 
+                (<Game/>)
+              )} 
+              />
           </div>
         </Router>
         <hr/>

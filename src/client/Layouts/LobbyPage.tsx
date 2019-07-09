@@ -1,10 +1,11 @@
 import * as React from 'react';
-
+import { Redirect } from "react-router-dom";
 export default class LobbyPage extends React.Component {
 
     state = {
         roomName : "",
-        rooms : []
+        rooms : [],
+        roomLink : ""
     }
 
     props: {
@@ -43,7 +44,9 @@ export default class LobbyPage extends React.Component {
     }
 
     chooseRoom(roomName) {
-        console.log(roomName);
+        this.setState({
+            roomLink : roomName
+        })
     }
 
     getRooms() {
@@ -82,6 +85,11 @@ export default class LobbyPage extends React.Component {
 
     render() {
 
+        if (this.state.roomLink) {
+            const link = `/rooms/${this.state.roomLink}`;
+            return <Redirect to={link} />
+          }
+
         const list = this.state.rooms.map((el,index) => {
             return (
                 <li key={index}>
@@ -89,6 +97,7 @@ export default class LobbyPage extends React.Component {
                 </li>
             )
         })
+
 
         return (
             <div>
