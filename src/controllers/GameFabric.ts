@@ -1,5 +1,6 @@
 import WhosBiggerGameServer from "../games/WhosBigger/server";
 import WhosBiggerGameCliet from "../games/WhosBigger/client";
+import { IGameAction } from "../models/Game/IGame";
 
 const gameList = [
     {
@@ -9,13 +10,20 @@ const gameList = [
     }
 ]
 class GameFabric {
-    create(gameName: string) {
-        const theGame = gameList.find((game) => {
-            return game.title === gameName;
+    create(game: string | { title, round }) : IGameAction {
+
+        // console.log(game);
+
+       const title =  typeof game === "string" ? game : game.title;
+
+        const theGame = gameList.find((gameItem) => {
+            return gameItem.title === title;
         })
 
         if (theGame) {
-            return new theGame.server();
+            const server = new theGame.server();
+            server.round = typeof game === "string" ? 0 : game.round;
+            return server;
         }
     }
 

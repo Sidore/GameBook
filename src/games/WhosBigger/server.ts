@@ -31,7 +31,7 @@ export default class WhosBiggerGame implements IGame,IGameAction  {
         throw new Error("Method not implemented.");
     }
     createPlayerFromWS(user: IUser, ws: ws) {
-        throw new Error("Method not implemented.");
+        ws.send("lol)")
     }
 
     toString() {

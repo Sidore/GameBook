@@ -2,7 +2,7 @@ import { Document } from 'mongoose';
 import { IGameAction } from '../Game/IGame';
 
 export interface IGameRoom {
-    title: string;
+    name: string;
     date: Date;
     game: IGameAction;
 }

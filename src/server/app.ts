@@ -5,13 +5,17 @@ import * as config from "config";
 
 import { Server as WebSocketServer } from "ws";
 
+import ee from "../controllers/EventEmmiter";
+
 import { IGameRoom } from "./../models/GameRoom/IGameRoom";
 import { IGameAction } from "./../models/Game/IGame";
 import Player from "./../models/Player";
+import {GameRoom} from "../models/GameRoom";
 
 import GameRoomRoutes from "./routes/api/GameRooms";
 import UserRoutes from "./routes/api/User";
 import AuthRoutes from "./routes/api/Auth";
+import GameFabric from "../controllers/GameFabric";
 
 export class GameBookApp {
 
@@ -24,6 +28,7 @@ export class GameBookApp {
 
     constructor(server : express.Application) {
         this.server = server;
+        this.gameRooms = [];
     }
 
     async init(PORT: number): Promise<boolean>  {
@@ -50,8 +55,10 @@ export class GameBookApp {
     }
 
     setUpServer(server : express.Application) {
+        this.downloadDB();
         this.setUpMiddleWares(server);
         this.setUpRoutes(server);
+        this.setUpEvents(this);
         this.setUpWS();
     }
 
@@ -72,20 +79,23 @@ export class GameBookApp {
         wss.on("connection", (ws) => {
             let player: Player = null;
             let game: IGameAction = null;
-
             ws.on("message", (message) => {
                 if (player && game) {
                     game.playerAction(message.toString(), player);
                 } else {
-                    const { type , roomTitle, user } = JSON.parse(message.toString());
+                    const { type , roomTitle, user , gameTitle } = JSON.parse(message.toString());
                     if (type === "auth") {
                         if (roomTitle) {
                             if (user) {
                                 const buffRoom: IGameRoom = this.gameRooms.find((room) => {
-                                    return room.title === roomTitle;
+                                    return room.name === roomTitle;
                                 });
+
+                                console.log(2,gameTitle, game, buffRoom, user)
                                 if (buffRoom) {
-                                    game = buffRoom.game;
+                                    if (!buffRoom.game) {
+                                        game = GameFabric.create(gameTitle);
+                                    }
                                     player = game.createPlayerFromWS(user, ws);
                                     ws.send(`Вы вошли в игру ${game.title}`);
                                 } else {
@@ -117,6 +127,36 @@ export class GameBookApp {
             res.send("hello from route");
         });
 
+    }
+
+    setUpEvents(app) {
+        ee.on("gameroom.created", (gameroom) => {
+            console.log("gameroom.created", gameroom);
+            this.addGameRoom(gameroom);
+        })
+    }
+
+    downloadDB() {
+        GameRoom.find((err, result) => {
+            this.gameRooms = result.map((room) => {
+                if (room.game.title) {
+                    // console.log(1,room.game)
+                    room.game = GameFabric.create({ title : room.game.title, round : room.game.round});
+                } 
+                return room;
+            });
+            console.log("db downloaded")
+
+        })
+    }
+
+    addGameRoom(gameroom) {
+        if (gameroom.game.title) {
+            gameroom.game = GameFabric.create({ title : gameroom.game.title, round : gameroom.game.round});
+        }
+        this.gameRooms.push(gameroom);
+        console.log(1,gameroom)
+        
     }
 
 }

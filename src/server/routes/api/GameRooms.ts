@@ -7,6 +7,7 @@ import {auth} from "../../middleware/auth";
 import { Game } from "../../../models/Game";
 
 import GameFabric from "../../../controllers/GameFabric";
+import ee from "../../../controllers/EventEmmiter"
 
 const router = Router();
 
@@ -29,6 +30,7 @@ router.post('/', auth, (req, res) => {
 
     newGameRoom.save()
         .then((gameroom) => {
+            ee.emit("gameroom.created",gameroom)
             res.json(gameroom);
         })
     

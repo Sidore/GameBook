@@ -54,7 +54,30 @@ export default class GamePage extends React.Component {
     }
 
     setUpSocketsToGame(gameName) {
-        console.log("try to set up sockets");
+        // console.log("try to set up sockets");
+
+        const socket = new WebSocket("ws://localhost:8081");
+
+        socket.onopen = () => {
+            socket.send(JSON.stringify({
+            type : "auth",
+            roomTitle : this.props.match.params.id,
+            gameTitle: gameName,
+            user : {
+                nickname : "lol"
+            }
+            }));
+        }
+
+        socket.onmessage = function(event) {
+            var incomingMessage = event.data;
+            console.log(incomingMessage); 
+        };
+        // socket.send(JSON.stringify({
+        //     type: this.type.value,
+        //     message: outgoingMessage
+        // }));
+
         this.setState({
             game: gameName
         })
