@@ -11,9 +11,9 @@ const router = Router();
 
 router.post('/', (req, res) => {
 
-    const { name, email, password } = req.body;
+    const { nickname, email, password } = req.body;
 
-    if( !name || !email || !password) {
+    if( !nickname || !email || !password) {
         return res.status(400).json({msg : "not all field"})
     }
 
@@ -24,7 +24,7 @@ router.post('/', (req, res) => {
             }
 
             const newUser = new User({
-                name, email, password
+                nickname, email, password
             });
             
             bcrypt.genSalt(10, (err, salt) => {

@@ -11,7 +11,7 @@ export default class AuthPage extends React.Component {
     }
 
     props: {
-        onStatusChange
+        onToken
     }
 
     constructor(props) {
@@ -30,13 +30,32 @@ export default class AuthPage extends React.Component {
         })
     }
 
+    
+
     register() {
-        console.log("register with creds",{
+
+        const creds = {
             email : this.state.email,
             password : this.state.password,
             nickname : this.state.nickname
-        })
+        };
 
+        console.log("register with creds",creds)
+
+        let req = new XMLHttpRequest();
+          req.open('POST', 'http://localhost:2503/api/user'); 
+          req.setRequestHeader("Content-Type", "application/json");
+          req.onreadystatechange = () => {
+          if (req.readyState == 4) {
+                  console.log(JSON.parse(req.responseText));
+                  this.setState({
+                    token : JSON.parse(req.responseText).token
+                })
+                this.props.onToken(this.state.token);
+            }
+          };
+
+          req.send(JSON.stringify(creds));
         
     }
 
@@ -54,15 +73,12 @@ export default class AuthPage extends React.Component {
           req.setRequestHeader("Content-Type", "application/json");
           req.onreadystatechange = () => {
           if (req.readyState == 4) {
-              // if(req.status == 200) {
-                //   document.getElementById("output").innerHTML = req.responseText;
                   console.log(JSON.parse(req.responseText));
-                //   this.state.token = ;
                   this.setState({
                       token : JSON.parse(req.responseText).token
                   })
-              // }
-          }
+                  this.props.onToken(this.state.token);
+            }
           };
           req.send(JSON.stringify(creds));
     }
@@ -129,7 +145,6 @@ export default class AuthPage extends React.Component {
                 
                 {form}
 
-                <i>{this.state.token}</i>
             </div>
             
         );

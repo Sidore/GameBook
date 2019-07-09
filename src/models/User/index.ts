@@ -2,7 +2,7 @@ import { Schema, Model, model } from "mongoose";
 import { UserType } from './IUser';
 
 const UserSchema = new Schema({
-    name : {
+    nickname : {
         type : String,
         required : true
     },

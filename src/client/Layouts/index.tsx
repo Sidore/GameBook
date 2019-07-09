@@ -5,28 +5,31 @@ import Auth from "./AuthPage";
 import Game from "./GamePage";
 
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
 
 
 export default class MainLayout extends React.Component {
   state = {
-    title: "lolka",
-    output: ""
+    token: ""
   };
 
-  statusHandler(params) {
-    console.log("statusHandler", params);
+  constructor(props) {
+    super(props);
+
+    this.tokenHandler = this.tokenHandler.bind(this);
   }
+
+  tokenHandler(token) {
+    this.setState({
+      token
+    });
+  }
+
+
 
   render () {
     return (
-      // <div>
-      //   <h1>{this.state.title}</h1>
-        /* <Counter/> */
-        /* <Hall onStatusChange={this.statusHandler.bind(this)}/>
-        <div>
-          {this.state.output}
-        </div> */
+      <div>
         <Router>
           <div>
             <nav>
@@ -43,12 +46,28 @@ export default class MainLayout extends React.Component {
               </ul>
             </nav>
 
-            <Route path="/" exact component={Lobby} />
-            <Route path="/login" component={Auth} />
-            <Route path="/game/" component={Game} />
+            <Route path="/login" render={() => (
+              <Auth onToken={this.tokenHandler}/>
+            )} />            
+
+            <Route path="/" exact render={() => (
+              !this.state.token ? (
+                <Redirect to="/login"/>
+              ) : (
+                <Lobby token={this.state.token}/>
+              ))}/>
+
+            <Route path="/game/" render={() => (
+              !this.state.token ? (
+                <Redirect to="/login"/>
+              ) : (
+                <Game/>
+              ))} />
           </div>
         </Router>
-      // </div>
+        <hr/>
+        <i>{this.state.token}</i>
+      </div>
     );
   }
 }
