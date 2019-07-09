@@ -3,7 +3,8 @@ import * as React from 'react';
 export default class LobbyPage extends React.Component {
 
     state = {
-        roomName : ""
+        roomName : "",
+        rooms : []
     }
 
     props: {
@@ -16,6 +17,7 @@ export default class LobbyPage extends React.Component {
         this.createRoom = this.createRoom.bind(this);
         this.getRooms = this.getRooms.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.chooseRoom = this.chooseRoom.bind(this);
     }
 
     createRoom() {
@@ -23,15 +25,25 @@ export default class LobbyPage extends React.Component {
           req.open('POST', 'http://localhost:2503/api/gameroom'); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
-          req.onreadystatechange = function() {
+          req.onreadystatechange = () => {
           if (req.readyState == 4) {
                 //   document.getElementById("output").innerHTML = req.responseText;
                   console.log(JSON.parse(req.responseText));
-          }
+
+                  this.setState({
+                      roomName: ""
+                  })
+
+                  this.getRooms();
+            }
           };
           req.send(JSON.stringify({
               name : this.state.roomName
           }));
+    }
+
+    chooseRoom(roomName) {
+        console.log(roomName);
     }
 
     getRooms() {
@@ -39,11 +51,14 @@ export default class LobbyPage extends React.Component {
           req.open('GET', 'http://localhost:2503/api/gameroom'); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
-          req.onreadystatechange = function() {
+          req.onreadystatechange = () => {
           if (req.readyState == 4) {
               if(req.status == 200) {
                     const response = JSON.parse(req.responseText);
                     console.log(response);
+                    this.setState({
+                        rooms : response
+                    })
               }
           }
           };
@@ -61,20 +76,41 @@ export default class LobbyPage extends React.Component {
         });
     }
 
+    componentWillMount() {
+        this.getRooms();
+    }
+
     render() {
+
+        const list = this.state.rooms.map((el,index) => {
+            return (
+                <li key={index}>
+                    <button onClick={() => this.chooseRoom(el.name)}>{el.name}</button>
+                </li>
+            )
+        })
+
         return (
             <div>
                 <div>User info</div>
                 <div>
                     <div>Last games</div>
                     <div>filter</div>
-                    <div>games list</div>
+                    <div>games list
+                        <ul>
+                            {list}
+                        </ul>
+                    </div>
                 </div>
-                <div>create new room
+                <div>
                         <label>
                             room name:
-                            <input type="text" name="email" value={this.state.roomName} onChange={this.handleChange} />
+                            <input type="text" name="roomName" value={this.state.roomName} onChange={this.handleChange} />
                         </label>
+
+                        <button onClick={this.createRoom}>
+                            create new room
+                        </button>
                 </div>
             </div>
         )

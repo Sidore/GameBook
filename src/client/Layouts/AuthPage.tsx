@@ -3,7 +3,7 @@ import * as React from 'react';
 export default class AuthPage extends React.Component {
 
     state = {
-        newUser : true,
+        newUser : false,
         password : "",
         nickname : "",
         email : "",
