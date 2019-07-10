@@ -93,9 +93,12 @@ export class GameBookApp {
 
                                 console.log(2,gameTitle, game, buffRoom, user)
                                 if (buffRoom) {
-                                    if (!buffRoom.game) {
-                                        game = GameFabric.create(gameTitle);
-                                    }
+
+                                    game = GameFabric.create(
+                                        !buffRoom.game? gameTitle : {title : buffRoom.game.title, round : buffRoom.game.round}
+                                    );
+                                    
+
                                     player = game.createPlayerFromWS(user, ws);
                                     ws.send(`Вы вошли в игру ${game.title}`);
                                 } else {

@@ -3,6 +3,18 @@
         "jsx": "react",
         "lib": [
             "es6", "dom"
-          ]
+          ],
+
+          "target": "es5",
+    "module": "commonjs",
+    "outDir": "./distServer",
+    // "strict": true,
+
+    // "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    // "noImplicitReturns": true,
+    // "noFallthroughCasesInSwitch": true,
+
+    // "esModuleInterop": true
     }
 }
