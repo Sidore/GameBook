@@ -42,7 +42,7 @@ export class GameBookApp {
         await new Promise((resolve, reject) => {
             if (this.server) {
                 this.setUpServer(this.server);
-                this.server.listen(this.PORT || process.env.PORT || 5000, () => {
+                this.server.listen(process.env.PORT || this.PORT || 5000, () => {
                     resolve();
                 })
             } else {
