@@ -22,7 +22,7 @@ export default class GamePage extends React.Component {
 
     getGamesList() {
         let req = new XMLHttpRequest();
-          req.open('GET', `http://localhost:2503/api/gameroom/${this.props.match.params.id}/game`); 
+          req.open('GET', `/api/gameroom/${this.props.match.params.id}/game`); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
           req.onreadystatechange = () => {
@@ -40,7 +40,7 @@ export default class GamePage extends React.Component {
 
     chooseGame(gameName) {
         let req = new XMLHttpRequest();
-          req.open('POST', `http://localhost:2503/api/gameroom/${this.props.match.params.id}/game/${gameName}`); 
+          req.open('POST', `/api/gameroom/${this.props.match.params.id}/game/${gameName}`); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
           req.onreadystatechange = () => {

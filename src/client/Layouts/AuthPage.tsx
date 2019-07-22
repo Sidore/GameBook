@@ -43,7 +43,7 @@ export default class AuthPage extends React.Component {
         console.log("register with creds",creds)
 
         let req = new XMLHttpRequest();
-          req.open('POST', 'http://localhost:2503/api/user'); 
+          req.open('POST', '/api/user'); 
           req.setRequestHeader("Content-Type", "application/json");
           req.onreadystatechange = () => {
           if (req.readyState == 4) {
@@ -69,7 +69,7 @@ export default class AuthPage extends React.Component {
         console.log("login with creds", creds)
 
         let req = new XMLHttpRequest();
-          req.open('POST', 'http://localhost:2503/api/auth'); 
+          req.open('POST', '/api/auth'); 
           req.setRequestHeader("Content-Type", "application/json");
           req.onreadystatechange = () => {
           if (req.readyState == 4) {

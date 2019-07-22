@@ -23,7 +23,7 @@ export default class LobbyPage extends React.Component {
 
     createRoom() {
         let req = new XMLHttpRequest();
-          req.open('POST', 'http://localhost:2503/api/gameroom'); 
+          req.open('POST', '/api/gameroom'); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
           req.onreadystatechange = () => {
@@ -51,7 +51,7 @@ export default class LobbyPage extends React.Component {
 
     getRooms() {
         let req = new XMLHttpRequest();
-          req.open('GET', 'http://localhost:2503/api/gameroom'); 
+          req.open('GET', '/api/gameroom'); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
           req.onreadystatechange = () => {
