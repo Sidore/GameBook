@@ -8,7 +8,7 @@
     "dev": "nodemon src/server/index.ts",
     "dev:debbug": "nodemon --inspect src/server/index.ts",
     "client": "parcel src/client/index.html",
-    "build": "parcel src/client/index.html; tsc -p ."
+    "build": "parcel build src/client/index.html; tsc -p ."
   },
   "repository": {
     "type": "git",
