@@ -122,7 +122,7 @@ export class GameBookApp {
 
     setUpRoutes(server : express.Application) {
 
-        server.use(express.static(__dirname + '/dist'));
+        server.use(express.static(__dirname + '../../dist'));
         server.use("/api/gameroom", GameRoomRoutes)
         server.use("/api/user", UserRoutes)
         server.use("/api/auth", AuthRoutes)
