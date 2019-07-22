@@ -122,7 +122,7 @@ export class GameBookApp {
 
     setUpRoutes(server : express.Application) {
 
-        server.use(express.static(path.join(__dirname, '../../dist')));
+        server.use("/dist", express.static(path.join(__dirname, '../../dist')));
         server.use("/api/gameroom", GameRoomRoutes)
         server.use("/api/user", UserRoutes)
         server.use("/api/auth", AuthRoutes)
@@ -132,7 +132,7 @@ export class GameBookApp {
                 `
                     ${__dirname}
                     ${path.join(__dirname, '../../dist')}
-                    
+
                 `
             );
             // res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
