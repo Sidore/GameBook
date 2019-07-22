@@ -128,14 +128,14 @@ export class GameBookApp {
         server.use("/api/auth", AuthRoutes)
 
         server.use("/", (req, res) => {
-            res.send(
-                `
-                    ${__dirname}
-                    ${path.join(__dirname, '../../dist')}
+            // res.send(
+            //     `
+            //         ${__dirname}
+            //         ${path.join(__dirname, '../../dist')}
 
-                `
-            );
-            // res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
+            //     `
+            // );
+            res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
         });
 
     }
