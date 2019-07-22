@@ -7,7 +7,7 @@ export default class WhosBigger extends React.Component implements IGameClient {
     render() {
         return (
             <div>
-                WhosBigger Client
+                WhosBigger Client 2
             </div>
         )
     }
