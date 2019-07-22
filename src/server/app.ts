@@ -128,7 +128,7 @@ export class GameBookApp {
 
         server.use("/", (req, res) => {
             // res.send("hello from route");
-            res.sendFile("../client/index.html");
+            res.sendFile("../../dist/index.html");
         });
 
     }
