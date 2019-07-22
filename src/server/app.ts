@@ -127,7 +127,8 @@ export class GameBookApp {
         server.use("/api/auth", AuthRoutes)
 
         server.use("/", (req, res) => {
-            res.send("hello from route");
+            // res.send("hello from route");
+            res.sendFile("../client/index.html");
         });
 
     }
