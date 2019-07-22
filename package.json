@@ -4,7 +4,7 @@
   "description": "server to store games",
   "main": "index.js",
   "scripts": {
-    "start": "npm run dev",
+    "start": "node ./distServer/server/index.js",
     "dev": "nodemon src/server/index.ts",
     "dev:debbug": "nodemon --inspect src/server/index.ts",
     "client": "parcel src/client/index.html",
