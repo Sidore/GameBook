@@ -2,7 +2,7 @@
 import * as express from "express";
 import * as mongoose from "mongoose";
 import * as config from "config";
-
+import * as path from "path";
 import { Server as WebSocketServer } from "ws";
 
 import ee from "../controllers/EventEmmiter";
@@ -128,7 +128,7 @@ export class GameBookApp {
 
         server.use("/", (req, res) => {
             // res.send("hello from route");
-            res.sendFile("../../dist/index.html");
+            res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
         });
 
     }
