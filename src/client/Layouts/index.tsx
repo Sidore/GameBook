@@ -35,46 +35,46 @@ export default class MainLayout extends React.Component {
   render () {
     return (
       <div>
-        <Router>
-          <div>
-            <nav>
-              <ul className="title">
-                <li>
-                  <Link to="/">Lobby</Link>
-                </li>
-                <li>
-                  <Link to="/login">Login</Link>
-                </li>
-                <li>
-                  <Link to="/rooms/lol">Game</Link>
-                </li>
-              </ul>
-            </nav>
+        <Provider store={store}>
+          <Router>
+            <div>
+              <nav>
+                <ul className="title">
+                  <li>
+                    <Link to="/">Lobby</Link>
+                  </li>
+                  <li>
+                    <Link to="/login">Login</Link>
+                  </li>
+                  <li>
+                    <Link to="/rooms/lol">Game</Link>
+                  </li>
+                </ul>
+              </nav>
 
-            <Route path="/login" render={() => (
-                this.state.token ? 
-                  (<Redirect to="/"/>) :
-                  (<Auth onToken={this.tokenHandler}/>)
-                )} 
-              />            
+              <Route path="/login" render={() => (
+                  this.state.token ? 
+                    (<Redirect to="/"/>) :
+                    (<Auth onToken={this.tokenHandler}/>)
+                  )} 
+                />            
 
-            <Route path="/" exact render={() => (
-                !this.state.token ? 
+              <Route path="/" exact render={() => (
+                  !this.state.token ? 
+                    (<Redirect to="/login"/>) : 
+                    (<Lobby token={this.state.token}/>)
+                  )}
+                />
+
+              <Route path="/rooms/:id" render={(props) => (
+                  !this.state.token ?
                   (<Redirect to="/login"/>) : 
-                  (<Lobby token={this.state.token}/>)
-                )}
-              />
-
-            <Route path="/rooms/:id" render={(props) => (
-                !this.state.token ?
-                (<Redirect to="/login"/>) : 
-                (<Game token={this.state.token} {...props}/>)
-              )} 
-              />
-          </div>
-        </Router>
-        <hr/>
-        <i>{this.state.token}</i>
+                  (<Game token={this.state.token} {...props}/>)
+                )} 
+                />
+            </div>
+          </Router>
+        </Provider>
       </div>
     );
   }
