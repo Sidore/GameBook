@@ -12,21 +12,21 @@
     action: RoomActionTypes
   ): RoomState {
     switch (action.type) {
-      case GET_ROOMS:
-        return {
-            rooms: [...state.rooms, ...action.data]
-        }
-      case CREATE_ROOM:
-        return {
-            rooms: [...state.rooms, action.data]
-        }
+        case GET_ROOMS:
+            return {
+                rooms: [...state.rooms, ...action.data]
+            }
+        case CREATE_ROOM:
+            return {
+                rooms: [...state.rooms, action.data]
+            }
         case DELETE_ROOM:
-        return {
-          rooms: state.rooms.filter(
-            room => room.name !== action.data.name
-          )
-        }
-      default:
-        return state
+            return {
+                rooms: state.rooms.filter(
+                    room => room.name !== action.data.name
+                )
+            }
+        default:
+            return state
     }
   }
