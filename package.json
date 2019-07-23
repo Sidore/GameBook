@@ -49,6 +49,7 @@
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "redux-devtools": "^3.5.0",
     "stylus": "^0.54.5"
   }
 }
