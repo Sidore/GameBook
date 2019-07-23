@@ -8,10 +8,10 @@ export function getRooms(rooms: IGameRoom[]): RoomActionTypes {
     }
 }
 
-export function createRoom(roomTitle: string): RoomActionTypes {
+export function createRoom(room: IGameRoom): RoomActionTypes {
     return {
         type: CREATE_ROOM,
-        data: roomTitle
+        data: room
     }
 }
 

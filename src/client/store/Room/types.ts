@@ -11,7 +11,7 @@ interface GetRoomsAction {
 
 interface CreateRoomAction {
     type: typeof CREATE_ROOM
-    data: string
+    data: IGameRoom
 }
   
 interface DeleteRoomAction {

@@ -6,12 +6,15 @@ import Game from "./GamePage";
 
 import { Provider } from "react-redux";
 import { createStore } from "redux";
-// import rootReducer from './reducers'
+
+import { AppState, rootReducer } from '../store'
 
 import "./index.styl";
 
-
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+
+
+const store = createStore(rootReducer);
 
 export default class MainLayout extends React.Component {
   state = {
