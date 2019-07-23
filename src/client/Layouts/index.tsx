@@ -4,9 +4,14 @@ import Lobby from "./LobbyPage";
 import Auth from "./AuthPage";
 import Game from "./GamePage";
 
+import { Provider } from "react-redux";
+import { createStore } from "redux";
+// import rootReducer from './reducers'
+
+import "./index.styl";
+
 
 import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
-
 
 export default class MainLayout extends React.Component {
   state = {
@@ -33,7 +38,7 @@ export default class MainLayout extends React.Component {
         <Router>
           <div>
             <nav>
-              <ul>
+              <ul className="title">
                 <li>
                   <Link to="/">Lobby</Link>
                 </li>
