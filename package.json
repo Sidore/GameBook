@@ -9,7 +9,7 @@
     "dev:debbug": "nodemon --inspect src/server/index.ts",
     "client": "parcel src/client/index.html",
     "build": "parcel build src/client/index.html --public-url ./dist/ && tsc -p .",
-    "test" : "jest"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -50,12 +50,16 @@
     "typescript": "^3.4.5"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.5.5",
+    "@babel/plugin-transform-modules-commonjs": "^7.5.0",
     "@babel/preset-env": "^7.5.5",
     "@babel/preset-react": "^7.0.0",
+    "@types/jest": "^24.0.15",
     "babel-jest": "^24.8.0",
     "jest": "^24.8.0",
     "react-test-renderer": "^16.8.6",
     "redux-devtools": "^3.5.0",
-    "stylus": "^0.54.5"
+    "stylus": "^0.54.5",
+    "ts-jest": "^24.0.2"
   }
 }
