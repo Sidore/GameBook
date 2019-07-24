@@ -7,3 +7,9 @@ node_js:
 branches:
   only:
     - master
+
+deploy:
+  provider: heroku
+  app: "game-book-ci"
+  api_key:
+    secure: "a6691e4d-8526-4211-bee0-04beffcdc2ed"
