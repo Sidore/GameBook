@@ -37,20 +37,20 @@ export default class MainLayout extends React.Component {
 
   render () {
     return (
-      <div>
+      <div className="app-container">
         <Provider store={store}>
           <Router>
-            <div>
-              <nav>
-                <ul className="title">
-                  <li>
-                    <Link to="/">Lobby</Link>
+            <div className="root-div">
+              <nav className="nav-bar">
+                <ul className="nav-bar__ul">
+                  <li className="nav-bar__link-container">
+                    <Link to="/" className="nav-bar__link-a">Lobby</Link>
                   </li>
-                  <li>
-                    <Link to="/login">Login</Link>
+                  <li className="nav-bar__link-container">
+                    <Link to="/login" className="nav-bar__link-a">Login</Link>
                   </li>
-                  <li>
-                    <Link to="/rooms/lol">Game</Link>
+                  <li className="nav-bar__link-container">
+                    <Link to="/rooms/lol" className="nav-bar__link-a">Game</Link>
                   </li>
                 </ul>
               </nav>
