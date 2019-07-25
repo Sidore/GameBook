@@ -37,7 +37,6 @@ export default class MainLayout extends React.Component {
 
   render () {
     return (
-      <div className="app-container">
         <Provider store={store}>
           <Router>
             <div className="root-div">
@@ -78,7 +77,6 @@ export default class MainLayout extends React.Component {
             </div>
           </Router>
         </Provider>
-      </div>
     );
   }
 }

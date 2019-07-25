@@ -3,4 +3,4 @@ import { render } from "react-dom";
 
 import MainLayout from "./Layouts";
 
-render(<MainLayout />, document.getElementById("main"));
+render(<MainLayout />, document.getElementById("app-container"));
