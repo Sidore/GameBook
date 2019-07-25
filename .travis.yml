@@ -10,6 +10,6 @@ branches:
 
 deploy:
   provider: heroku
-  app: "game-book-ci"
+  app: "games-book"
   api_key:
     secure: "a6691e4d-8526-4211-bee0-04beffcdc2ed"
