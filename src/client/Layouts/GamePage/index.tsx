@@ -1,5 +1,5 @@
 import * as React from 'react';
-import LazyLoad from "./../components/LazyLoad";
+import LazyLoad from "../../components/LazyLoad";
 export default class GamePage extends React.Component {
 
     constructor(props) {
@@ -90,7 +90,7 @@ export default class GamePage extends React.Component {
     render() {
 
         if(this.state.game) {
-              return <LazyLoad resolve={() => import('../../games/WhosBigger/client')} />
+              return <LazyLoad resolve={() => import('../../../games/WhosBigger/client')} />
         } else {
             const list = this.state.gameList.map((game, index) => {
             return (<li key={index}>
