@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Redirect } from "react-router-dom";
+import "./index.styl";
 export default class LobbyPage extends React.Component {
 
     state = {
