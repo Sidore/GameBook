@@ -26,8 +26,8 @@
     align-self: center;
     margin: auto;
     width: 800px;
-    height 400px;
-        background: white;
+    height 450px;
+    background: white;
     
 
     &__image {
@@ -38,6 +38,66 @@
         background-size: cover;
         background-repeat: no-repeat;
         border-radius:  10px 0 0 10px ;
+        }
+
+    &__content {
+        display: flex;
+        padding: 20px;
+        flex: 1;
+        flex-direction: column;
+        justify-content: space-between;
+
+        &-reg, &-login {
+            flex-direction: column;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex: 1;
+            }
+
+        &__header {
+                text-align: center;
+                margin-bottom: 30px;
+            }
+
+        &__input {
+            border: 1px solid #e1e1e1;
+            outline: none;
+            box-shadow: 0 0 3px #eee;
+            padding: 10px 20px;
+            border-radius: 100px;
+            display: flex;
+            margin: 10px;
+            width: 200px;
+            font-size: 14px;
+            }
+
+        &__submit {
+            
+            // background: linear-gradient(90deg,#1462ef,#27d2f2);
+            background: #1462ef
+            border: none;
+            outline: none;
+            color: white;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 100px;
+            display: flex
+            width: 200px;
+            box-sizing: content-box;
+            margin: 10px;
+            cursor pointer
+            text-align: center;
+            transition: all .3s
+
+                &:hover {
+                     background: #27d2f2
+                    }
+            }
+             
+            
+
+
         }
 }
 

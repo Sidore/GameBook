@@ -99,43 +99,38 @@ export default class AuthPage extends React.Component {
 
         let form;
         if (this.state.newUser) {
-            form = <div>
-                        <label>
-                            Email:
-                            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
-                        </label>
-                        <br/>
-                        <label>
-                            Password:
-                            <input type="text" name="password" value={this.state.password} onChange={this.handleChange} />
-                        </label>
-                        <br/>
-                        <label>
-                            Nickname:
-                            <input type="text" name="nickname" value={this.state.nickname} onChange={this.handleChange} />
-                        </label>
-                        <br/>
-                        <button onClick={this.register}>
-                            Register
-                        </button>
+            form = <div className="auth-form__content">
+                        <div className="auth-form__content-reg">
+                            <h1 className="auth-form__content__header">Sign Up</h1>
                         
+                                <input type="text" className="auth-form__content__input" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email"/>
+        
+                                <input type="text" className="auth-form__content__input" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password"/>
+            
+                                <input type="text" className="auth-form__content__input" name="nickname" value={this.state.nickname} onChange={this.handleChange} placeholder="Nickname"/>
+                    
+                            <button onClick={this.register} className="auth-form__content__submit">
+                                Register
+                            </button>
+                        </div>
+                        <div className="auth-form__content-change">
+                            Already have account? <span className="auth-form__content-change__button" onClick={this.toggleHandler.bind(this)}>Sing in</span>
+                        </div>
                     </div>
         } else {
-            form = <div>
-                        <label>
-                            Email:
-                            <input type="text" name="email" value={this.state.email} onChange={this.handleChange} />
-                        </label> 
-                        <br/>
-                        <label>
-                            Password:
-                            <input type="text" name="password" value={this.state.password} onChange={this.handleChange} />
-                        </label>
-                        <br/>
-                        <button onClick={this.login}>
+            form = <div className="auth-form__content">
+                    <div className="auth-form__content-login">
+                        <h1 className="auth-form__content__header">Sign In</h1>
+                            <input className="auth-form__content__input" type="text" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email"/>
+                            <input className="auth-form__content__input" type="text" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password"/>
+                        <button onClick={this.login} className="auth-form__content__submit" >
                             Login
                         </button>
                     </div>
+                    <div className="auth-form__content-change">
+                        New palyer? <span className="auth-form__content-change__button" onClick={this.toggleHandler.bind(this)}>Sing Up</span>
+                    </div>
+                </div>
         }
 
         return(
@@ -147,15 +142,12 @@ export default class AuthPage extends React.Component {
 
                     </div>
 
-                    <div className="auth-form__content">
+                    
                         {form}
-                        <div>New user? <br/>
-                            <input type="checkbox" checked={this.state.newUser} onChange={this.toggleHandler.bind(this)}/>
-                        </div>
+                        
                     </div>
                     
                 </div>
-            </div>
         );
     }
 
