@@ -1,4 +1,5 @@
 import * as React from 'react';
+import "./index.styl";
 
 export default class AuthPage extends React.Component {
 
@@ -138,15 +139,23 @@ export default class AuthPage extends React.Component {
         }
 
         return(
-            <div>
-                <div>New user? <br/>
-                    <input type="checkbox" checked={this.state.newUser} onChange={this.toggleHandler.bind(this)}/>
-                </div>
-                
-                {form}
+            <div className="auth-root">
+                <div className="auth-root__image"></div> 
+                <div className="auth-form">
+                    
+                    <div className="auth-form__image">
 
+                    </div>
+
+                    <div className="auth-form__content">
+                        {form}
+                        <div>New user? <br/>
+                            <input type="checkbox" checked={this.state.newUser} onChange={this.toggleHandler.bind(this)}/>
+                        </div>
+                    </div>
+                    
+                </div>
             </div>
-            
         );
     }
 

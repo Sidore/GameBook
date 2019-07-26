@@ -40,7 +40,7 @@ export default class MainLayout extends React.Component {
         <Provider store={store}>
           <Router>
             <div className="root-div">
-              <nav className="nav-bar">
+              {/* <nav className="nav-bar">
                 <ul className="nav-bar__ul">
                   <li className="nav-bar__link-container">
                     <Link to="/" className="nav-bar__link-a">Lobby</Link>
@@ -52,7 +52,7 @@ export default class MainLayout extends React.Component {
                     <Link to="/rooms/lol" className="nav-bar__link-a">Game</Link>
                   </li>
                 </ul>
-              </nav>
+              </nav> */}
 
               <Route path="/login" render={() => (
                   this.state.token ? 
