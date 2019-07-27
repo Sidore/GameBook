@@ -101,9 +101,9 @@ export default class LobbyPage extends React.Component {
 
 
         return (
-            <div>
-                <div>User info</div>
-                <div>
+            <div className="lobby">
+                <div className="lobby__user-info">User info</div>
+                <div className="lobby__user-filters">
                     <div>Last games</div>
                     <div>filter</div>
                     <div>games list
@@ -112,7 +112,7 @@ export default class LobbyPage extends React.Component {
                         </ul>
                     </div>
                 </div>
-                <div>
+                <div className="lobby__new-rooms">
                         <label>
                             room name:
                             <input type="text" name="roomName" value={this.state.roomName} onChange={this.handleChange} />
