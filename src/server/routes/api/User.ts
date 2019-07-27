@@ -14,13 +14,13 @@ router.post('/', (req, res) => {
     const { nickname, email, password } = req.body;
 
     if( !nickname || !email || !password) {
-        return res.status(400).json({msg : "not all field"})
+        return res.status(400).json({data : "Not all requirments filled"})
     }
 
     User.findOne({ email })
         .then((user) => {
             if(user) {
-                return res.status(400).json({msg: "user already exists"});
+                return res.status(400).json({data: "User already exists"});
             }
 
             const newUser = new User({

@@ -8,7 +8,8 @@ export default class AuthPage extends React.Component {
         password : "",
         nickname : "",
         email : "",
-        token : ""
+        token : "",
+        error : ""
     }
 
     props: {
@@ -48,11 +49,17 @@ export default class AuthPage extends React.Component {
           req.setRequestHeader("Content-Type", "application/json");
           req.onreadystatechange = () => {
           if (req.readyState == 4) {
-                  console.log(JSON.parse(req.responseText));
-                  this.setState({
-                    token : JSON.parse(req.responseText).token
-                })
-                this.props.onToken(this.state.token);
+                    console.log(JSON.parse(req.responseText));
+                    if (req.status !== 200) {
+                        this.setState({
+                            error : JSON.parse(req.responseText).data
+                        })
+                    } else {
+                        this.setState({
+                            token : JSON.parse(req.responseText).token
+                        })
+                        this.props.onToken(this.state.token);
+                    }
             }
           };
 
@@ -75,10 +82,16 @@ export default class AuthPage extends React.Component {
           req.onreadystatechange = () => {
           if (req.readyState == 4) {
                   console.log(JSON.parse(req.responseText));
+                  if (req.status !== 200) {
+                    this.setState({
+                        error : JSON.parse(req.responseText).data
+                    })
+                } else {
                   this.setState({
                       token : JSON.parse(req.responseText).token
                   })
                   this.props.onToken(this.state.token);
+                }
             }
           };
           req.send(JSON.stringify(creds));
@@ -102,13 +115,17 @@ export default class AuthPage extends React.Component {
             form = <div className="auth-form__content">
                         <div className="auth-form__content-reg">
                             <h1 className="auth-form__content__header">Sign Up</h1>
-                        
                                 <input type="text" className="auth-form__content__input" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email"/>
-        
                                 <input type="text" className="auth-form__content__input" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password"/>
-            
                                 <input type="text" className="auth-form__content__input" name="nickname" value={this.state.nickname} onChange={this.handleChange} placeholder="Nickname"/>
-                    
+                            { (() => {
+                                if (this.state.error) {
+                                    return (<div>
+                                        {this.state.error}
+                                    </div>)
+                                }
+                                })()
+                            }
                             <button onClick={this.register} className="auth-form__content__submit">
                                 Register
                             </button>
@@ -123,6 +140,14 @@ export default class AuthPage extends React.Component {
                         <h1 className="auth-form__content__header">Sign In</h1>
                             <input className="auth-form__content__input" type="text" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email"/>
                             <input className="auth-form__content__input" type="text" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password"/>
+                            { (() => {
+                                if (this.state.error) {
+                                    return (<div>
+                                        {this.state.error}
+                                    </div>)
+                                }
+                                })()
+                            }
                         <button onClick={this.login} className="auth-form__content__submit" >
                             Login
                         </button>
@@ -137,16 +162,10 @@ export default class AuthPage extends React.Component {
             <div className="auth-root">
                 <div className="auth-root__image"></div> 
                 <div className="auth-form">
-                    
                     <div className="auth-form__image">
-
                     </div>
-
-                    
                         {form}
-                        
                     </div>
-                    
                 </div>
         );
     }

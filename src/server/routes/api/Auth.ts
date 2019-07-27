@@ -15,18 +15,18 @@ router.post('/', (req, res) => {
     const { email, password } = req.body;
 
     if( !email || !password) {
-        return res.status(400).json({msg : "not all field"})
+        return res.status(400).json({data : "Not all requirments filled"})
     }
 
     User.findOne({ email })
         .then((user) => {
             if(!user) {
-                return res.status(400).json({msg: "user does not exist"});
+                return res.status(400).json({data: "User doesn`t exist"});
             }
             
             bcrypt.compare(password, user.password)
                 .then((isMatch) => {
-                    if (!isMatch) return res.status(400).json({msg : "Invalid creditals"});
+                    if (!isMatch) return res.status(400).json({data : "Invalid creditals"});
                     jwt.sign({ id : user.id} , config.get("jwtSecret"), {expiresIn : 3600}, (err, token) => {
                         res.json({
                             token, user
