@@ -27,8 +27,10 @@ export default class AuthPage extends React.Component {
 
 
     toggleHandler(params) {
+
         this.setState({
-            newUser: !this.state.newUser
+            newUser: !this.state.newUser,
+            error : ""
         })
     }
 
@@ -120,7 +122,7 @@ export default class AuthPage extends React.Component {
                                 <input type="text" className="auth-form__content__input" name="nickname" value={this.state.nickname} onChange={this.handleChange} placeholder="Nickname"/>
                             { (() => {
                                 if (this.state.error) {
-                                    return (<div>
+                                    return (<div className="auth-form__content__error">
                                         {this.state.error}
                                     </div>)
                                 }
@@ -142,7 +144,7 @@ export default class AuthPage extends React.Component {
                             <input className="auth-form__content__input" type="text" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password"/>
                             { (() => {
                                 if (this.state.error) {
-                                    return (<div>
+                                    return (<div className="auth-form__content__error">
                                         {this.state.error}
                                     </div>)
                                 }
