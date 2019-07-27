@@ -1,6 +1,9 @@
 import * as React from 'react';
 import { Redirect } from "react-router-dom";
 import "./index.styl";
+
+const dev = location && location.hostname == "localhost" || false;
+const serverUrl = dev ? "http://localhost:2503" : "";
 export default class LobbyPage extends React.Component {
 
     state = {
@@ -24,7 +27,7 @@ export default class LobbyPage extends React.Component {
 
     createRoom() {
         let req = new XMLHttpRequest();
-          req.open('POST', '/api/gameroom'); 
+          req.open('POST', `${serverUrl}/api/gameroom`); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
           req.onreadystatechange = () => {
@@ -52,7 +55,7 @@ export default class LobbyPage extends React.Component {
 
     getRooms() {
         let req = new XMLHttpRequest();
-          req.open('GET', '/api/gameroom'); 
+          req.open('GET', `${serverUrl}/api/gameroom`); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
           req.onreadystatechange = () => {
@@ -87,7 +90,7 @@ export default class LobbyPage extends React.Component {
     render() {
 
         if (this.state.roomLink) {
-            const link = `/rooms/${this.state.roomLink}`;
+            const link = `${serverUrl}/rooms/${this.state.roomLink}`;
             return <Redirect to={link} />
           }
 
