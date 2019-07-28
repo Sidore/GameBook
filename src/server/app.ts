@@ -17,6 +17,8 @@ import UserRoutes from "./routes/api/User";
 import AuthRoutes from "./routes/api/Auth";
 import GameFabric from "../controllers/GameFabric";
 
+import {api2} from "./services/sms";
+
 export class GameBookApp {
 
     private server: express.Application;
@@ -49,6 +51,36 @@ export class GameBookApp {
                 reject();
             }
         })
+
+        // api2.getBalance((res: any) => {
+        // console.log("*** getBalance1 ***");
+            
+        //     console.log(res.toString())}, (res: any) => {
+        // console.log("*** getBalance2 ***");
+                
+        //         console.log(res.toString())});
+
+        // api2.sendSms("smSender", "test text", [{val: "380963750074", id: "vlad1", vars: "11"}], "", (res: any) => {
+        // console.log("*** sendSms1 ***");
+        // console.log(res.toString())}, (res: any) => {
+        // console.log("*** sendSms2 ***");
+        // console.log(res.toString())});
+        // api2.getPrice("smSender", "test text", [{val: "380963750074", id: "1213123", vars: ""}], "", (res: any) => {
+        // console.log("*** getPrice1 ***");        
+        // console.log(res.toString())}, (res: any) => {
+        // console.log("*** getPrice2 ***");        
+        // console.log(res.toString())});
+        // api2.getStatus([{val: "msg1123"}, {val: "msg2333"}], (res: any) => {
+        // console.log("*** getStatus1 ***");        
+        // console.log(res.toString())}, (res: any) => {
+        // console.log("*** getStatus2 ***");        
+        // console.log(res.toString())});
+        // api2.getCreditPrice((res: any) => {
+        // console.log("*** getCreditPrice1 ***");    
+        // console.log(res.toString())}, (res: any) => {
+        // console.log("*** getCreditPrice2 ***");    
+        // console.log(res.toString())});
+
 
         return true;
         
