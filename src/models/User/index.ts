@@ -11,15 +11,23 @@ const UserSchema = new Schema({
         required : true,
         unique : true
     },
+    roles: [{ type: 'String' }],
     password : {
         type : String,
         required : true
     },
+    isVerified: { 
+        type: Boolean, 
+        default: false 
+    },
+    passwordResetToken: String,
+    passwordResetExpires: Date,
     date : {
         type : Date,
         default: Date.now
     }
 });
+
 
 export let User = model<UserType>("user", UserSchema);
 
