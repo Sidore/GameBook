@@ -56,9 +56,9 @@ router.get("/user", auth, (req: any, res) => {
 
 
 export const AuthRoutes = router;
-export const ConfirmRoutes = Router().get("/", (req, res) => {
-    console.log(req.body)
-    Token.findOne({ token: req.body.token }, function (err, token) {
+export const ConfirmRoutes = Router().get("/:token", (req, res) => {
+    // console.log(req.body)
+    Token.findOne({ token: req.params.token }, function (err, token) {
         if (!token) return res.status(400).send({ type: 'not-verified', data: 'We were unable to find a valid token. Your token my have expired.' });
  
         // If we found a token, find a matching user
