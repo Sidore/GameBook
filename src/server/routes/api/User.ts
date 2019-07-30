@@ -59,6 +59,10 @@ router.post('/', (req, res) => {
                                     subject: 'Sending with Twilio SendGrid is Fun',
                                     text: 'and easy to do anywhere, even with Node.js',
                                     html: '<strong>http:\/\/' + req.headers.host + '\/confirmation\/' + t.token +'</strong>',
+                                  }).then((request) => {
+                                    res.status(200).json({data: 'A verification email has been sent to ' + user.email + '.', r : request});
+                                  }).catch((err) => {
+                                    return res.status(500).send({ msg: err.message });
                                   })
                             })
 
