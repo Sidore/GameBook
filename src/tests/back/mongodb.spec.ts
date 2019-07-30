@@ -9,7 +9,7 @@ describe('insert', () => {
     connection = await MongoClient.connect(config.get("mongoURI"), {
       useNewUrlParser: true,
     });
-    db = await connection.db("users");
+    db = await connection.db("test");
   });
 
   afterAll(async () => {

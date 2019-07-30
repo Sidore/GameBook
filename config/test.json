@@ -1,1 +1,3 @@
-{}
+{
+    "mongoURI": "mongodb+srv://Sidore:Co8lZkc0mZyj9Ij3@gamebookcluster-iqnhu.mongodb.net/test?retryWrites=true"
+}
