@@ -13,7 +13,8 @@ export default class AuthPage extends React.Component {
         email : "",
         token : "",
         error : "",
-        message: ""
+        message: "",
+        disableSubmit: false
     }
 
     props: {
@@ -41,6 +42,10 @@ export default class AuthPage extends React.Component {
     
 
     register() {
+
+        this.setState({
+            disableSubmit: true
+        })
 
         const creds = {
             email : this.state.email,
@@ -71,6 +76,10 @@ export default class AuthPage extends React.Component {
                         this.props.onToken(this.state.token);
                     }
             }
+
+            this.setState({
+                disableSubmit: false
+            })
           };
 
           req.send(JSON.stringify(creds));
@@ -78,6 +87,10 @@ export default class AuthPage extends React.Component {
     }
 
     login() {
+
+        this.setState({
+            disableSubmit: true
+        })
 
         const creds = {
             email : this.state.email,
@@ -103,6 +116,9 @@ export default class AuthPage extends React.Component {
                   this.props.onToken(this.state.token);
                 }
             }
+            this.setState({
+                disableSubmit: false
+            })
           };
           req.send(JSON.stringify(creds));
     }
@@ -140,7 +156,7 @@ export default class AuthPage extends React.Component {
                                 }
                                 })()
                             }
-                            <button onClick={this.register} className="auth-form__content__submit">
+                            <button onClick={this.register} disabled={this.state.disableSubmit} className="auth-form__content__submit">
                                 Register
                             </button>
                         </div>
@@ -166,7 +182,7 @@ export default class AuthPage extends React.Component {
                                 }
                                 })()
                             }
-                        <button onClick={this.login} className="auth-form__content__submit" >
+                        <button onClick={this.login} className="auth-form__content__submit" disabled={this.state.disableSubmit}>
                             Login
                         </button>
                     </div>

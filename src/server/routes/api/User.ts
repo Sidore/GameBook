@@ -44,7 +44,7 @@ router.post('/', (req, res) => {
                                     from: 'odmen@games-book.com',
                                     subject: 'Verification email',
                                     text: 'and easy to do anywhere, even with Node.js',
-                                    html: 'Follow link to verify youself <strong>http://' + req.headers.host + '/confirmation/' + t.token +'</strong> <br/> after redirect to login just enter your creditals',
+                                    html: 'Follow link to verify youself <strong>http://' + req.headers.host + '/confirmation/' + t.token +'</strong> <br/>, after redirect to login just enter your creditals',
                                   }).then((request) => {
                                     res.status(201).json({data: 'A verification email has been sent to <b>' + user.email + '</b><br/> Check spam too)'});
                                   }).catch((err) => {
