@@ -3,7 +3,7 @@ import { Router } from "express";
 
 import { User } from "../../../models/User";
 import { Token } from "../../../models/Token";
-
+import emailsender from "../../services/email";
 import * as crypto from "crypto";
 import * as bcrypt from "bcryptjs";
 import * as config from "config";
@@ -46,12 +46,20 @@ router.post('/', (req, res) => {
                                 // if (err) { return res.status(500).send({ msg: err.message }); }
                      
                                 // Send the email
-                                var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
-                                var mailOptions = { from: 'no-reply@games-book.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + t.token + '.\n' };
-                                transporter.sendMail(mailOptions, function (err) {
-                                    if (err) { return res.status(500).send({ msg: err.message }); }
-                                    res.status(200).send('A verification email has been sent to ' + user.email + '.');
-                                });
+                                // var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
+                                // var mailOptions = { from: 'no-reply@games-book.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + t.token + '.\n' };
+                                // transporter.sendMail(mailOptions, function (err) {
+                                //     if (err) { return res.status(500).send({ msg: err.message }); }
+                                //     res.status(200).send('A verification email has been sent to ' + user.email + '.');
+                                // });
+
+                                emailsender.send({
+                                    to: user.email,
+                                    from: 'test@example.com',
+                                    subject: 'Sending with Twilio SendGrid is Fun',
+                                    text: 'and easy to do anywhere, even with Node.js',
+                                    html: '<strong>http:\/\/' + req.headers.host + '\/confirmation\/' + t.token +'</strong>',
+                                  })
                             })
 
                             // USER LOGIN
