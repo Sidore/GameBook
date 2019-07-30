@@ -13,12 +13,12 @@ export default class LobbyPage extends React.Component {
     }
 
     props: {
-        token
+        token,
+        user
     }
 
     constructor(props) {
         super(props);
-
         this.createRoom = this.createRoom.bind(this);
         this.getRooms = this.getRooms.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -102,10 +102,23 @@ export default class LobbyPage extends React.Component {
             )
         })
 
+        const user = this.props.user;
 
         return (
             <div className="lobby">
-                <div className="lobby__user-info">User info</div>
+                <div className="lobby__user-info">
+                
+                <div>
+                nickname -  {user.nickname}
+                </div>
+                <div>
+                email -  {user.email}
+                </div>
+                <div>
+                isVerified -  {user.isVerified}
+                </div>
+                
+                </div>
                 <div className="lobby__user-filters">
                     <div>Last games</div>
                     <div>filter</div>

@@ -18,13 +18,15 @@ const store = createStore(rootReducer);
 
 export default class MainLayout extends React.Component {
   state = {
-    token: ""
+    token: "",
+    user : {}
   };
 
   constructor(props) {
     super(props);
 
     this.tokenHandler = this.tokenHandler.bind(this);
+    this.userHandler = this.userHandler.bind(this);
   }
 
   tokenHandler(token) {
@@ -33,6 +35,12 @@ export default class MainLayout extends React.Component {
     });
   }
 
+  userHandler(user) {
+    console.log("userHandler", user)
+    this.setState({
+      user
+    })
+  }
 
 
   render () {
@@ -57,14 +65,14 @@ export default class MainLayout extends React.Component {
               <Route path="/login" render={() => (
                   this.state.token ? 
                     (<Redirect to="/"/>) :
-                    (<Auth onToken={this.tokenHandler}/>)
+                    (<Auth onToken={this.tokenHandler} onUser={this.userHandler}/>)
                   )} 
                 />            
 
               <Route path="/" exact render={() => (
                   !this.state.token ? 
                     (<Redirect to="/login"/>) : 
-                    (<Lobby token={this.state.token}/>)
+                    (<Lobby token={this.state.token} user={this.state.user}/>)
                   )}
                 />
 

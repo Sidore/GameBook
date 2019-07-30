@@ -18,7 +18,8 @@ export default class AuthPage extends React.Component {
     }
 
     props: {
-        onToken
+        onToken,
+        onUser
     }
 
     constructor(props) {
@@ -35,7 +36,8 @@ export default class AuthPage extends React.Component {
 
         this.setState({
             newUser: !this.state.newUser,
-            error : ""
+            error : "",
+            message : ""
         })
     }
 
@@ -60,6 +62,9 @@ export default class AuthPage extends React.Component {
           req.setRequestHeader("Content-Type", "application/json");
           req.onreadystatechange = () => {
           if (req.readyState == 4) {
+            this.setState({
+                disableSubmit: false
+            })
                     console.log(JSON.parse(req.responseText));
                     if (req.status === 201) {
                         this.setState({
@@ -77,9 +82,7 @@ export default class AuthPage extends React.Component {
                     }
             }
 
-            this.setState({
-                disableSubmit: false
-            })
+            
           };
 
           req.send(JSON.stringify(creds));
@@ -104,6 +107,9 @@ export default class AuthPage extends React.Component {
           req.setRequestHeader("Content-Type", "application/json");
           req.onreadystatechange = () => {
           if (req.readyState == 4) {
+            this.setState({
+                disableSubmit: false
+            })
                   console.log(JSON.parse(req.responseText));
                   if (req.status === 201) {
                     this.setState({
@@ -118,11 +124,10 @@ export default class AuthPage extends React.Component {
                       token : JSON.parse(req.responseText).token
                   })
                   this.props.onToken(this.state.token);
+                  this.props.onUser(JSON.parse(req.responseText).user)
                 }
             }
-            this.setState({
-                disableSubmit: false
-            })
+
           };
           req.send(JSON.stringify(creds));
     }
