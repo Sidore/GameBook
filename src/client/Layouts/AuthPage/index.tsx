@@ -105,7 +105,11 @@ export default class AuthPage extends React.Component {
           req.onreadystatechange = () => {
           if (req.readyState == 4) {
                   console.log(JSON.parse(req.responseText));
-                  if (req.status !== 200) {
+                  if (req.status === 201) {
+                    this.setState({
+                        message : JSON.parse(req.responseText).data
+                    })
+                } else if (req.status !== 200) {
                     this.setState({
                         error : JSON.parse(req.responseText).data
                     })
@@ -146,12 +150,10 @@ export default class AuthPage extends React.Component {
                                 <input type="text" className="auth-form__content__input" name="nickname" value={this.state.nickname} onChange={this.handleChange} placeholder="Nickname"/>
                                 { (() => {
                                 if (this.state.error) {
-                                    return (<div className="auth-form__content__error">
-                                        {this.state.error}
+                                    return (<div className="auth-form__content__error" dangerouslySetInnerHTML={{__html: this.state.error}}>
                                     </div>)
                                 } else if (this.state.message) {
-                                    return (<div className="auth-form__content__message">
-                                        {this.state.message}
+                                    return (<div className="auth-form__content__message" dangerouslySetInnerHTML={{__html: this.state.message}}>
                                     </div>)
                                 }
                                 })()
@@ -172,12 +174,10 @@ export default class AuthPage extends React.Component {
                             <input className="auth-form__content__input" type="text" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password"/>
                             { (() => {
                                 if (this.state.error) {
-                                    return (<div className="auth-form__content__error">
-                                        {this.state.error}
+                                    return (<div className="auth-form__content__error" dangerouslySetInnerHTML={{__html: this.state.error}}>
                                     </div>)
                                 } else if (this.state.message) {
-                                    return (<div className="auth-form__content__message">
-                                        {this.state.message}
+                                    return (<div className="auth-form__content__message" dangerouslySetInnerHTML={{__html: this.state.message}}>
                                     </div>)
                                 }
                                 })()
