@@ -54,10 +54,10 @@ router.post('/', (req, res) => {
 
                                 emailsender.send({
                                     to: user.email,
-                                    from: 'test@example.com',
-                                    subject: 'Sending with Twilio SendGrid is Fun',
+                                    from: 'odmen@games-book.com',
+                                    subject: 'Verification email',
                                     text: 'and easy to do anywhere, even with Node.js',
-                                    html: '<strong>http:\/\/' + req.headers.host + '\/confirmation\/' + t.token +'</strong>',
+                                    html: 'Follow link to verify youself <strong>http://' + req.headers.host + '/confirmation/' + t.token +'</strong> <br/> after redirect to login just enter your creditals',
                                   }).then((request) => {
                                     res.status(200).json({data: 'A verification email has been sent to ' + user.email + '.', r : request});
                                   }).catch((err) => {
