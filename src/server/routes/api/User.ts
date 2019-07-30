@@ -35,22 +35,9 @@ router.post('/', (req, res) => {
                     newUser.save()
                         .then((user) => {
 
-                            // if (err) { return res.status(500).send({ msg: err.message }); }
- 
-                            // Create a verification token for this user
-                            var token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
-                     
-                            // Save the verification token
+                            const token = new Token({ _userId: user._id, token: crypto.randomBytes(16).toString('hex') });
                             token.save()
                                 .then(function (t) {
-                     
-                                // Send the email
-                                // var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
-                                // var mailOptions = { from: 'no-reply@games-book.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + t.token + '.\n' };
-                                // transporter.sendMail(mailOptions, function (err) {
-                                //     if (err) { return res.status(500).send({ msg: err.message }); }
-                                //     res.status(200).send('A verification email has been sent to ' + user.email + '.');
-                                // });
 
                                 emailsender.send({
                                     to: user.email,
@@ -59,7 +46,7 @@ router.post('/', (req, res) => {
                                     text: 'and easy to do anywhere, even with Node.js',
                                     html: 'Follow link to verify youself <strong>http://' + req.headers.host + '/confirmation/' + t.token +'</strong> <br/> after redirect to login just enter your creditals',
                                   }).then((request) => {
-                                    res.status(200).json({data: 'A verification email has been sent to ' + user.email + '. Check spam too)'});
+                                    res.status(201).json({data: 'A verification email has been sent to ' + user.email + '. Check spam too)'});
                                   }).catch((err) => {
                                     return res.status(500).send({ msg: err.message });
                                   })
