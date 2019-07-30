@@ -43,7 +43,6 @@ router.post('/', (req, res) => {
                             // Save the verification token
                             token.save()
                                 .then(function (t) {
-                                // if (err) { return res.status(500).send({ msg: err.message }); }
                      
                                 // Send the email
                                 // var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
