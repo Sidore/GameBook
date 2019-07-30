@@ -14,7 +14,7 @@ import {GameRoom} from "../models/GameRoom";
 
 import GameRoomRoutes from "./routes/api/GameRooms";
 import UserRoutes from "./routes/api/User";
-import AuthRoutes from "./routes/api/Auth";
+import { AuthRoutes, ConfirmRoutes } from "./routes/api/Auth";
 import GameFabric from "../controllers/GameFabric";
 
 import {api2} from "./services/sms";
@@ -158,7 +158,7 @@ export class GameBookApp {
         server.use("/api/gameroom", GameRoomRoutes)
         server.use("/api/user", UserRoutes)
         server.use("/api/auth", AuthRoutes)
-
+        server.use("/confirmation", AuthRoutes.confirmationPost)
         server.use("/", (req, res) => {
             // res.send(
             //     `

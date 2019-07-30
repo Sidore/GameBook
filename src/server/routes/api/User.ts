@@ -46,7 +46,7 @@ router.post('/', (req, res) => {
                                 // if (err) { return res.status(500).send({ msg: err.message }); }
                      
                                 // Send the email
-                                var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: "sidore", pass: "NK9KaazjYfiE@ey" } });
+                                var transporter = nodemailer.createTransport({ service: 'Sendgrid', auth: { user: process.env.SENDGRID_USERNAME, pass: process.env.SENDGRID_PASSWORD } });
                                 var mailOptions = { from: 'no-reply@games-book.com', to: user.email, subject: 'Account Verification Token', text: 'Hello,\n\n' + 'Please verify your account by clicking the link: \nhttp:\/\/' + req.headers.host + '\/confirmation\/' + t.token + '.\n' };
                                 transporter.sendMail(mailOptions, function (err) {
                                     if (err) { return res.status(500).send({ msg: err.message }); }
