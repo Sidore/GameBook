@@ -12,7 +12,8 @@ export default class AuthPage extends React.Component {
         nickname : "",
         email : "",
         token : "",
-        error : ""
+        error : "",
+        message: ""
     }
 
     props: {
@@ -47,7 +48,7 @@ export default class AuthPage extends React.Component {
             nickname : this.state.nickname
         };
 
-        console.log("register with creds",creds)
+        // console.log("register with creds",creds)
 
         let req = new XMLHttpRequest();
           req.open('POST', `${serverUrl}/api/user`); 
@@ -55,7 +56,11 @@ export default class AuthPage extends React.Component {
           req.onreadystatechange = () => {
           if (req.readyState == 4) {
                     console.log(JSON.parse(req.responseText));
-                    if (req.status !== 200) {
+                    if (req.status === 201) {
+                        this.setState({
+                            message : JSON.parse(req.responseText).data
+                        })
+                    } else if (req.status !== 200) {
                         this.setState({
                             error : JSON.parse(req.responseText).data
                         })
@@ -123,10 +128,14 @@ export default class AuthPage extends React.Component {
                                 <input type="text" className="auth-form__content__input" name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email"/>
                                 <input type="text" className="auth-form__content__input" name="password" value={this.state.password} onChange={this.handleChange} placeholder="Password"/>
                                 <input type="text" className="auth-form__content__input" name="nickname" value={this.state.nickname} onChange={this.handleChange} placeholder="Nickname"/>
-                            { (() => {
+                                { (() => {
                                 if (this.state.error) {
                                     return (<div className="auth-form__content__error">
                                         {this.state.error}
+                                    </div>)
+                                } else if (this.state.message) {
+                                    return (<div className="auth-form__content__message">
+                                        {this.state.message}
                                     </div>)
                                 }
                                 })()
@@ -149,6 +158,10 @@ export default class AuthPage extends React.Component {
                                 if (this.state.error) {
                                     return (<div className="auth-form__content__error">
                                         {this.state.error}
+                                    </div>)
+                                } else if (this.state.message) {
+                                    return (<div className="auth-form__content__message">
+                                        {this.state.message}
                                     </div>)
                                 }
                                 })()
