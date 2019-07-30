@@ -158,7 +158,7 @@ export class GameBookApp {
         server.use("/api/gameroom", GameRoomRoutes)
         server.use("/api/user", UserRoutes)
         server.use("/api/auth", AuthRoutes)
-        server.use("/confirmation", AuthRoutes.confirmationPost)
+        server.use("/confirmation", ConfirmRoutes)
         server.use("/", (req, res) => {
             // res.send(
             //     `
