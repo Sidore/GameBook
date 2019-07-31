@@ -2,6 +2,7 @@ import * as React from 'react';
 import { Redirect } from "react-router-dom";
 import "./index.styl";
 
+
 const dev = location && location.hostname == "localhost" || false;
 const serverUrl = dev ? "http://localhost:2503" : "";
 export default class LobbyPage extends React.Component {
@@ -108,17 +109,29 @@ export default class LobbyPage extends React.Component {
         return (
             <div className="lobby">
                 <div className="lobby__user-info">
-                
-                <div>
-                nickname -  {user.nickname}
-                </div>
-                <div>
-                email -  {user.email}
-                </div>
-                <div>
-                isVerified -  {user.isVerified}
-                </div>
-                
+                    <div className="lobby__user-info__logo">
+                        <div className="lobby__user-info__logo-img" ></div>
+                        <div className="lobby__user-info__logo-nick">
+                            {user.nickname}
+                        </div>
+                    </div>
+                    <div className="lobby__user-info__stats">
+                        <div className="lobby__user-info__stats-img"></div>
+                        <div className="lobby__user-info__stats-text">Ранг - Новичек</div>
+                        <div className="lobby__user-info__stats-text">Кол. игр - 113</div>
+                        <div className="lobby__user-info__stats-text">Время в игре - 22 часа</div>
+                    </div>
+                    <div className="lobby__user-info__contact">
+                        <div className="lobby__user-info__contact-email">
+                            {user.email}
+                        </div>
+                        <div className="lobby__user-info__contact-tel">
+                            no tel
+                        </div>
+                        <div className="lobby__user-info__contact-verified">
+                            You are {user.isVerified ? "verified" : "not verified"} user
+                        </div>
+                    </div>
                 </div>
                 <div className="lobby__user-filters">
                     <div>Last games</div>
