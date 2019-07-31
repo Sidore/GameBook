@@ -11,7 +11,7 @@ import { AppState, rootReducer } from '../store'
 
 import "./index.styl";
 
-import { BrowserRouter as Router, Route, Link, Redirect } from "react-router-dom";
+import { BrowserRouter as Router, Route, Link, Redirect , Switch} from "react-router-dom";
 
 
 const store = createStore(rootReducer);
@@ -48,20 +48,8 @@ export default class MainLayout extends React.Component {
         <Provider store={store}>
           <Router>
             <div className="root-div">
-              {/* <nav className="nav-bar">
-                <ul className="nav-bar__ul">
-                  <li className="nav-bar__link-container">
-                    <Link to="/" className="nav-bar__link-a">Lobby</Link>
-                  </li>
-                  <li className="nav-bar__link-container">
-                    <Link to="/login" className="nav-bar__link-a">Login</Link>
-                  </li>
-                  <li className="nav-bar__link-container">
-                    <Link to="/rooms/lol" className="nav-bar__link-a">Game</Link>
-                  </li>
-                </ul>
-              </nav> */}
-
+              <Switch>
+              
               <Route path="/login" render={() => (
                   this.state.token ? 
                     (<Redirect to="/"/>) :
@@ -82,6 +70,16 @@ export default class MainLayout extends React.Component {
                   (<Game token={this.state.token} {...props}/>)
                 )} 
                 />
+
+              <Route render={() => (
+                  !this.state.token ? 
+                    (<Redirect to="/login"/>) : 
+                    (<Lobby token={this.state.token} user={this.state.user}/>)
+                  )}
+                />
+
+
+                </Switch>
             </div>
           </Router>
         </Provider>

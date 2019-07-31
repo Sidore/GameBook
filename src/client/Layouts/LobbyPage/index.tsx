@@ -90,7 +90,7 @@ export default class LobbyPage extends React.Component {
     render() {
 
         if (this.state.roomLink) {
-            const link = `${serverUrl}/rooms/${this.state.roomLink}`;
+            const link = `/rooms/${this.state.roomLink}`;
             return <Redirect to={link} />
           }
 
