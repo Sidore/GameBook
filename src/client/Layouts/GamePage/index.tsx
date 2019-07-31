@@ -1,5 +1,8 @@
 import * as React from 'react';
 import LazyLoad from "../../components/LazyLoad";
+
+const dev = location && location.hostname == "localhost" || false;
+const serverUrl = dev ? "http://localhost:2503" : "";
 export default class GamePage extends React.Component {
 
     constructor(props) {
@@ -22,7 +25,7 @@ export default class GamePage extends React.Component {
 
     getGamesList() {
         let req = new XMLHttpRequest();
-          req.open('GET', `/api/gameroom/${this.props.match.params.id}/game`); 
+          req.open('GET', `${serverUrl}/api/gameroom/${this.props.match.params.id}/game`); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
           req.onreadystatechange = () => {
@@ -40,7 +43,7 @@ export default class GamePage extends React.Component {
 
     chooseGame(gameName) {
         let req = new XMLHttpRequest();
-          req.open('POST', `/api/gameroom/${this.props.match.params.id}/game/${gameName}`); 
+          req.open('POST', `${serverUrl}/api/gameroom/${this.props.match.params.id}/game/${gameName}`); 
           req.setRequestHeader("Content-Type", "application/json");
           req.setRequestHeader("Authorization", "Bearer " + this.props.token);
           req.onreadystatechange = () => {
