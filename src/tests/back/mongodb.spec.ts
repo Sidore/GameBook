@@ -13,7 +13,7 @@ describe('insert', () => {
   });
 
   afterAll(async () => {
-    await db.collection('users').remove({})
+    await db.collection('users').deleteMany({})
     await connection.close();
     await db.close();
   });
