@@ -103,6 +103,7 @@ export default class LobbyPage extends React.Component {
         })
 
         const user = this.props.user;
+        console.log(user);
 
         return (
             <div className="lobby">
