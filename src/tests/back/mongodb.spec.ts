@@ -3,6 +3,7 @@ import * as config from "config";
 
 describe('insert', () => {
     it("should just be", () => {
+        // https://github.com/shelfio/jest-mongodb
         expect(2+2).toBe(4);
     })
 //   let connection;
