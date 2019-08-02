@@ -8,3 +8,4 @@ export interface IGameRoom {
 }
 
 export interface GameRoomType extends Document, IGameRoom {}
+
