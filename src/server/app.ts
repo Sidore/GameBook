@@ -3,6 +3,7 @@ import * as express from "express";
 import * as mongoose from "mongoose";
 import * as config from "config";
 import * as path from "path";
+import * as graphqlHTTP from "express-graphql";
 import { Server as WebSocketServer } from "ws";
 
 import ee from "../controllers/EventEmmiter";
@@ -16,7 +17,7 @@ import GameRoomRoutes from "./routes/api/GameRooms";
 import UserRoutes from "./routes/api/User";
 import { AuthRoutes, ConfirmRoutes } from "./routes/api/Auth";
 import GameFabric from "../controllers/GameFabric";
-
+import { graphqlSchema } from "./schema"
 import {api2} from "./services/sms";
 
 export class GameBookApp {
@@ -39,7 +40,6 @@ export class GameBookApp {
             .then(() => {
                 console.log("Mongo is connected");
             });
-
 
         await new Promise((resolve, reject) => {
             if (this.server) {
@@ -89,6 +89,7 @@ export class GameBookApp {
     setUpServer(server : express.Application) {
         this.downloadDB();
         this.setUpMiddleWares(server);
+        this.setUpGrapgql(server);
         this.setUpRoutes(server);
         this.setUpEvents(this);
         this.setUpWS();
@@ -191,6 +192,12 @@ export class GameBookApp {
             console.log("db downloaded")
 
         })
+    }
+
+    setUpGrapgql(server : express.Application) {
+        server.use("/graphql", graphqlHTTP({
+            schema : graphqlSchema
+        }));
     }
 
     addGameRoom(gameroom) {
