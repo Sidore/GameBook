@@ -196,7 +196,8 @@ export class GameBookApp {
 
     setUpGrapgql(server : express.Application) {
         server.use("/graphql", graphqlHTTP({
-            schema : graphqlSchema
+            schema : graphqlSchema,
+            graphiql : true
         }));
     }
 
