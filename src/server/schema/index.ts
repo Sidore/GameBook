@@ -31,7 +31,21 @@ const RootQuery = new GraphQLObjectType({
                 console.log(parent, args);
                 return User.findById(args.id)
             }
+        },
+        game: {
+            type: GameGraphQL,
+            args: {id : {type: GraphQLID}},
+            resolve(parent, args) {
+                return Game.findById(args.id)
+            }
+        },
+        games : {
+            type: new GraphQLList(GameRoomGraphQL),
+            resolve(parent, args) {
+                return Game.find({});
+            }
         }
+        
     }
 });
 
