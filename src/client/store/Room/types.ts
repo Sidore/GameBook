@@ -1,22 +1,22 @@
 import { IGameRoom } from "../../../models/GameRoom/IGameRoom";
 
-export const GET_ROOMS = "GET_ROOMS";
-export const CREATE_ROOM = "CREATE_ROOM";
-export const DELETE_ROOM = "DELETE_ROOM";
+export const SET_ROOMS = "SET_ROOMS";
+export const ADD_ROOM = "ADD_ROOM";
+export const REMOVE_ROOM = "REMOVE_ROOM";
 
 interface GetRoomsAction {
-    type: typeof GET_ROOMS
-    data: IGameRoom[]
+    type: typeof SET_ROOMS
+    payload: IGameRoom[]
 }
 
 interface CreateRoomAction {
-    type: typeof CREATE_ROOM
-    data: IGameRoom
+    type: typeof ADD_ROOM
+    payload: IGameRoom
 }
   
 interface DeleteRoomAction {
-    type: typeof DELETE_ROOM
-    data: IGameRoom
+    type: typeof REMOVE_ROOM
+    payload: IGameRoom
 }
 
 export type RoomActionTypes = GetRoomsAction | CreateRoomAction | DeleteRoomAction;

@@ -1,7 +1,7 @@
 
   
   import { IGameRoom } from "../../../models/GameRoom/IGameRoom";
-  import { RoomState, GET_ROOMS, CREATE_ROOM, DELETE_ROOM, RoomActionTypes } from './types'
+  import { RoomState, SET_ROOMS, ADD_ROOM, REMOVE_ROOM, RoomActionTypes } from "./types";
 
   const initialState: RoomState = {
     rooms: []
@@ -12,18 +12,18 @@
     action: RoomActionTypes
   ): RoomState {
     switch (action.type) {
-        case GET_ROOMS:
+        case SET_ROOMS:
             return {
-                rooms: [...state.rooms, ...action.data]
+                rooms: [...state.rooms, ...action.payload]
             }
-        case CREATE_ROOM:
+        case ADD_ROOM:
             return {
-                rooms: [...state.rooms, action.data]
+                rooms: [...state.rooms, action.payload]
             }
         case DELETE_ROOM:
             return {
                 rooms: state.rooms.filter(
-                    room => room.name !== action.data.name
+                    room => room.name !== action.payload.name
                 )
             }
         default:
