@@ -35,7 +35,7 @@ router.post('/', (req, res) => {
                             return res.status(400).json({data : "User is not verified"});
                         } else {
                             res.json({
-                                token, user
+                                token
                             })
                         }
                         

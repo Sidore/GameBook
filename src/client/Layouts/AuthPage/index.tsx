@@ -1,29 +1,58 @@
 import * as React from 'react';
 import "./index.styl";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { AppState } from "../../store";
+import { login } from "../../store/Auth/actions";
 
 const dev = location && location.hostname == "localhost" || false;
 const serverUrl = dev ? "http://localhost:2503" : "";
 
-export default class AuthPage extends React.Component {
+interface ownProps {
+    onToken,
+    onUser
+}
 
-    state = {
-        newUser : false,
-        password : "",
-        nickname : "",
-        email : "",
-        token : "",
-        error : "",
-        message: "",
-        disableSubmit: false
-    }
+  interface stateProps {
+    propFromReduxStore: string
+  }
+       
+  interface ILoginCredits {
+    email: string;
+    password: string;
+}
+  interface dispatchProps {
+      login: (creds: ILoginCredits) => any
+    // onSomeEvent: (creds: ILoginCredits) => void
+  }
 
-    props: {
-        onToken,
-        onUser
-    }
+  type Props = stateProps & dispatchProps & ownProps
+ 
+interface State {
+    newUser : boolean,
+    password : string,
+    nickname : string,
+    email : string,
+    token : string,
+    error : string,
+    message: string,
+    disableSubmit: boolean
+}
 
+class AuthPage extends React.Component<Props, State> {
     constructor(props) {
         super(props);
+
+        this.state = {
+            newUser : false,
+            password : "",
+            nickname : "",
+            email : "",
+            token : "",
+            error : "",
+            message: "",
+            disableSubmit: false
+        }
 
         this.toggleHandler = this.toggleHandler.bind(this);
         this.register = this.register.bind(this);
@@ -90,6 +119,8 @@ export default class AuthPage extends React.Component {
     }
 
     login() {
+
+        console.log(this.props);
 
         this.setState({
             disableSubmit: true
@@ -210,3 +241,18 @@ export default class AuthPage extends React.Component {
     }
 
 }
+
+    function mapStateToProps(state: AppState, ownProps: ownProps): stateProps {
+        return {
+            propFromReduxStore : state.token.token
+        }
+      }
+       
+      function mapDispatchToProps(): dispatchProps {
+        return {
+            login : login
+        }
+      }
+        
+      export default connect<stateProps, dispatchProps, ownProps>
+        (mapStateToProps, mapDispatchToProps)(AuthPage)
