@@ -10,7 +10,7 @@ import { ApolloProvider } from "react-apollo";
 import { Provider } from "react-redux";
 import { createStore } from "redux";
 
-import { AppState, rootReducer } from '../store'
+import { AppState, rootReducer, store } from '../store'
 
 import "./index.styl";
 
@@ -19,8 +19,6 @@ import { BrowserRouter as Router, Route, Link, Redirect , Switch} from "react-ro
 const client = new ApolloClient({
   uri: "/graphql"
 })
-
-const store = createStore(rootReducer);
 
 export default class MainLayout extends React.Component {
   state = {
