@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { AppState } from "../../store";
 import { login } from "../../store/Auth/actions";
+import { ThunkDispatch } from 'redux-thunk'
 
 const dev = location && location.hostname == "localhost" || false;
 const serverUrl = dev ? "http://localhost:2503" : "";
@@ -118,9 +119,7 @@ class AuthPage extends React.Component<Props, State> {
         
     }
 
-    login() {
-
-        console.log(this.props);
+    async login() {
 
         this.setState({
             disableSubmit: true
@@ -131,36 +130,39 @@ class AuthPage extends React.Component<Props, State> {
             password : this.state.password
         }
 
-        console.log("login with creds", creds)
+        let res = await this.props.login(creds);
+        console.log(res);
+        
 
-        let req = new XMLHttpRequest();
-          req.open('POST', `${serverUrl}/api/auth`); 
-          req.setRequestHeader("Content-Type", "application/json");
-          req.onreadystatechange = () => {
-          if (req.readyState == 4) {
-            this.setState({
-                disableSubmit: false
-            })
-                  console.log(JSON.parse(req.responseText));
-                  if (req.status === 201) {
-                    this.setState({
-                        message : JSON.parse(req.responseText).data
-                    })
-                } else if (req.status !== 200) {
-                    this.setState({
-                        error : JSON.parse(req.responseText).data
-                    })
-                } else {
-                  this.setState({
-                      token : JSON.parse(req.responseText).token
-                  })
-                  this.props.onToken(this.state.token);
-                  this.props.onUser(JSON.parse(req.responseText).user)
-                }
-            }
 
-          };
-          req.send(JSON.stringify(creds));
+        // let req = new XMLHttpRequest();
+        //   req.open('POST', `${serverUrl}/api/auth`); 
+        //   req.setRequestHeader("Content-Type", "application/json");
+        //   req.onreadystatechange = () => {
+        //   if (req.readyState == 4) {
+        //     this.setState({
+        //         disableSubmit: false
+        //     })
+        //           console.log(JSON.parse(req.responseText));
+        //           if (req.status === 201) {
+        //             this.setState({
+        //                 message : JSON.parse(req.responseText).data
+        //             })
+        //         } else if (req.status !== 200) {
+        //             this.setState({
+        //                 error : JSON.parse(req.responseText).data
+        //             })
+        //         } else {
+        //           this.setState({
+        //               token : JSON.parse(req.responseText).token
+        //           })
+        //           this.props.onToken(this.state.token);
+        //           this.props.onUser(JSON.parse(req.responseText).user)
+        //         }
+        //     }
+
+        //   };
+        //   req.send(JSON.stringify(creds));
     }
 
     handleChange(event) {
@@ -248,9 +250,13 @@ class AuthPage extends React.Component<Props, State> {
         }
       }
        
-      function mapDispatchToProps(): dispatchProps {
+      function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, any>): dispatchProps {
         return {
-            login : login
+            login : async ({email, password}) => {
+                const res = await dispatch(login({email, password}))
+                console.log('Login completed [UI]')
+                return res;
+              }
         }
       }
         

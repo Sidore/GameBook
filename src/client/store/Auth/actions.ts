@@ -40,10 +40,10 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IToken>, {}, {}
                     },
                     body: JSON.stringify(creds)
                 });
-                const tokenObject = await response.json();
-                console.log(tokenObject, response);
+                const tokenObject: IToken = await response.json();
+                console.log(tokenObject);
                 
-                dispatch(setToken(tokenObject));
+                dispatch(setToken(tokenObject.token));
                 resolve(tokenObject);
         })
     }
