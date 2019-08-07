@@ -20,7 +20,7 @@
             return {
                 rooms: [...state.rooms, action.payload]
             }
-        case DELETE_ROOM:
+        case REMOVE_ROOM:
             return {
                 rooms: state.rooms.filter(
                     room => room.name !== action.payload.name
