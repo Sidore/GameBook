@@ -25,7 +25,8 @@ interface ILoginCredits {
     password: string;
 }
 
-interface IAuthResponse {
+export interface IAuthResponse {
+    status: number;
     message?: string;
     token?: string;
     type?: string;
@@ -45,22 +46,13 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IAuthResponse>,
                 });
 
                 const responseObject: IAuthResponse = await response.json();
-                console.log(responseObject);
+                responseObject.status = response.status;
 
-                if (response.status === 201) {
-                                this.setState({
-                                    message : JSON.parse(req.responseText).data
-                                })
-                            } else if (response.status !== 200) {
-                                this.setState({
-                                    error : JSON.parse(req.responseText).data
-                                })
-                            } else {
-                                
-                                dispatch(setToken(responseObject.token));
-                                
-                            }
-                            resolve(responseObject);
+                if (response.status === 200) {
+                    dispatch(setToken(responseObject.token));
+                }
+
+                resolve(responseObject);
         })
     }
         

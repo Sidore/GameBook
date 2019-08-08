@@ -12,27 +12,39 @@ import * as jwt from "jsonwebtoken";
 
 const router = Router();
 
-router.post('/', (req, res) => {
+router.post("/", (req, res) => {
 
     const { email, password } = req.body;
 
     if( !email || !password) {
-        return res.status(400).json({data : "Not all requirments filled"})
+        return res.status(400).json({
+            data : "Not all requirments filled",
+            type : "not-filled"
+        })
     }
 
     User.findOne({ email })
         .then((user) => {
             if(!user) {
-                return res.status(400).json({data: "User doesn`t exist"});
+                return res.status(400).json({
+                    data: "User doesn`t exist",
+                    type: "user-not-found"
+                });
             }
             
             bcrypt.compare(password, user.password)
                 .then((isMatch) => {
-                    if (!isMatch) return res.status(400).json({data : "Invalid creditals"});
+                    if (!isMatch) return res.status(400).json({
+                        data : "Invalid creditals",
+                        type : "pass-failed"
+                    });
                     jwt.sign({ id : user.id} , config.get("jwtSecret"), {expiresIn : 3600}, (err, token) => {
 
                         if (!user.isVerified) {
-                            return res.status(400).json({data : "User is not verified"});
+                            return res.status(400).json({
+                                data : "User is not verified",
+                                type : "user-not-verified"
+                            });
                         } else {
                             res.json({
                                 token
@@ -59,18 +71,27 @@ export const AuthRoutes = router;
 export const ConfirmRoutes = Router().get("/:token", (req, res) => {
     // console.log(req.body)
     Token.findOne({ token: req.params.token }, function (err, token) {
-        if (!token) return res.status(400).send({ type: 'not-verified', data: 'We were unable to find a valid token. Your token my have expired.' });
+        if (!token) return res.status(400).send({ 
+            type: "not-verified",
+            data: "We were unable to find a valid token. Your token my have expired."
+        });
  
         // If we found a token, find a matching user
         User.findOne({ _id: token._userId }, function (err, user) {
-            if (!user) return res.status(400).send({ data: 'We were unable to find a user for this token.'});
-            if (user.isVerified) return res.status(400).send({ type: 'already-verified',data: 'This user has already been verified.' });
+            if (!user) return res.status(400).send({
+                type: "token-not-found",
+                data: "We were unable to find a user for this token."
+            });
+            if (user.isVerified) return res.status(400).send({ 
+                type: "already-verified",
+                data: "This user has already been verified." 
+            });
  
             // Verify and save the user
             user.isVerified = true;
             user.save(function (err) {
                 if (err) { return res.status(500).send({ data: err.message }); }
-                res.redirect('../login');
+                res.redirect("../login");
             });
         });
     });

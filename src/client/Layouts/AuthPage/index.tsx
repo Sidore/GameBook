@@ -3,7 +3,7 @@ import "./index.styl";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { AppState } from "../../store";
-import { login } from "../../store/Auth/actions";
+import { login, IAuthResponse } from "../../store/Auth/actions";
 import { ThunkDispatch } from 'redux-thunk'
 
 const dev = location && location.hostname == "localhost" || false;
@@ -24,7 +24,6 @@ interface ownProps {
 }
   interface dispatchProps {
       login: (creds: ILoginCredits) => any
-    // onSomeEvent: (creds: ILoginCredits) => void
   }
 
   type Props = stateProps & dispatchProps & ownProps
@@ -124,36 +123,18 @@ class AuthPage extends React.Component<Props, State> {
             password : this.state.password
         }
 
-        let res = this.props.login(creds);
+        const res: IAuthResponse = this.props.login(creds);
 
-        // let req = new XMLHttpRequest();
-        //   req.open('POST', `${serverUrl}/api/auth`); 
-        //   req.setRequestHeader("Content-Type", "application/json");
-        //   req.onreadystatechange = () => {
-        //   if (req.readyState == 4) {
-        //     this.setState({
-        //         disableSubmit: false
-        //     })
-        //           console.log(JSON.parse(req.responseText));
-        //           if (req.status === 201) {
-        //             this.setState({
-        //                 message : JSON.parse(req.responseText).data
-        //             })
-        //         } else if (req.status !== 200) {
-        //             this.setState({
-        //                 error : JSON.parse(req.responseText).data
-        //             })
-        //         } else {
-        //           this.setState({
-        //               token : JSON.parse(req.responseText).token
-        //           })
-        //           this.props.onToken(this.state.token);
-        //           this.props.onUser(JSON.parse(req.responseText).user)
-        //         }
-        //     }
+                if (res.status === 201) {
+                    this.setState({
+                        message : res.message
+                    })
+                } else if (res.status !== 200) {
+                    this.setState({
+                        error : res.error
+                    })
+                } 
 
-        //   };
-        //   req.send(JSON.stringify(creds));
     }
 
     handleChange(event) {
