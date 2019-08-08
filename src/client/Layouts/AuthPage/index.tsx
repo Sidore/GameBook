@@ -36,7 +36,8 @@ interface State {
     token : string,
     error : string,
     message: string,
-    disableSubmit: boolean
+    disableSubmit: boolean,
+    [key: string]: any
 }
 
 class AuthPage extends React.Component<Props, State> {
