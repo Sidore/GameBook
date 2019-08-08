@@ -2,6 +2,7 @@ import { TokenState, TokenActionTypes, SET_TOKEN, REMOVE_TOKEN } from "./types";
 
 import { ThunkAction, ThunkDispatch } from "redux-thunk";
 import { AnyAction } from "redux";
+import { resetCaches } from "graphql-tag";
 
 const dev = location && location.hostname == "localhost" || false;
 const serverUrl = dev ? "http://localhost:2503" : "";
@@ -27,7 +28,7 @@ interface ILoginCredits {
 
 export interface IAuthResponse {
     status: number;
-    message?: string;
+    data?: string;
     token?: string;
     type?: string;
     error?: string
@@ -37,22 +38,25 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IAuthResponse>,
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<IAuthResponse> => {
         return new Promise<IAuthResponse>(async (resolve) => {
             console.log("login with creds", creds)
+                let status: number;
                 const response = await fetch(`${serverUrl}/api/auth`, {
                     method: "POST",
                     headers: {
                         "Content-Type" : "application/json"
                     },
-                    body: JSON.stringify(creds)
-                });
-
-                const responseObject: IAuthResponse = await response.json();
-                responseObject.status = response.status;
-
-                if (response.status === 200) {
-                    dispatch(setToken(responseObject.token));
-                }
-
-                resolve(responseObject);
+                    body: JSON.stringify(creds),
+                })
+                .then(res => {
+                    status = res.status;
+                    return res.json()})
+                .then(res => {
+                    res.status = status;
+                    if (res.token) {
+                        dispatch(setToken(res.token));
+                    }
+                    resolve(res);
+                })
+                
         })
     }
         

@@ -5,7 +5,6 @@ import { BrowserRouter as Router, Route, Link, Redirect , Switch} from "react-ro
 import Lobby from "../LobbyPage";
 import Auth from "../AuthPage";
 import Game from "../GamePage";
-
 interface ownProps {
   }
   

@@ -112,28 +112,26 @@ class AuthPage extends React.Component<Props, State> {
         
     }
 
-    login() {
-
-        this.setState({
-            disableSubmit: true
-        })
+    async login() {
 
         const creds = {
             email : this.state.email,
             password : this.state.password
         }
 
-        const res: IAuthResponse = this.props.login(creds);
+        const res: IAuthResponse = await this.props.login(creds);
 
                 if (res.status === 201) {
                     this.setState({
-                        message : res.message
+                        message : res.data
                     })
                 } else if (res.status !== 200) {
                     this.setState({
-                        error : res.error
+                        error : res.data
                     })
-                } 
+                }
+
+
 
     }
 
