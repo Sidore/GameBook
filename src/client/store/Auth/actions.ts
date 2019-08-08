@@ -25,13 +25,16 @@ interface ILoginCredits {
     password: string;
 }
 
-interface IToken {
-    token: string;
+interface IAuthResponse {
+    message?: string;
+    token?: string;
+    type?: string;
+    error?: string
 }
 
-export const login = (creds: ILoginCredits): ThunkAction<Promise<IToken>, {}, {}, AnyAction> => {
-    return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<IToken> => {
-        return new Promise<IToken>(async (resolve) => {
+export const login = (creds: ILoginCredits): ThunkAction<Promise<IAuthResponse>, {}, {}, AnyAction> => {
+    return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<IAuthResponse> => {
+        return new Promise<IAuthResponse>(async (resolve) => {
             console.log("login with creds", creds)
                 const response = await fetch(`${serverUrl}/api/auth`, {
                     method: "POST",
@@ -40,11 +43,24 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IToken>, {}, {}
                     },
                     body: JSON.stringify(creds)
                 });
-                const tokenObject: IToken = await response.json();
-                console.log(tokenObject);
-                
-                dispatch(setToken(tokenObject.token));
-                resolve(tokenObject);
+
+                const responseObject: IAuthResponse = await response.json();
+                console.log(responseObject);
+
+                if (response.status === 201) {
+                                this.setState({
+                                    message : JSON.parse(req.responseText).data
+                                })
+                            } else if (response.status !== 200) {
+                                this.setState({
+                                    error : JSON.parse(req.responseText).data
+                                })
+                            } else {
+                                
+                                dispatch(setToken(responseObject.token));
+                                
+                            }
+                            resolve(responseObject);
         })
     }
         

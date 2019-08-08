@@ -15,7 +15,7 @@ interface ownProps {
 }
 
   interface stateProps {
-    propFromReduxStore: string
+    token: string
   }
        
   interface ILoginCredits {
@@ -61,17 +61,13 @@ class AuthPage extends React.Component<Props, State> {
         this.handleChange = this.handleChange.bind(this);
     }
 
-
     toggleHandler(params) {
-
         this.setState({
             newUser: !this.state.newUser,
             error : "",
             message : ""
         })
     }
-
-    
 
     register() {
 
@@ -84,8 +80,6 @@ class AuthPage extends React.Component<Props, State> {
             password : this.state.password,
             nickname : this.state.nickname
         };
-
-        // console.log("register with creds",creds)
 
         let req = new XMLHttpRequest();
           req.open('POST', `${serverUrl}/api/user`); 
@@ -119,7 +113,7 @@ class AuthPage extends React.Component<Props, State> {
         
     }
 
-    async login() {
+    login() {
 
         this.setState({
             disableSubmit: true
@@ -130,10 +124,7 @@ class AuthPage extends React.Component<Props, State> {
             password : this.state.password
         }
 
-        let res = await this.props.login(creds);
-        console.log(res);
-        
-
+        let res = this.props.login(creds);
 
         // let req = new XMLHttpRequest();
         //   req.open('POST', `${serverUrl}/api/auth`); 
@@ -246,7 +237,7 @@ class AuthPage extends React.Component<Props, State> {
 
     function mapStateToProps(state: AppState, ownProps: ownProps): stateProps {
         return {
-            propFromReduxStore : state.token.token
+            token : state.token.token
         }
       }
        
