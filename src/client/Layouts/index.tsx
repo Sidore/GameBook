@@ -1,9 +1,9 @@
-import * as React from 'react';
+import * as React from "react";
 import BaseLayout from "./BaseLayout";
 import ApolloClient from "apollo-boost";
 import { ApolloProvider } from "react-apollo";
 import { Provider } from "react-redux";
-import { store } from '../store'
+import { store } from "../store";
 import "./index.styl";
 import { BrowserRouter as Router} from "react-router-dom";
 
