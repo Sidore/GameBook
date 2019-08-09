@@ -40,7 +40,7 @@ class BaseLayout extends React.Component<Props, State>{
       }
     
       userHandler(user) {
-        console.log("userHandler", user)
+        // console.log("userHandler", user)
         this.setState({
           user
         })
