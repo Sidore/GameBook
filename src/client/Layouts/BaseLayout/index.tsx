@@ -29,18 +29,10 @@ class BaseLayout extends React.Component<Props, State>{
         this.state = {
             user: {}
         }
-        this.tokenHandler = this.tokenHandler.bind(this);
         this.userHandler = this.userHandler.bind(this);
-      }
-
-    tokenHandler(token) {
-        // this.setState({
-        //   token
-        // });
       }
     
       userHandler(user) {
-        // console.log("userHandler", user)
         this.setState({
           user
         })
@@ -53,7 +45,7 @@ class BaseLayout extends React.Component<Props, State>{
                       <Route path="/login" render={() => (
                           this.props.token ? 
                             (<Redirect to="/"/>) :
-                            (<Auth onToken={this.tokenHandler} onUser={this.userHandler}/>)
+                            (<Auth />)
                           )} 
                         />            
                       <Route path="/" exact render={() => (

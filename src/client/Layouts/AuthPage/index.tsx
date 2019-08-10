@@ -10,8 +10,7 @@ const dev = location && location.hostname == "localhost" || false;
 const serverUrl = dev ? "http://localhost:2503" : "";
 
 interface ownProps {
-    onToken,
-    onUser
+
 }
 
   interface stateProps {
@@ -102,7 +101,6 @@ class AuthPage extends React.Component<Props, State> {
                         this.setState({
                             token : JSON.parse(req.responseText).token
                         })
-                        this.props.onToken(this.state.token);
                     }
             }
 
