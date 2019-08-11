@@ -18,7 +18,6 @@ interface ownProps {
   type Props = stateProps & dispatchProps & ownProps
   
   interface State {
-    // token: string;
     user: any;
   }
 

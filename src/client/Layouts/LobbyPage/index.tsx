@@ -1,25 +1,41 @@
 import * as React from 'react';
 import { Redirect } from "react-router-dom";
 import "./index.styl";
+import { connect } from 'react-redux';
+import { AppState } from '../../store'
 
 
 const dev = location && location.hostname == "localhost" || false;
 const serverUrl = dev ? "http://localhost:2503" : "";
-export default class LobbyPage extends React.Component {
 
-    state = {
-        roomName : "",
-        rooms : [],
-        roomLink : ""
-    }
+interface ownProps {
+}
 
-    props: {
-        token,
-        user
-    }
+interface stateProps {
+    token: string;
+    user: any;
+}
 
+interface dispatchProps {
+}
+
+type Props = stateProps & dispatchProps & ownProps
+
+interface State {
+    roomName : string,
+    rooms : any[],
+    roomLink : string
+}
+ class LobbyPage extends React.Component<Props, State> {
     constructor(props) {
         super(props);
+
+        this.state = {
+            roomName : "",
+            rooms : [],
+            roomLink : ""
+        }
+
         this.createRoom = this.createRoom.bind(this);
         this.getRooms = this.getRooms.bind(this);
         this.handleChange = this.handleChange.bind(this);
@@ -156,3 +172,17 @@ export default class LobbyPage extends React.Component {
         )
     }
 }
+
+function mapStateToProps(state: AppState, ownProps: ownProps): stateProps {
+    return {
+        token : state.token.token,
+        user : {} // TODO import user
+    }
+  }
+   
+  function mapDispatchToProps(): dispatchProps {
+    return {}
+  }
+  
+  export default connect<stateProps, dispatchProps, ownProps>
+  (mapStateToProps, mapDispatchToProps)(LobbyPage)
