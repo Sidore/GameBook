@@ -3,6 +3,7 @@ import { Redirect } from "react-router-dom";
 import "./index.styl";
 import { connect } from 'react-redux';
 import { AppState } from '../../store'
+import { IGameRoom } from '../../../models/GameRoom/IGameRoom';
 
 
 const dev = location && location.hostname == "localhost" || false;
@@ -14,6 +15,7 @@ interface ownProps {
 interface stateProps {
     token: string;
     user: any;
+    rooms: IGameRoom[];
 }
 
 interface dispatchProps {
@@ -23,7 +25,6 @@ type Props = stateProps & dispatchProps & ownProps
 
 interface State {
     roomName : string,
-    rooms : any[],
     roomLink : string
 }
  class LobbyPage extends React.Component<Props, State> {
@@ -32,7 +33,6 @@ interface State {
 
         this.state = {
             roomName : "",
-            rooms : [],
             roomLink : ""
         }
 
@@ -81,7 +81,7 @@ interface State {
                     const response = JSON.parse(req.responseText);
                     console.log(response);
                     this.setState({
-                        rooms : response
+                        // rooms : response
                     })
               }
           }
@@ -111,7 +111,7 @@ interface State {
             return <Redirect to={link} />
           }
 
-        const list = this.state.rooms.map((el,index) => {
+        const list = this.props.rooms.map((el,index) => {
             return (
                 <li key={index}>
                     <button onClick={() => this.chooseRoom(el.name)}>{el.name}</button>
@@ -176,7 +176,8 @@ interface State {
 function mapStateToProps(state: AppState, ownProps: ownProps): stateProps {
     return {
         token : state.token.token,
-        user : {} // TODO import user
+        user : {}, // TODO import user,
+        rooms: state.rooms.rooms
     }
   }
    
