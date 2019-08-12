@@ -25,7 +25,8 @@ type Props = stateProps & dispatchProps & ownProps
 
 interface State {
     roomName : string,
-    roomLink : string
+    roomLink : string,
+    [key: string]: any
 }
  class LobbyPage extends React.Component<Props, State> {
     constructor(props) {

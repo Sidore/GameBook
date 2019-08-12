@@ -50,7 +50,7 @@ class BaseLayout extends React.Component<Props, State>{
                       <Route path="/" exact render={() => (
                           !this.props.token ? 
                             (<Redirect to="/login"/>) : 
-                            (<Lobby token={this.props.token} user={this.state.user}/>)
+                            (<Lobby />)
                           )}
                         />
                       <Route path="/rooms/:id" render={(props) => (
@@ -62,7 +62,7 @@ class BaseLayout extends React.Component<Props, State>{
                       <Route render={() => (
                           !this.props.token ? 
                             (<Redirect to="/login"/>) : 
-                            (<Lobby token={this.props.token} user={this.state.user}/>)
+                            (<Lobby />)
                           )}
                         />  
                     </Switch>
