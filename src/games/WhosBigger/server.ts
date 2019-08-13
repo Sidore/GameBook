@@ -4,14 +4,14 @@ import { IUser } from "../../models/User/IUser";
 import Player from "../../models/Player";
 import * as ws from "ws";
 
-export default class WhosBiggerGame implements IGame,IGameAction  {
+export default class WhosBiggerGame implements IGame, IGameAction {
 
     round: number;
     title: string;
     date: Date;
     players: Player[];
-    
-    constructor(){
+
+    constructor() {
         this.init();
     }
 

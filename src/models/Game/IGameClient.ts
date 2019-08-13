@@ -1,3 +1,3 @@
-export default interface IGameClient{
+export default interface IGameClient {
     send();
 }

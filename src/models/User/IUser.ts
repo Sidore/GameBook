@@ -7,4 +7,4 @@ export interface IUser {
     isVerified: boolean;
 }
 
-export interface UserType extends Document, IUser {};
+export interface UserType extends Document, IUser { };

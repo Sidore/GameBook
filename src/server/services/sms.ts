@@ -234,13 +234,13 @@ var EpochtaApiv2 = /** @class */ (function () {
         var req = https.request(options, function (res) {
             if (res.statusCode == 200) {
                 res.on('data', function (d) {
-                    
+
                     var xmlDoc = libxmljs.parseXmlString(d);
 
-                    
+
                     var code = parseInt(xmlDoc.get('//status'));
-                console.log("https.request", xmlDoc.toString(), "status",code )
-                    
+                    console.log("https.request", xmlDoc.toString(), "status", code)
+
                     if (code >= 0) { // OK
                         callback(xmlDoc);
                     }
@@ -282,6 +282,5 @@ var EpochtaApiv2 = /** @class */ (function () {
 }());
 
 export const api2 = new EpochtaApiv2('sidorenkovladyslav@gmail.com', 'Pa$$w0rd', false);
- 
 
- 
+

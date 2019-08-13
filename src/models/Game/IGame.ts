@@ -20,4 +20,4 @@ export interface IGameAction extends IGame {
 
 }
 
-export interface GameType extends Document, IGame {}
+export interface GameType extends Document, IGame { }

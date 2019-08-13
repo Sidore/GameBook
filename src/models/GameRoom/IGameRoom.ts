@@ -7,5 +7,5 @@ export interface IGameRoom {
     game: IGameAction;
 }
 
-export interface GameRoomType extends Document, IGameRoom {}
+export interface GameRoomType extends Document, IGameRoom { }
 

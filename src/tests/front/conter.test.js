@@ -4,14 +4,14 @@ import Counter from "../../client/components/Counter/index.tsx"
 
 describe('Case with counter', () => {
   it('Counter', () => {
-  
+
     const component = renderer.create(
       <Counter />,
     );
-  
+
     let tree = component.toJSON();
     expect(tree).toMatchSnapshot();
-  
-  
+
+
   });
 })

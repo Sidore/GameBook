@@ -11,7 +11,7 @@ const serverUrl = dev ? "http://localhost:2503" : "";
 function setToken(token: string): TokenActionTypes {
     return {
         type: SET_TOKEN,
-        payload : token
+        payload: token
     }
 }
 
@@ -38,17 +38,18 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IAuthResponse>,
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<IAuthResponse> => {
         return new Promise<IAuthResponse>(async (resolve) => {
             console.log("login with creds", creds)
-                let status: number;
-                const response = await fetch(`${serverUrl}/api/auth`, {
-                    method: "POST",
-                    headers: {
-                        "Content-Type" : "application/json"
-                    },
-                    body: JSON.stringify(creds),
-                })
+            let status: number;
+            const response = await fetch(`${serverUrl}/api/auth`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(creds),
+            })
                 .then(res => {
                     status = res.status;
-                    return res.json()})
+                    return res.json()
+                })
                 .then(res => {
                     res.status = status;
                     if (res.token) {
@@ -56,10 +57,10 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IAuthResponse>,
                     }
                     resolve(res);
                 })
-                
+
         })
     }
-        
+
 }
 
 // console.log("login with creds", creds)

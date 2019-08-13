@@ -11,14 +11,14 @@ import ee from "../controllers/EventEmmiter";
 import { IGameRoom } from "./../models/GameRoom/IGameRoom";
 import { IGameAction } from "./../models/Game/IGame";
 import Player from "./../models/Player";
-import {GameRoom} from "../models/GameRoom";
+import { GameRoom } from "../models/GameRoom";
 
 import GameRoomRoutes from "./routes/api/GameRooms";
 import UserRoutes from "./routes/api/User";
 import { AuthRoutes, ConfirmRoutes } from "./routes/api/Auth";
 import GameFabric from "../controllers/GameFabric";
 import { graphqlSchema } from "./schema"
-import {api2} from "./services/sms";
+import { api2 } from "./services/sms";
 
 export class GameBookApp {
 
@@ -29,14 +29,14 @@ export class GameBookApp {
     private gameRooms: IGameRoom[];
     // private connections: []
 
-    constructor(server : express.Application) {
+    constructor(server: express.Application) {
         this.server = server;
         this.gameRooms = [];
     }
 
-    async init(PORT: number): Promise<boolean>  {
+    async init(PORT: number): Promise<boolean> {
         this.PORT = PORT;
-        await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true , "useCreateIndex": true })
+        await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true, "useCreateIndex": true })
             .then(() => {
                 console.log("Mongo is connected");
             });
@@ -54,10 +54,10 @@ export class GameBookApp {
 
         // api2.getBalance((res: any) => {
         // console.log("*** getBalance1 ***");
-            
+
         //     console.log(res.toString())}, (res: any) => {
         // console.log("*** getBalance2 ***");
-                
+
         //         console.log(res.toString())});
 
         // api2.sendSms("smSender", "test text", [{val: "380963750074", id: "vlad1", vars: "11"}], "", (res: any) => {
@@ -83,10 +83,10 @@ export class GameBookApp {
 
 
         return true;
-        
+
     }
 
-    setUpServer(server : express.Application) {
+    setUpServer(server: express.Application) {
         this.downloadDB();
         this.setUpMiddleWares(server);
         this.setUpGrapgql(server);
@@ -95,15 +95,15 @@ export class GameBookApp {
         this.setUpWS();
     }
 
-    setUpMiddleWares(server : express.Application) {
+    setUpMiddleWares(server: express.Application) {
         server.use(express.json());
 
-        server.use(function(req, res, next) {
+        server.use(function (req, res, next) {
             res.header("Access-Control-Allow-Origin", "*");
             res.header("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE")
             res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
             next();
-          });
+        });
     }
 
     setUpWS() {
@@ -116,7 +116,7 @@ export class GameBookApp {
                 if (player && game) {
                     game.playerAction(message.toString(), player);
                 } else {
-                    const { type , roomTitle, user , gameTitle } = JSON.parse(message.toString());
+                    const { type, roomTitle, user, gameTitle } = JSON.parse(message.toString());
                     if (type === "auth") {
                         if (roomTitle) {
                             if (user) {
@@ -124,13 +124,13 @@ export class GameBookApp {
                                     return room.name === roomTitle;
                                 });
 
-                                console.log(2,gameTitle, game, buffRoom, user)
+                                console.log(2, gameTitle, game, buffRoom, user)
                                 if (buffRoom) {
 
                                     game = GameFabric.create(
-                                        !buffRoom.game? gameTitle : {title : buffRoom.game.title, round : buffRoom.game.round}
+                                        !buffRoom.game ? gameTitle : { title: buffRoom.game.title, round: buffRoom.game.round }
                                     );
-                                    
+
 
                                     player = game.createPlayerFromWS(user, ws);
                                     ws.send(`Вы вошли в игру ${game.title}`);
@@ -140,20 +140,20 @@ export class GameBookApp {
                             } else {
                                 ws.send("Вы не авторизированы");
                             }
-                        } else { 
+                        } else {
                             ws.send("Вы не указали комнату");
                         }
                     }
                 }
             });
-          });
-          
+        });
+
         // wss.on("close", (ws) => {
         //     app.removeUser(ws);
         //   });
     }
 
-    setUpRoutes(server : express.Application) {
+    setUpRoutes(server: express.Application) {
 
         server.use("/dist", express.static(path.join(__dirname, '../../dist')));
         server.use("/api/gameroom", GameRoomRoutes)
@@ -185,8 +185,8 @@ export class GameBookApp {
             this.gameRooms = result.map((room) => {
                 if (room.game.title) {
                     // console.log(1,room.game)
-                    room.game = GameFabric.create({ title : room.game.title, round : room.game.round});
-                } 
+                    room.game = GameFabric.create({ title: room.game.title, round: room.game.round });
+                }
                 return room;
             });
             console.log("db downloaded")
@@ -194,20 +194,20 @@ export class GameBookApp {
         })
     }
 
-    setUpGrapgql(server : express.Application) {
+    setUpGrapgql(server: express.Application) {
         server.use("/graphql", graphqlHTTP({
-            schema : graphqlSchema,
-            graphiql : true
+            schema: graphqlSchema,
+            graphiql: true
         }));
     }
 
     addGameRoom(gameroom) {
         if (gameroom.game.title) {
-            gameroom.game = GameFabric.create({ title : gameroom.game.title, round : gameroom.game.round});
+            gameroom.game = GameFabric.create({ title: gameroom.game.title, round: gameroom.game.round });
         }
         this.gameRooms.push(gameroom);
-        console.log(1,gameroom)
-        
+        console.log(1, gameroom)
+
     }
 
 }

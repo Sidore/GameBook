@@ -5,22 +5,22 @@ import { ApolloProvider } from "react-apollo";
 import { Provider } from "react-redux";
 import { store } from "../store";
 import "./index.styl";
-import { BrowserRouter as Router} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const client = new ApolloClient({
   uri: "/graphql"
 })
 
 export default class MainLayout extends React.Component {
-  render () {
+  render() {
     return (
-        <Provider store={store}>
-          <ApolloProvider client={client}>
-            <Router>
-              <BaseLayout/>
-            </Router>
-          </ApolloProvider>
-        </Provider>
+      <Provider store={store}>
+        <ApolloProvider client={client}>
+          <Router>
+            <BaseLayout />
+          </Router>
+        </ApolloProvider>
+      </Provider>
     );
   }
 }

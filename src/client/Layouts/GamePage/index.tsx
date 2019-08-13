@@ -14,46 +14,46 @@ export default class GamePage extends React.Component {
     }
 
     state = {
-        gameList : [],
-        game : null
+        gameList: [],
+        game: null
     }
 
-    props : {
+    props: {
         token,
         match
     }
 
     getGamesList() {
         let req = new XMLHttpRequest();
-          req.open('GET', `${serverUrl}/api/gameroom/${this.props.match.params.id}/game`); 
-          req.setRequestHeader("Content-Type", "application/json");
-          req.setRequestHeader("Authorization", "Bearer " + this.props.token);
-          req.onreadystatechange = () => {
-          if (req.readyState == 4) {
-                  console.log(JSON.parse(req.responseText));
-                  
+        req.open('GET', `${serverUrl}/api/gameroom/${this.props.match.params.id}/game`);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.setRequestHeader("Authorization", "Bearer " + this.props.token);
+        req.onreadystatechange = () => {
+            if (req.readyState == 4) {
+                console.log(JSON.parse(req.responseText));
+
                 this.setState({
                     gameList: JSON.parse(req.responseText)
                 })
             }
-          };
+        };
 
-          req.send();
+        req.send();
     }
 
     chooseGame(gameName) {
         let req = new XMLHttpRequest();
-          req.open('POST', `${serverUrl}/api/gameroom/${this.props.match.params.id}/game/${gameName}`); 
-          req.setRequestHeader("Content-Type", "application/json");
-          req.setRequestHeader("Authorization", "Bearer " + this.props.token);
-          req.onreadystatechange = () => {
-          if (req.readyState == 4) {
+        req.open('POST', `${serverUrl}/api/gameroom/${this.props.match.params.id}/game/${gameName}`);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.setRequestHeader("Authorization", "Bearer " + this.props.token);
+        req.onreadystatechange = () => {
+            if (req.readyState == 4) {
                 console.log(JSON.parse(req.responseText));
                 this.setUpSocketsToGame(gameName);
             }
-          };
+        };
 
-          req.send();
+        req.send();
     }
 
     setUpSocketsToGame(gameName) {
@@ -63,18 +63,18 @@ export default class GamePage extends React.Component {
 
         socket.onopen = () => {
             socket.send(JSON.stringify({
-            type : "auth",
-            roomTitle : this.props.match.params.id,
-            gameTitle: gameName,
-            user : {
-                nickname : "lol"
-            }
+                type: "auth",
+                roomTitle: this.props.match.params.id,
+                gameTitle: gameName,
+                user: {
+                    nickname: "lol"
+                }
             }));
         }
 
-        socket.onmessage = function(event) {
+        socket.onmessage = function (event) {
             var incomingMessage = event.data;
-            console.log(incomingMessage); 
+            console.log(incomingMessage);
         };
         // socket.send(JSON.stringify({
         //     type: this.type.value,
@@ -92,26 +92,26 @@ export default class GamePage extends React.Component {
 
     render() {
 
-        if(this.state.game) {
-              return <LazyLoad resolve={() => import('../../../games/WhosBigger/client')} />
+        if (this.state.game) {
+            return <LazyLoad resolve={() => import('../../../games/WhosBigger/client')} />
         } else {
             const list = this.state.gameList.map((game, index) => {
-            return (<li key={index}>
-                    <button onClick={() => {this.chooseGame(game)}}>
+                return (<li key={index}>
+                    <button onClick={() => { this.chooseGame(game) }}>
                         {game}
                     </button>
                 </li>)
-        })
+            })
 
-        return (
-            <div>
-                <ul>
-                    {list}
-                </ul>
-            </div>
-        )
+            return (
+                <div>
+                    <ul>
+                        {list}
+                    </ul>
+                </div>
+            )
         }
 
-        
+
     }
 }

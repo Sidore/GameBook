@@ -12,7 +12,7 @@ const RootQuery = new GraphQLObjectType({
     fields: {
         gameRoom: {
             type: GameRoomGraphQL,
-            args: {id : {type: GraphQLID}},
+            args: { id: { type: GraphQLID } },
             resolve(parent, args) {
                 //code to get data from db
                 return GameRoom.findById(args.id);
@@ -23,10 +23,10 @@ const RootQuery = new GraphQLObjectType({
             resolve(parent, args) {
                 return GameRoom.find({});
             }
-        }, 
+        },
         user: {
-            type : UserGraphQL,
-            args: {id : {type: GraphQLID}},
+            type: UserGraphQL,
+            args: { id: { type: GraphQLID } },
             resolve(parent, args) {
                 console.log(parent, args);
                 return User.findById(args.id)
@@ -34,18 +34,18 @@ const RootQuery = new GraphQLObjectType({
         },
         game: {
             type: GameGraphQL,
-            args: {id : {type: GraphQLID}},
+            args: { id: { type: GraphQLID } },
             resolve(parent, args) {
                 return Game.findById(args.id)
             }
         },
-        games : {
+        games: {
             type: new GraphQLList(GameRoomGraphQL),
             resolve(parent, args) {
                 return Game.find({});
             }
         }
-        
+
     }
 });
 

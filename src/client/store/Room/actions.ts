@@ -28,11 +28,11 @@ function deleteMessage(room: IGameRoom): RoomActionTypes {
 export const getRooms = (): ThunkAction<Promise<void>, {}, {}, AnyAction> => {
     return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<void> => {
         return new Promise<void>((resolve) => {
-                 
-                resolve();
+
+            resolve();
         })
     }
-        
+
 }
 
 // export const login = (username: string, password: string): ThunkAction<Promise<void>, {}, {}, AnyAction> => {

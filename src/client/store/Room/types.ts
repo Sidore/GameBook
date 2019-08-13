@@ -13,7 +13,7 @@ interface CreateRoomAction {
     type: typeof ADD_ROOM
     payload: IGameRoom
 }
-  
+
 interface DeleteRoomAction {
     type: typeof REMOVE_ROOM
     payload: IGameRoom

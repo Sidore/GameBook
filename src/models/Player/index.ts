@@ -1,6 +1,6 @@
 import { IGame } from "../Game/IGame";
 import { IUser } from "../User/IUser";
-import { IPlayerState, IPlayerRole  } from "./PlayerProps";
+import { IPlayerState, IPlayerRole } from "./PlayerProps";
 export default class Player {
     constructor(user: IUser, game: IGame) {
         this.user = user;

@@ -10,11 +10,11 @@ const gameList = [
     }
 ]
 class GameFabric {
-    create(game: string | { title, round }) : IGameAction {
+    create(game: string | { title, round }): IGameAction {
 
         // console.log(game);
 
-       const title =  typeof game === "string" ? game : game.title;
+        const title = typeof game === "string" ? game : game.title;
 
         const theGame = gameList.find((gameItem) => {
             return gameItem.title === title;
@@ -30,7 +30,7 @@ class GameFabric {
     getList() {
         return gameList.map(game => game.title);
     }
-    
+
 }
 
 export default new GameFabric();

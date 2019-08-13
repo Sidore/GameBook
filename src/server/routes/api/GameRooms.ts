@@ -1,9 +1,9 @@
 
-import {Router} from "express";
+import { Router } from "express";
 
-import {GameRoom} from "../../../models/GameRoom";
+import { GameRoom } from "../../../models/GameRoom";
 
-import {auth} from "../../middleware/auth";
+import { auth } from "../../middleware/auth";
 import { Game } from "../../../models/Game";
 
 import GameFabric from "../../../controllers/GameFabric";
@@ -30,38 +30,38 @@ router.post('/', auth, (req, res) => {
 
     newGameRoom.save()
         .then((gameroom) => {
-            ee.emit("gameroom.created",gameroom)
+            ee.emit("gameroom.created", gameroom)
             res.json(gameroom);
         })
-    
+
 })
 
 // @route GET api/gameroom/:id/game
 // @access public
 router.get('/:id/game', auth, (req, res) => {
-    
-        res.json(GameFabric.getList());
-                
+
+    res.json(GameFabric.getList());
+
 })
 
 
 // @route POST api/gameroom/:id/game/:name
 // @access public
 router.post('/:id/game/:name', auth, (req, res) => {
-    GameRoom.findOne({name : req.params.id})
+    GameRoom.findOne({ name: req.params.id })
         .then((gameroom) => {
             const gameItem = GameFabric.create(req.params.name);
             gameroom.game = gameItem;
-            
+
             gameroom.save()
                 .then(() => {
-                    res.json({gameroom, gameItem});
+                    res.json({ gameroom, gameItem });
                 })
         })
         .catch((err) => {
-            res.status(404).json({success: false, err})
+            res.status(404).json({ success: false, err })
         });
-    
+
 })
 
 // @route DELETE api/gameroom/:id
@@ -71,11 +71,11 @@ router.delete('/:id', auth, (req, res) => {
         .then((gameroom) => {
             gameroom.remove()
                 .then(() => {
-                    res.json({success: true});
+                    res.json({ success: true });
                 })
         })
         .catch((err) => {
-            res.status(404).json({success: false})
+            res.status(404).json({ success: false })
         });
 })
 

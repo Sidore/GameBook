@@ -24,17 +24,17 @@ interface dispatchProps {
 type Props = stateProps & dispatchProps & ownProps
 
 interface State {
-    roomName : string,
-    roomLink : string,
+    roomName: string,
+    roomLink: string,
     [key: string]: any
 }
- class LobbyPage extends React.Component<Props, State> {
+class LobbyPage extends React.Component<Props, State> {
     constructor(props) {
         super(props);
 
         this.state = {
-            roomName : "",
-            roomLink : ""
+            roomName: "",
+            roomLink: ""
         }
 
         this.createRoom = this.createRoom.bind(this);
@@ -45,50 +45,50 @@ interface State {
 
     createRoom() {
         let req = new XMLHttpRequest();
-          req.open('POST', `${serverUrl}/api/gameroom`); 
-          req.setRequestHeader("Content-Type", "application/json");
-          req.setRequestHeader("Authorization", "Bearer " + this.props.token);
-          req.onreadystatechange = () => {
-          if (req.readyState == 4) {
+        req.open('POST', `${serverUrl}/api/gameroom`);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.setRequestHeader("Authorization", "Bearer " + this.props.token);
+        req.onreadystatechange = () => {
+            if (req.readyState == 4) {
                 //   document.getElementById("output").innerHTML = req.responseText;
-                  console.log(JSON.parse(req.responseText));
+                console.log(JSON.parse(req.responseText));
 
-                  this.setState({
-                      roomName: ""
-                  })
+                this.setState({
+                    roomName: ""
+                })
 
-                  this.getRooms();
+                this.getRooms();
             }
-          };
-          req.send(JSON.stringify({
-              name : this.state.roomName
-          }));
+        };
+        req.send(JSON.stringify({
+            name: this.state.roomName
+        }));
     }
 
     chooseRoom(roomName) {
         this.setState({
-            roomLink : roomName
+            roomLink: roomName
         })
     }
 
     getRooms() {
         let req = new XMLHttpRequest();
-          req.open('GET', `${serverUrl}/api/gameroom`); 
-          req.setRequestHeader("Content-Type", "application/json");
-          req.setRequestHeader("Authorization", "Bearer " + this.props.token);
-          req.onreadystatechange = () => {
-          if (req.readyState == 4) {
-              if(req.status == 200) {
+        req.open('GET', `${serverUrl}/api/gameroom`);
+        req.setRequestHeader("Content-Type", "application/json");
+        req.setRequestHeader("Authorization", "Bearer " + this.props.token);
+        req.onreadystatechange = () => {
+            if (req.readyState == 4) {
+                if (req.status == 200) {
                     const response = JSON.parse(req.responseText);
                     console.log(response);
                     this.setState({
                         // rooms : response
                     })
-              }
-          }
-          };
-  
-          req.send();
+                }
+            }
+        };
+
+        req.send();
     }
 
     handleChange(event) {
@@ -110,9 +110,9 @@ interface State {
         if (this.state.roomLink) {
             const link = `/rooms/${this.state.roomLink}`;
             return <Redirect to={link} />
-          }
+        }
 
-        const list = this.props.rooms.map((el,index) => {
+        const list = this.props.rooms.map((el, index) => {
             return (
                 <li key={index}>
                     <button onClick={() => this.chooseRoom(el.name)}>{el.name}</button>
@@ -160,13 +160,13 @@ interface State {
                     </div>
                 </div>
                 <div className="lobby__new-rooms">
-                        <label>
-                            room name:
+                    <label>
+                        room name:
                             <input type="text" name="roomName" value={this.state.roomName} onChange={this.handleChange} />
-                        </label>
+                    </label>
 
-                        <button onClick={this.createRoom}>
-                            create new room
+                    <button onClick={this.createRoom}>
+                        create new room
                         </button>
                 </div>
             </div>
@@ -176,15 +176,15 @@ interface State {
 
 function mapStateToProps(state: AppState, ownProps: ownProps): stateProps {
     return {
-        token : state.token.token,
-        user : {}, // TODO import user,
+        token: state.token.token,
+        user: {}, // TODO import user,
         rooms: state.rooms.rooms
     }
-  }
-   
-  function mapDispatchToProps(): dispatchProps {
+}
+
+function mapDispatchToProps(): dispatchProps {
     return {}
-  }
-  
-  export default connect<stateProps, dispatchProps, ownProps>
-  (mapStateToProps, mapDispatchToProps)(LobbyPage)
+}
+
+export default connect<stateProps, dispatchProps, ownProps>
+    (mapStateToProps, mapDispatchToProps)(LobbyPage)

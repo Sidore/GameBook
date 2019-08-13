@@ -1,6 +1,6 @@
 import * as React from 'react';
 
-export default class Counter extends React.Component<{},{count}> {
+export default class Counter extends React.Component<{}, { count }> {
   constructor(props) {
     super(props);
 
@@ -21,7 +21,7 @@ export default class Counter extends React.Component<{},{count}> {
     });
   };
 
-  render () {
+  render() {
     return (
       <div>
         <p>{this.state.count}</p>

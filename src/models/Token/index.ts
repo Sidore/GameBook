@@ -6,7 +6,7 @@ export interface IToken {
     _userId: string;
 }
 
-export interface TokenType extends Document, IToken {};
+export interface TokenType extends Document, IToken { };
 
 const tokenSchema = new Schema({
     _userId: { type: Schema.Types.ObjectId, required: true, ref: 'User' },

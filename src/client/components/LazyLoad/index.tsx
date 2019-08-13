@@ -10,13 +10,13 @@ export default class LazyLoadModule extends React.Component {
   }
 
   state = {
-      module : null
+    module: null
   }
 
-  props : {
-      resolve
+  props: {
+    resolve
   }
- 
+
   // after the initial render, wait for module to load
   async componentDidMount() {
     const { resolve } = this.props;
