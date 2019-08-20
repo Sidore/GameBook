@@ -30,7 +30,7 @@ describe("Main page is login", () => {
 
     it("should redirect to login without token", async () => {
 
-        const port = await server.init();
+        const port = await server.init(5000);
         const page = await browser.newPage();
 
         page.emulate({
