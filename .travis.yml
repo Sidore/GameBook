@@ -10,8 +10,7 @@ branches:
 
 script:
   - npm run build
-  - npm run client
-  - npm run test
+  - npm run client && npm run test
 
 deploy:
   provider: heroku
