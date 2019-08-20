@@ -41,9 +41,9 @@ export class GameBookApp {
                 console.log("Mongo is connected");
             });
 
-        await new Promise((resolve, reject) => {
+        await new Promise(async (resolve, reject) => {
             if (this.server) {
-                this.setUpServer(this.server);
+                await this.setUpServer(this.server);
                 let a = this.server.listen(process.env.PORT || this.PORT || 5000, () => {
                     console.log(`server run on port ${process.env.PORT || this.PORT || 5000}`);
                     resolve();
@@ -63,8 +63,8 @@ export class GameBookApp {
         })
     }
 
-    setUpServer(server: express.Application) {
-        this.downloadDB();
+    async setUpServer(server: express.Application): Promise<any> {
+        await this.downloadDB();
         this.setUpMiddleWares(server);
         this.setUpGrapgql(server);
         this.setUpRoutes(server);
@@ -158,8 +158,8 @@ export class GameBookApp {
         })
     }
 
-    downloadDB() {
-        GameRoom.find((err, result) => {
+    async downloadDB() {
+        await GameRoom.find((err, result) => {
             this.gameRooms = result.map((room) => {
                 if (room.game.title) {
                     // console.log(1,room.game)
