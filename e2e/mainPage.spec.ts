@@ -25,10 +25,11 @@ describe("Main page is login", () => {
 
         if (server) {
             await server.stop();
+            server = undefined;
         }
     });
 
-    it("should redirect to login without token", async () => {
+    it("should redirect to login without token", async (done) => {
 
         const port = await server.init(5000);
         const page = await browser.newPage();
@@ -58,5 +59,6 @@ describe("Main page is login", () => {
         expect(html).toBe('Sign In');
 
         browser.close();
+        done();
     }, 10000);
 })
