@@ -2,7 +2,7 @@ import * as faker from "faker";
 import * as puppeteer from "puppeteer";
 import * as express from "express";
 
-import { GameBookApp } from '../distServer/server/app';
+import { GameBookApp } from '../src/server/app';
 // const {config} = require('../../dist/ServerConfig');
 
 describe("Main page is login", () => {
@@ -14,7 +14,7 @@ describe("Main page is login", () => {
         browser = await puppeteer.launch({ args: ['--no-sandbox',
         '--headless',
         '--disable-gpu',
-        '--window-size=1920x1080'], headless: false });
+        '--window-size=1920x1080'], headless: true });
         server = new GameBookApp(serverEx);
     });
 
