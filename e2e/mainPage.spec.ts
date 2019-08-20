@@ -19,13 +19,13 @@ describe("Main page is login", () => {
     });
 
     afterEach(async () => {
-        // if (browser) {
-        //     await browser.close();
-        // }
+        if (browser) {
+            await browser.close();
+        }
 
-        // if (server) {
-        //     await server.stop();
-        // }
+        if (server) {
+            await server.stop();
+        }
     });
 
     it("should redirect to login without token", async () => {
@@ -57,6 +57,6 @@ describe("Main page is login", () => {
         const html = await page.$eval('.auth-form__content__header', e => e.innerHTML);
         expect(html).toBe('Sign In');
 
-        // browser.close();
+        browser.close();
     }, 10000);
 })
