@@ -136,10 +136,10 @@ export class GameBookApp {
 
         const extraPass = process.env.NODE_ENV === "test" ? "" : "";
 
-        server.use("/",(req, res, next) => {
-            console.log("root route fired", req.url, __dirname);
-            next();
-        })
+        // server.use("/",(req, res, next) => {
+        //     console.log("root route fired", req.url, __dirname);
+        //     next();
+        // })
         server.use("/dist", express.static(path.join(__dirname, `${extraPass}../../dist`)));
         server.use("/api/gameroom", GameRoomRoutes)
         server.use("/api/user", UserRoutes)
