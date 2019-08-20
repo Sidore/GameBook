@@ -6,5 +6,5 @@ module.exports = {
         "^.+\\.jsx?$": "babel-jest",
         "^.+\\.tsx?$": "ts-jest"
     },
-    "preset": "@shelf/jest-mongodb"
+    "preset": "@shelf/jest-mongodb",
   }

@@ -1,6 +1,5 @@
 import * as express from "express";
 
-
 import { GameBookApp } from "./app";
 
 const server = express();

@@ -34,7 +34,7 @@ export class GameBookApp {
         this.gameRooms = [];
     }
 
-    async init(PORT: number): Promise<boolean> {
+    async init(PORT: number): Promise<GameBookApp> {
         this.PORT = PORT;
         await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true, "useCreateIndex": true })
             .then(() => {
@@ -44,46 +44,23 @@ export class GameBookApp {
         await new Promise((resolve, reject) => {
             if (this.server) {
                 this.setUpServer(this.server);
-                this.server.listen(process.env.PORT || this.PORT || 5000, () => {
+                let a = this.server.listen(process.env.PORT || this.PORT || 5000, () => {
+                    console.log(`server run on port ${process.env.PORT || this.PORT || 5000}`);
                     resolve();
                 })
+                console.log(a.address());
             } else {
                 reject();
             }
         })
+        return this;
 
-        // api2.getBalance((res: any) => {
-        // console.log("*** getBalance1 ***");
+    }
 
-        //     console.log(res.toString())}, (res: any) => {
-        // console.log("*** getBalance2 ***");
-
-        //         console.log(res.toString())});
-
-        // api2.sendSms("smSender", "test text", [{val: "380963750074", id: "vlad1", vars: "11"}], "", (res: any) => {
-        // console.log("*** sendSms1 ***");
-        // console.log(res.toString())}, (res: any) => {
-        // console.log("*** sendSms2 ***");
-        // console.log(res.toString())});
-        // api2.getPrice("smSender", "test text", [{val: "380963750074", id: "1213123", vars: ""}], "", (res: any) => {
-        // console.log("*** getPrice1 ***");        
-        // console.log(res.toString())}, (res: any) => {
-        // console.log("*** getPrice2 ***");        
-        // console.log(res.toString())});
-        // api2.getStatus([{val: "msg1123"}, {val: "msg2333"}], (res: any) => {
-        // console.log("*** getStatus1 ***");        
-        // console.log(res.toString())}, (res: any) => {
-        // console.log("*** getStatus2 ***");        
-        // console.log(res.toString())});
-        // api2.getCreditPrice((res: any) => {
-        // console.log("*** getCreditPrice1 ***");    
-        // console.log(res.toString())}, (res: any) => {
-        // console.log("*** getCreditPrice2 ***");    
-        // console.log(res.toString())});
-
-
-        return true;
-
+    async stop() {
+        await mongoose.connection.close().then(() => {
+            console.log("mongo stopped");
+        })
     }
 
     setUpServer(server: express.Application) {
@@ -155,20 +132,21 @@ export class GameBookApp {
 
     setUpRoutes(server: express.Application) {
 
-        server.use("/dist", express.static(path.join(__dirname, '../../dist')));
+        console.log(process.env.NODE_ENV);
+
+        const extraPass = process.env.NODE_ENV === "test" ? "" : "";
+
+        // server.use("/",(req, res, next) => {
+        //     console.log("root route fired", req.url, __dirname);
+        //     next();
+        // })
+        server.use("/dist", express.static(path.join(__dirname, `${extraPass}../../dist`)));
         server.use("/api/gameroom", GameRoomRoutes)
         server.use("/api/user", UserRoutes)
         server.use("/api/auth", AuthRoutes)
         server.use("/confirmation", ConfirmRoutes)
         server.use("/", (req, res) => {
-            // res.send(
-            //     `
-            //         ${__dirname}
-            //         ${path.join(__dirname, '../../dist')}
-
-            //     `
-            // );
-            res.sendFile(path.join(__dirname, '../../dist', 'index.html'));
+            res.sendFile(path.join(__dirname, `${extraPass}../../dist`, 'index.html'));
         });
 
     }
