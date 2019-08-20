@@ -48,7 +48,7 @@ describe("Main page is login", () => {
         });
         // console.log(2, "@@@");
 
-        // console.log(await page.evaluate(() => document.body.innerHTML));
+        console.log(await page.evaluate(() => document.body.innerHTML));
         
         // await page.waitForNavigation();
         await page.waitForSelector('.auth-form__content__header');
