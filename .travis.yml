@@ -8,10 +8,6 @@ branches:
   only:
     - master
 
-script:
-  - npm run build
-  - npm run client && npm run test
-
 deploy:
   provider: heroku
   app: "games-book"
