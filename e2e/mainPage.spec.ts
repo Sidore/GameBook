@@ -52,7 +52,7 @@ describe("Main page is login", () => {
         console.log(await page.evaluate(() => document.body.innerHTML));
         
         // await page.waitForNavigation();
-        await page.waitForSelector('.auth-form__content__header');
+        // await page.waitForSelector('.auth-form__content__header');
         // console.log(3, "@@@");
         
         const html = await page.$eval('.auth-form__content__header', e => e.innerHTML);

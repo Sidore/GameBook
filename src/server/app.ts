@@ -48,7 +48,7 @@ export class GameBookApp {
                     console.log(`server run on port ${process.env.PORT || this.PORT || 5000}`);
                     resolve();
                 })
-                console.log(a.address());
+                // console.log(a.address());
             } else {
                 reject();
             }
@@ -132,7 +132,7 @@ export class GameBookApp {
 
     setUpRoutes(server: express.Application) {
 
-        console.log(process.env.NODE_ENV);
+        // console.log(process.env.NODE_ENV);
 
         const extraPass = process.env.NODE_ENV === "test" ? "" : "";
 
