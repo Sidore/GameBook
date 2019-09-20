@@ -54,6 +54,7 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IAuthResponse>,
                     res.status = status;
                     if (res.token) {
                         dispatch(setToken(res.token));
+                        
                     }
                     resolve(res);
                 })
