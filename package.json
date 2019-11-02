@@ -45,7 +45,7 @@
     "graphql": "^14.4.2",
     "jsonwebtoken": "^8.5.1",
     "libxmljs": "^0.19.5",
-    "mongoose": "^5.5.11",
+    "mongoose": "^5.7.5",
     "nodemailer": "^6.3.0",
     "nodemon": "^1.19.0",
     "parcel": "^1.12.3",
