@@ -5,6 +5,8 @@ import { BrowserRouter as Router, Route, Link, Redirect, Switch } from "react-ro
 import Lobby from "../LobbyPage";
 import Auth from "../AuthPage";
 import Game from "../GamePage";
+import Admin from "../AdminPage";
+
 interface ownProps {
 }
 
@@ -45,6 +47,12 @@ class BaseLayout extends React.Component<Props, State>{
             this.props.token ?
               (<Redirect to="/" />) :
               (<Auth />)
+          )}
+          />
+          <Route path="/admin" render={() => (
+            !this.props.token ?
+              (<Redirect to="/login" />) :
+              (<Admin />)
           )}
           />
           <Route path="/" exact render={() => (
