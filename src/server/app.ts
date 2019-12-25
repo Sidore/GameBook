@@ -14,8 +14,8 @@ import Player from "./../models/Player";
 import { GameRoom } from "../models/GameRoom";
 
 import GameRoomRoutes from "./routes/api/GameRooms";
-import UserRoutes from "./routes/api/User";
-import { AuthRoutes, ConfirmRoutes } from "./routes/api/Auth";
+import { UserRoutes, ConfirmRoutes } from "./routes/api/User";
+import { AuthRoutes } from "./routes/api/Auth";
 import GameFabric from "../controllers/GameFabric";
 import { graphqlSchema } from "./schema"
 import { api2 } from "./services/sms";
@@ -23,7 +23,7 @@ import { api2 } from "./services/sms";
 export class GameBookApp {
 
     private server: express.Application;
-    private PORT: number;
+    private PORT: number|string;
     private db: any;
     private wss: WebSocketServer;
     private gameRooms: IGameRoom[];
@@ -34,7 +34,7 @@ export class GameBookApp {
         this.gameRooms = [];
     }
 
-    async init(PORT: number): Promise<GameBookApp> {
+    async init(PORT: number|string): Promise<GameBookApp> {
         this.PORT = PORT;
         await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true, "useCreateIndex": true })
             .then(() => {
@@ -44,11 +44,10 @@ export class GameBookApp {
         await new Promise(async (resolve, reject) => {
             if (this.server) {
                 await this.setUpServer(this.server);
-                let a = this.server.listen(process.env.PORT || this.PORT || 5000, () => {
-                    console.log(`server run on port ${process.env.PORT || this.PORT || 5000}`);
+                this.server.listen(this.PORT, () => {
+                    console.log(`server run on port ${this.PORT}`);
                     resolve();
                 })
-                // console.log(a.address());
             } else {
                 reject();
             }
@@ -57,7 +56,7 @@ export class GameBookApp {
 
     }
 
-    async stop() {
+    async stopMongoConnection() {
         await mongoose.connection.close().then(() => {
             console.log("mongo stopped");
         })
@@ -68,7 +67,7 @@ export class GameBookApp {
         this.setUpMiddleWares(server);
         this.setUpGrapgql(server);
         this.setUpRoutes(server);
-        this.setUpEvents(this);
+        this.setUpEvents();
         this.setUpWS();
     }
 
@@ -131,15 +130,13 @@ export class GameBookApp {
     }
 
     setUpRoutes(server: express.Application) {
-
-        // console.log(process.env.NODE_ENV);
-
         const extraPass = process.env.NODE_ENV === "test" ? "" : "";
 
         // server.use("/",(req, res, next) => {
         //     console.log("root route fired", req.url, __dirname);
         //     next();
         // })
+
         server.use("/dist", express.static(path.join(__dirname, `${extraPass}../../dist`)));
         server.use("/api/gameroom", GameRoomRoutes)
         server.use("/api/user", UserRoutes)
@@ -151,7 +148,7 @@ export class GameBookApp {
 
     }
 
-    setUpEvents(app) {
+    setUpEvents() {
         ee.on("gameroom.created", (gameroom) => {
             console.log("gameroom.created", gameroom);
             this.addGameRoom(gameroom);
@@ -162,13 +159,11 @@ export class GameBookApp {
         await GameRoom.find((err, result) => {
             this.gameRooms = result.map((room) => {
                 if (room.game.title) {
-                    // console.log(1,room.game)
                     room.game = GameFabric.create({ title: room.game.title, round: room.game.round });
                 }
                 return room;
             });
             console.log("db downloaded")
-
         })
     }
 
@@ -185,7 +180,6 @@ export class GameBookApp {
         }
         this.gameRooms.push(gameroom);
         console.log(1, gameroom)
-
     }
 
 }

@@ -5,6 +5,8 @@ import { GameBookApp } from "./app";
 const server = express();
 const app = new GameBookApp(server);
 
-app.init(2503).then(() => {
-    console.log("why are you running on 2503?");
+const PORT = process.env.PORT || 2503
+
+app.init(PORT).then(() => {
+    console.log(`Application server is initialising on a port ${PORT}?`);
 });
