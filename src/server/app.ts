@@ -8,10 +8,10 @@ import { Server as WebSocketServer } from "ws";
 
 import ee from "../controllers/EventEmmiter";
 
-import { IGameRoom } from "./../models/GameRoom/IGameRoom";
-import { IGameAction } from "./../models/Game/IGame";
+// import { IGameRoom } from "./../models/GameRoom/IGameRoom";
+// import { IGameAction } from "./../models/Game/IGame";
 import Player from "./../models/Player";
-import { GameRoom } from "../models/GameRoom";
+// import { GameRoom } from "../models/GameRoom";
 
 import GameRoomRoutes from "./routes/api/GameRooms";
 import { UserRoutes, ConfirmRoutes } from "./routes/api/User";
@@ -26,7 +26,7 @@ export class GameBookApp {
     private PORT: number|string;
     private db: any;
     private wss: WebSocketServer;
-    private gameRooms: IGameRoom[];
+    private gameRooms: [];
     // private connections: []
 
     constructor(server: express.Application) {
@@ -63,12 +63,12 @@ export class GameBookApp {
     }
 
     async setUpServer(server: express.Application): Promise<any> {
-        await this.downloadDB();
+        // await this.downloadDB();
         this.setUpMiddleWares(server);
         this.setUpGrapgql(server);
         this.setUpRoutes(server);
-        this.setUpEvents();
-        this.setUpWS();
+        // this.setUpEvents();
+        // this.setUpWS();
     }
 
     setUpMiddleWares(server: express.Application) {
@@ -82,52 +82,52 @@ export class GameBookApp {
         });
     }
 
-    setUpWS() {
-        const wss = this.wss = new WebSocketServer({ port: 8081 });
-        console.log("ws is connected...")
-        wss.on("connection", (ws) => {
-            let player: Player = null;
-            let game: IGameAction = null;
-            ws.on("message", (message) => {
-                if (player && game) {
-                    game.playerAction(message.toString(), player);
-                } else {
-                    const { type, roomTitle, user, gameTitle } = JSON.parse(message.toString());
-                    if (type === "auth") {
-                        if (roomTitle) {
-                            if (user) {
-                                const buffRoom: IGameRoom = this.gameRooms.find((room) => {
-                                    return room.name === roomTitle;
-                                });
+    // setUpWS() {
+    //     const wss = this.wss = new WebSocketServer({ port: 8081 });
+    //     console.log("ws is connected...")
+    //     wss.on("connection", (ws) => {
+    //         let player: Player = null;
+    //         let game: IGameAction = null;
+    //         ws.on("message", (message) => {
+    //             if (player && game) {
+    //                 game.playerAction(message.toString(), player);
+    //             } else {
+    //                 const { type, roomTitle, user, gameTitle } = JSON.parse(message.toString());
+    //                 if (type === "auth") {
+    //                     if (roomTitle) {
+    //                         if (user) {
+    //                             const buffRoom: IGameRoom = this.gameRooms.find((room) => {
+    //                                 return room.name === roomTitle;
+    //                             });
 
-                                console.log(2, gameTitle, game, buffRoom, user)
-                                if (buffRoom) {
+    //                             console.log(2, gameTitle, game, buffRoom, user)
+    //                             if (buffRoom) {
 
-                                    game = GameFabric.create(
-                                        !buffRoom.game ? gameTitle : { title: buffRoom.game.title, round: buffRoom.game.round }
-                                    );
+    //                                 game = GameFabric.create(
+    //                                     !buffRoom.game ? gameTitle : { title: buffRoom.game.title, round: buffRoom.game.round }
+    //                                 );
 
 
-                                    player = game.createPlayerFromWS(user, ws);
-                                    ws.send(`Вы вошли в игру ${game.title}`);
-                                } else {
-                                    ws.send("Такой игры игровой комнаты");
-                                }
-                            } else {
-                                ws.send("Вы не авторизированы");
-                            }
-                        } else {
-                            ws.send("Вы не указали комнату");
-                        }
-                    }
-                }
-            });
-        });
+    //                                 player = game.createPlayerFromWS(user, ws);
+    //                                 ws.send(`Вы вошли в игру ${game.title}`);
+    //                             } else {
+    //                                 ws.send("Такой игры игровой комнаты");
+    //                             }
+    //                         } else {
+    //                             ws.send("Вы не авторизированы");
+    //                         }
+    //                     } else {
+    //                         ws.send("Вы не указали комнату");
+    //                     }
+    //                 }
+    //             }
+    //         });
+    //     });
 
-        // wss.on("close", (ws) => {
-        //     app.removeUser(ws);
-        //   });
-    }
+    //     // wss.on("close", (ws) => {
+    //     //     app.removeUser(ws);
+    //     //   });
+    // }
 
     setUpRoutes(server: express.Application) {
         const extraPass = process.env.NODE_ENV === "test" ? "" : "";
@@ -148,24 +148,24 @@ export class GameBookApp {
 
     }
 
-    setUpEvents() {
-        ee.on("gameroom.created", (gameroom) => {
-            console.log("gameroom.created", gameroom);
-            this.addGameRoom(gameroom);
-        })
-    }
+    // setUpEvents() {
+    //     ee.on("gameroom.created", (gameroom) => {
+    //         console.log("gameroom.created", gameroom);
+    //         this.addGameRoom(gameroom);
+    //     })
+    // }
 
-    async downloadDB() {
-        await GameRoom.find((err, result) => {
-            this.gameRooms = result.map((room) => {
-                if (room.game.title) {
-                    room.game = GameFabric.create({ title: room.game.title, round: room.game.round });
-                }
-                return room;
-            });
-            console.log("db downloaded")
-        })
-    }
+    // async downloadDB() {
+    //     await GameRoom.find((err, result) => {
+    //         this.gameRooms = result.map((room) => {
+    //             if (room.game.title) {
+    //                 room.game = GameFabric.create({ title: room.game.title, round: room.game.round });
+    //             }
+    //             return room;
+    //         });
+    //         console.log("db downloaded")
+    //     })
+    // }
 
     setUpGrapgql(server: express.Application) {
         server.use("/graphql", graphqlHTTP({
@@ -174,12 +174,12 @@ export class GameBookApp {
         }));
     }
 
-    addGameRoom(gameroom) {
-        if (gameroom.game.title) {
-            gameroom.game = GameFabric.create({ title: gameroom.game.title, round: gameroom.game.round });
-        }
-        this.gameRooms.push(gameroom);
-        console.log(1, gameroom)
-    }
+    // addGameRoom(gameroom) {
+    //     if (gameroom.game.title) {
+    //         gameroom.game = GameFabric.create({ title: gameroom.game.title, round: gameroom.game.round });
+    //     }
+    //     this.gameRooms.push(gameroom);
+    //     console.log(1, gameroom)
+    // }
 
 }

@@ -5,6 +5,7 @@ export interface IUser {
     nickname: string;
     password: string;
     isVerified: boolean;
+    date: Date;
 }
 
 export interface UserType extends Document, IUser { };

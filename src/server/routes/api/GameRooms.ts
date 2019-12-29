@@ -4,7 +4,7 @@ import { Router } from "express";
 import { GameRoom } from "../../../models/GameRoom";
 
 import { auth } from "../../middleware/auth";
-import { Game } from "../../../models/Game";
+// import { Game } from "../../../models/Game";
 
 import GameFabric from "../../../controllers/GameFabric";
 import ee from "../../../controllers/EventEmmiter"
@@ -51,7 +51,8 @@ router.post('/:id/game/:name', auth, (req, res) => {
     GameRoom.findOne({ name: req.params.id })
         .then((gameroom) => {
             const gameItem = GameFabric.create(req.params.name);
-            gameroom.game = gameItem;
+            // gameroom.game = gameItem;
+            // TODO Game creation
 
             gameroom.save()
                 .then(() => {
