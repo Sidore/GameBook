@@ -13,7 +13,9 @@ import ee from "../controllers/EventEmmiter";
 import Player from "./../models/Player";
 // import { GameRoom } from "../models/GameRoom";
 
-import GameRoomRoutes from "./routes/api/GameRooms";
+import GameRoomRoutes from "./routes/api/GameRoom";
+import GameRecordRoutes from "./routes/api/GameRecord";
+
 import { UserRoutes, ConfirmRoutes } from "./routes/api/User";
 import { AuthRoutes } from "./routes/api/Auth";
 import GameFabric from "../controllers/GameFabric";
@@ -139,6 +141,7 @@ export class GameBookApp {
 
         server.use("/dist", express.static(path.join(__dirname, `${extraPass}../../dist`)));
         server.use("/api/gameroom", GameRoomRoutes)
+        server.use("/api/gamerecord", GameRecordRoutes)
         server.use("/api/user", UserRoutes)
         server.use("/api/auth", AuthRoutes)
         server.use("/confirmation", ConfirmRoutes)

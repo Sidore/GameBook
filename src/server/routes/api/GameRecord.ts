@@ -20,7 +20,8 @@ router.get('/', auth, (req, res) => {
 
 // @route POST api/gamerecord
 // @access public
-router.post('/', auth, (req, res) => {
+router.post('/', (req, res) => {
+
     new GameRecord({
         title: req.body.title,
         url: req.body.url,
