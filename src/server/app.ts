@@ -17,7 +17,7 @@ import GameRoomRoutes from "./routes/api/GameRooms";
 import { UserRoutes, ConfirmRoutes } from "./routes/api/User";
 import { AuthRoutes } from "./routes/api/Auth";
 import GameFabric from "../controllers/GameFabric";
-import { graphqlSchema } from "./schema"
+// import { graphqlSchema } from "./schema"
 import { api2 } from "./services/sms";
 
 export class GameBookApp {
@@ -36,7 +36,7 @@ export class GameBookApp {
 
     async init(PORT: number|string): Promise<GameBookApp> {
         this.PORT = PORT;
-        await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true, "useCreateIndex": true })
+        await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
             .then(() => {
                 console.log("Mongo is connected");
             });
@@ -45,7 +45,7 @@ export class GameBookApp {
             if (this.server) {
                 await this.setUpServer(this.server);
                 this.server.listen(this.PORT, () => {
-                    console.log(`server run on port ${this.PORT}`);
+                    console.log(`Server run on port ${this.PORT}`);
                     resolve();
                 })
             } else {
@@ -65,7 +65,7 @@ export class GameBookApp {
     async setUpServer(server: express.Application): Promise<any> {
         // await this.downloadDB();
         this.setUpMiddleWares(server);
-        this.setUpGrapgql(server);
+        // this.setUpGrapgql(server);
         this.setUpRoutes(server);
         // this.setUpEvents();
         // this.setUpWS();
@@ -167,12 +167,12 @@ export class GameBookApp {
     //     })
     // }
 
-    setUpGrapgql(server: express.Application) {
-        server.use("/graphql", graphqlHTTP({
-            schema: graphqlSchema,
-            graphiql: true
-        }));
-    }
+    // setUpGrapgql(server: express.Application) {
+    //     server.use("/graphql", graphqlHTTP({
+    //         schema: graphqlSchema,
+    //         graphiql: true
+    //     }));
+    // }
 
     // addGameRoom(gameroom) {
     //     if (gameroom.game.title) {
