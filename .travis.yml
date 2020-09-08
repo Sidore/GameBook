@@ -1,33 +1,25 @@
 sudo: false
-
 language: node_js
 node_js:
-  - 10
-
+- 10
 branches:
   only:
-    - master
-
+  - master
 install:
-  - npm install
-
+- npm install
 cache:
   directories:
-    - node_modules
-
+  - node_modules
 dist: trusty
 addons:
   apt:
     packages:
-      # This is required to run new chrome on old trusty
-      - libnss3
-
+    - libnss3
 before_install:
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-
+- export DISPLAY=:99.0
+- sh -e /etc/init.d/xvfb start
 deploy:
   provider: heroku
-  app: "games-book"
+  app: games-book
   api_key:
-    secure: "a6691e4d-8526-4211-bee0-04beffcdc2ed"
+    secure: vZ153jkBhSnhOa6J0amlmZ02M8ni3gnss3d0pPBmszeOAvPrvxmk41kwtBInBoYYvCgiDy3TUQxu1QbDoUFkLZff3PjVS+l3Z3K3b+9aXUkb0pH6gnpHX9KWuLAs5M09sJBnqBJ7Ji+N0yNx6NvHqlwS5+2mE5b4KX7NnNcF/qp4skWYnouSBVOpnwCOFNKkxH/kMMw3P0GqleJ1JSqqXkct9lF8QmqgSWQY6npVj0QaPltFkEIs6rEENeAS9LpbxU8ypLaogKaIdMi6COCTLCRna0k6zUs6TOv5+cRGQ9DOFSp9aRXj/vsGti5dNLFnrxOrv9I9Sy5nyceH+GAdFxWV9iAZcTX7VOvPBkqJwnKib46Lnk5zKH3NTPoZidK5vneSehsI23OoC1Ppe7T7k/4+EZHA3xKC7sm7zRmfUoQWu0WbieWVGNYm1t0H5Y83pIYGe7l10v+4HhkDG+jm0Xg6Y6GMYMVI3lLMGwJo5aPlFFg/pQFi9gkIok1w0UQPGX75KzQGXF0/DecZTStpSeu3srizB2ht5dNFDppRu+JWuh0jY0bjX+jaTxUE1Gx2cNYngT4gj5W+yKj9LmvQaqEWvmo/dmcfcCZ9J6VMZJl0DRD7QG05RHY3ejctCfSfTPht6tWY+UrtbD1oNe4oRVGaPOw1/3Q0YotwnIphryY=
