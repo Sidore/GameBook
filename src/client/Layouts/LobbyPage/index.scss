@@ -10,12 +10,171 @@
          flex: 1;
          flex-direction: column;
 
+         &__logo {
+             flex-direction: row;
+             display: flex;
+             justify-content: space-between;
+
+             &-img {
+                 background: url(./user.png) no-repeat center;
+                 background-size: cover;
+                 flex: 1;
+                 display: flex;
+             }
+
+             &-details {
+                 flex: 2;
+                 display: flex;
+                 flex-direction: column;
+                //  height: 100%;
+                //  width: 100%;
+
+                &-nick, .container &-nick {
+                    color: white;
+                    font-weight: bold;
+                    font-size: 20px;
+                    // position: relative;
+                    display: flex;
+                    align-items: center;
+                    padding: 5px 10px;
+
+                    &::after {
+                        content: "";
+                        height: 10px;
+                        width: 10px;
+                        border-radius: 10px;
+                        margin-left: 10px;
+                        background: #44c86c;
+                        display: flex;
+                        // position: absolute;
+                        // left: 100%;
+                    }
+                }
+
+                &-logout {
+                    border: none;
+                    color: #9c9caf;
+                    // background: #020033;
+                    padding:4px 10px;
+                    cursor: pointer;
+                }
+             }
+         }
+
+         &__stats {
+             display: flex;
+             flex-direction: column;
+
+             hr {
+                 border: none;
+                 height: 1px;
+                 width: 100%;
+                 background: #9c9caf;
+                 margin: 20px 0;
+                 opacity: .2;
+             }
+
+             &-text {
+                //  margin: 10px 0;
+                 display: flex;
+                 align-items: center;
+                 border-radius: 5px;
+                 transition: all .3s;
+                 cursor: pointer;
+                //  margin: 2px 0px;
+                 padding: 5px 10px;
+
+                 &:hover {
+                     background: #020033;
+
+                 }
+
+                 .label {
+                     display: flex;
+                     border-radius: 20px;
+                     margin-left: 10px;
+                     padding: 5px 10px;
+                     font-size: 14px;
+                     color: white;
+
+                     &.alert {
+                         background: #e64255;
+                     }
+
+                     &.achievment {
+                         background: #44c86c;
+                     }
+
+                     &.counter {
+                         background: #3999ff;
+                     }
+                 }
+             }
+
+         }
+
+         &__contact {
+            display: flex;
+            flex-direction: column;
+        }
      }
 
      &__user-filters {
          display: flex;
          flex: 3;
          flex-direction: column;
+         justify-content: stretch;
+
+        &__gamelist {
+            display: flex;
+            .gamelist-item {
+                padding: 20px;
+                background: linear-gradient(90deg,#6f44eb, #b938fa);
+                color: white;
+                border-radius: 5px;
+                display: flex;
+                margin-right: 20px;
+                cursor: pointer;
+                transition: all .3s;
+                font-weight: bold;
+                text-transform: capitalize;
+
+                &:hover {
+                    // background: linear-gradient(270deg,#6f44eb, #b938fa);
+                    box-shadow: 0px 0px 5px #9c9caf;
+                }
+
+                &:nth-child(2) {
+                    background: linear-gradient(90deg,#66aeff, #3279fd);
+                    // &:hover {
+                    //     background: linear-gradient(270deg,#66aeff, #3279fd);
+                    // }
+                }
+
+                &:nth-child(3) {
+                    background: linear-gradient(90deg,#5ae687, #4adcb9);
+                    // &:hover {
+                    //     background: linear-gradient(270deg,#5ae687, #4adcb9);
+                    // }
+                }
+
+                &:nth-child(4) {
+                    background: linear-gradient(90deg,#f778b2, #f9c179);
+                    // &:hover {
+                    //     background: linear-gradient(270deg,#f778b2, #f9c179);
+                    // }
+                }
+
+                &:last-of-type {
+                    margin-right: 0;
+                }
+            }
+        }
+
+         &__frame {
+             border: none;
+             flex: 1;
+         }
 
      }
 
@@ -31,9 +190,11 @@
          border-radius: 10px;
          padding: 20px;
          background: #2b2b4b;
-
-         * {
-             color: #9c9caf;
-         }
+         display: flex;
+         
      }
+
+     * {
+        color: #9c9caf;
+    }
  }

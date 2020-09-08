@@ -14,7 +14,6 @@ interface ownProps {
 
 interface stateProps {
     token: string;
-    user: any;
     rooms: IGame[];
 }
 
@@ -29,7 +28,9 @@ interface State {
     game: string,
     [key: string]: any,
     gameList: IGame[],
-    messages: {type: string, title: string, desc: string}[]
+    messages: {type: string, title: string, desc: string}[],
+    user: any;
+
 }
 class LobbyPage extends React.Component<Props, State> {
     constructor(props) {
@@ -40,7 +41,11 @@ class LobbyPage extends React.Component<Props, State> {
             roomLink: "",
             gameList: [],
             game: "",
-            messages: []
+            messages: [],
+            user: {
+                nickname: "Sidore",
+                isVerified: false
+            }
         }
 
         this.createRoom = this.createRoom.bind(this);
@@ -111,61 +116,88 @@ class LobbyPage extends React.Component<Props, State> {
 
         const list = this.state.gameList.map((el, index) => {
             return (
-                <li key={index}>
+                <div className="gamelist-item" key={index} onClick={() => this.setState({
+                    ...this.state,
+                    game: el.url
+                })}>
                     {/* <button onClick={() => this.chooseRoom(el.name)}>{el.name}</button> */}
-                    <button onClick={() => this.setState({
-                        ...this.state,
-                        game: el.url
-                    })}>{el.title}</button>
-                </li>
+                    {el.title}
+                </div>
             )
         })
 
-        const user = this.props.user;
+        
         // console.log(user);
 
         return (
             <div className="lobby">
                 <div className="lobby__user-info">
                     <div className="lobby__user-info__logo container">
-                        <div className="lobby__user-info__logo-img" ></div>
-                        <div className="lobby__user-info__logo-nick">
-                            {user.nickname}
+                        <div className="lobby__user-info__logo-img" >
+                            
+                        </div>
+                        <div className="lobby__user-info__logo-details">
+                            <div className="lobby__user-info__logo-details-nick">
+                                {this.state.user.nickname}
+                            </div>
+                            <div className="lobby__user-info__logo-details-logout">
+                                Logout
+                            </div>
                         </div>
                     </div>
                     <div className="lobby__user-info__stats container">
-                        <div className="lobby__user-info__stats-img"></div>
-                        <div className="lobby__user-info__stats-text">Ранг - Новичек</div>
-                        <div className="lobby__user-info__stats-text">Кол. игр - 113</div>
-                        <div className="lobby__user-info__stats-text">Время в игре - 22 часа</div>
+                        {/* <div className="lobby__user-info__stats-img"></div> */}
+                        <div className="lobby__user-info__stats-text">Ранг<span className="label alert">Новичек</span></div>
+                        <div className="lobby__user-info__stats-text">Кол. игр <span className="label counter">113</span></div>
+                        <div className="lobby__user-info__stats-text">Время в игре <span className="label achievment">22 часа</span></div>
+                        <hr/>
+                        <div className="lobby__user-info__stats-text">Достижения <span className="label achievment">12</span></div>
+                        <div className="lobby__user-info__stats-text">Чат <span className="label counter">22</span></div>
+                        <hr/>
+                        <div className="lobby__user-info__stats-text" onClick={() => { 
+                            this.setState({
+                                ...this.state,
+                                user: {
+                                    ...this.state.user,
+                                    isVerified: !this.state.user.isVerified
+                                }
+                            })
+
+                            this.forceUpdate()
+                        }}>You are <span className={this.state.user.isVerified ? "label achievment" : "label alert"}>{this.state.user.isVerified ? "verified" : "not verified"}</span></div>
+                        {/* <div className="lobby__user-info__stats-text">Чат <span className="label counter">22</span></div> */}
+                        
                     </div>
                     <div className="lobby__user-info__contact container">
                         <div className="lobby__user-info__contact-email">
-                            {user.email}
+                            {this.state.user.email}
                         </div>
-                        <div className="lobby__user-info__contact-tel">
+                        {/* <div className="lobby__user-info__contact-tel">
                             no tel
-                        </div>
-                        <div className="lobby__user-info__contact-verified">
+                        </div> */}
+                        {/* <div className="lobby__user-info__contact-verified">
                             You are {user.isVerified ? "verified" : "not verified"} user
-                        </div>
-                    </div>
-                </div>
-                <div className="lobby__user-filters container">
-                    <div>
+                        </div> */}
+                        <div>
                     Links: 
                         <Link to="/admin">admin</Link>
                     </div>
-                    <div>Last games</div>
-                    <div>filter</div>
-                    <div>games list
-                        <ul>
-                            {list}
-                        </ul>
                     </div>
-                    <iframe src={this.state.game} height="100%" width="100%">
+                </div>
+                <div className="lobby__user-filters ">
+                    
+                    
+                    <div className="lobby__user-filters__gamelist container">
+                            {list}
+                    </div>
 
-                    </iframe>
+                    {this.state.game && <iframe src={this.state.game} className="lobby__user-filters__frame container">
+
+                    </iframe>}
+
+                    {!this.state.game && <div className="lobby__user-filters__frame container">
+                        chose the game
+                        </div>}
                 </div>
                 <div className="lobby__new-rooms container">
                     {/* <label>
@@ -185,7 +217,7 @@ class LobbyPage extends React.Component<Props, State> {
 function mapStateToProps(state: AppState, ownProps: ownProps): stateProps {
     return {
         token: state.token.token,
-        user: {}, // TODO import user,
+        // user: {nickname : "Sidore"}, // TODO import user,
         rooms: state.rooms.rooms
     }
 }
