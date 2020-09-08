@@ -10,11 +10,11 @@ import ee from "../controllers/EventEmmiter";
 
 // import { IGameRoom } from "./../models/GameRoom/IGameRoom";
 // import { IGameAction } from "./../models/Game/IGame";
-import Player from "./../models/Player";
+// import Player from "./../models/Player";
 // import { GameRoom } from "../models/GameRoom";
 
-import GameRoomRoutes from "./routes/api/GameRoom";
-import GameRecordRoutes from "./routes/api/GameRecord";
+// import GameRoomRoutes from "./routes/api/GameRoom";
+import GameRoutes from "./routes/api/Game";
 
 import { UserRoutes, ConfirmRoutes } from "./routes/api/User";
 import { AuthRoutes } from "./routes/api/Auth";
@@ -25,7 +25,7 @@ import { api2 } from "./services/sms";
 export class GameBookApp {
 
     private server: express.Application;
-    private PORT: number|string;
+    private PORT: number | string;
     private db: any;
     private wss: WebSocketServer;
     private gameRooms: [];
@@ -36,11 +36,17 @@ export class GameBookApp {
         this.gameRooms = [];
     }
 
-    async init(PORT: number|string): Promise<GameBookApp> {
+    async init(PORT: number | string): Promise<GameBookApp> {
         this.PORT = PORT;
-        await mongoose.connect(config.get("mongoURI"), { useNewUrlParser: true, useCreateIndex: true, useUnifiedTopology: true })
+        await mongoose.connect(config.get("mongoURI"),
+            {
+                useNewUrlParser: true,
+                useCreateIndex: true,
+                useUnifiedTopology: true
+            })
             .then(() => {
                 console.log("Mongo is connected");
+                mongoose.set('useFindAndModify', false);
             });
 
         await new Promise(async (resolve, reject) => {
@@ -140,8 +146,7 @@ export class GameBookApp {
         // })
 
         server.use("/dist", express.static(path.join(__dirname, `${extraPass}../../dist`)));
-        server.use("/api/gameroom", GameRoomRoutes)
-        server.use("/api/gamerecord", GameRecordRoutes)
+        server.use("/api/game", GameRoutes)
         server.use("/api/user", UserRoutes)
         server.use("/api/auth", AuthRoutes)
         server.use("/confirmation", ConfirmRoutes)

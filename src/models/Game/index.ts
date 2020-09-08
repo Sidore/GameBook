@@ -1,8 +1,8 @@
 import { Schema, Model, model } from "mongoose";
-import { GameRecordType } from './IGameRecord';
+import { GameType } from './IGame';
 import * as graphql from "graphql";
 
-const GameRoomSchema = new Schema({
+const GameSchema = new Schema({
     title: {
         type: String,
         required: true
@@ -13,9 +13,14 @@ const GameRoomSchema = new Schema({
     },
     logo: {
         type: String,
-        required: true
+    },
+    description: {
+        type: String,
+    },
+    token: {
+        type: String
     }
 });
 
 
-export let GameRecord = model<GameRecordType>("gameRecord", GameRoomSchema);
+export let Game = model<GameType>("game", GameSchema);

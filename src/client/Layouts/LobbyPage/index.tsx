@@ -1,9 +1,9 @@
 import * as React from 'react';
-import { Redirect } from "react-router-dom";
+import { Redirect, Link } from "react-router-dom";
 import "./index.styl";
 import { connect } from 'react-redux';
 import { AppState } from '../../store'
-import { IGameRoom } from '../../../models/GameRoom/IGameRoom';
+import { IGame  } from '../../../models/Game/IGame';
 
 
 const dev = location && location.hostname == "localhost" || false;
@@ -15,7 +15,7 @@ interface ownProps {
 interface stateProps {
     token: string;
     user: any;
-    rooms: IGameRoom[];
+    rooms: IGame[];
 }
 
 interface dispatchProps {
@@ -26,7 +26,9 @@ type Props = stateProps & dispatchProps & ownProps
 interface State {
     roomName: string,
     roomLink: string,
-    [key: string]: any
+    game: string,
+    [key: string]: any,
+    gameList: IGame[]
 }
 class LobbyPage extends React.Component<Props, State> {
     constructor(props) {
@@ -34,11 +36,13 @@ class LobbyPage extends React.Component<Props, State> {
 
         this.state = {
             roomName: "",
-            roomLink: ""
+            roomLink: "",
+            gameList: [],
+            game: ""
         }
 
         this.createRoom = this.createRoom.bind(this);
-        this.getRooms = this.getRooms.bind(this);
+        this.getGames = this.getGames.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.chooseRoom = this.chooseRoom.bind(this);
     }
@@ -57,7 +61,7 @@ class LobbyPage extends React.Component<Props, State> {
                     roomName: ""
                 })
 
-                this.getRooms();
+                this.getGames();
             }
         };
         req.send(JSON.stringify({
@@ -71,24 +75,15 @@ class LobbyPage extends React.Component<Props, State> {
         })
     }
 
-    getRooms() {
-        let req = new XMLHttpRequest();
-        req.open('GET', `${serverUrl}/api/gameroom`);
-        req.setRequestHeader("Content-Type", "application/json");
-        req.setRequestHeader("Authorization", "Bearer " + this.props.token);
-        req.onreadystatechange = () => {
-            if (req.readyState == 4) {
-                if (req.status == 200) {
-                    const response = JSON.parse(req.responseText);
-                    console.log(response);
-                    this.setState({
-                        // rooms : response
-                    })
-                }
-            }
-        };
-
-        req.send();
+    getGames() {
+        fetch(`${serverUrl}/api/game`)
+            .then(res => res.json())
+            .then(data => {
+                this.setState({
+                    ...this.state,
+                    gameList: [...this.state.gameList, ...data]
+                })
+            })
     }
 
     handleChange(event) {
@@ -102,20 +97,24 @@ class LobbyPage extends React.Component<Props, State> {
     }
 
     componentWillMount() {
-        this.getRooms();
+        this.getGames();
     }
 
     render() {
 
-        if (this.state.roomLink) {
-            const link = `/rooms/${this.state.roomLink}`;
-            return <Redirect to={link} />
-        }
+        // if (this.state.roomLink) {
+        //     const link = `/rooms/${this.state.roomLink}`;
+        //     return <Redirect to={link} />
+        // }
 
-        const list = this.props.rooms.map((el, index) => {
+        const list = this.state.gameList.map((el, index) => {
             return (
                 <li key={index}>
-                    <button onClick={() => this.chooseRoom(el.name)}>{el.name}</button>
+                    {/* <button onClick={() => this.chooseRoom(el.name)}>{el.name}</button> */}
+                    <button onClick={() => this.setState({
+                        ...this.state,
+                        game: el.url
+                    })}>{el.title}</button>
                 </li>
             )
         })
@@ -151,6 +150,10 @@ class LobbyPage extends React.Component<Props, State> {
                     </div>
                 </div>
                 <div className="lobby__user-filters">
+                    <div>
+                    Links: 
+                        <Link to="/admin">admin</Link>
+                    </div>
                     <div>Last games</div>
                     <div>filter</div>
                     <div>games list
@@ -158,6 +161,9 @@ class LobbyPage extends React.Component<Props, State> {
                             {list}
                         </ul>
                     </div>
+                    <iframe src={this.state.game} height="100%" width="100%">
+
+                    </iframe>
                 </div>
                 <div className="lobby__new-rooms">
                     <label>

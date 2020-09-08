@@ -2,10 +2,12 @@ import { Document } from 'mongoose';
 import { IRestriction } from '../Restriction';
 import { IUser } from '../User/IUser';
 
-export interface IGameRecord {
+export interface IGame {
     title: string;
     url: string;
-    logo: string
+    logo: string;
+    description: string;
+    token: string;
 }
 
-export interface GameRecordType extends Document, IGameRecord { };
+export interface GameType extends Document, IGame { };

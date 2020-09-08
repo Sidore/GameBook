@@ -1,5 +1,6 @@
 {
     "mongoURI": "mongodb+srv://Sidore:Co8lZkc0mZyj9Ij3@gamebookcluster-iqnhu.mongodb.net/prod?retryWrites=true",
-    "jwtSecret": "sl_myJwtSecret"
+    "jwtSecret": "sl_myJwtSecret",
+    "telegram": "1011386059:AAHGfrgLF9HtLWV9pfzUcUIVDazmguixc2o"
   }
   
