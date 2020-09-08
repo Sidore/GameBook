@@ -24,7 +24,7 @@ describe("Main page is login", () => {
         }
 
         if (server) {
-            await server.stop();
+            // await server.stop();
             server = undefined;
         }
     });
