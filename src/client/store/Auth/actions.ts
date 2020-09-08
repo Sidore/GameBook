@@ -53,8 +53,9 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IAuthResponse>,
                 .then(res => {
                     res.status = status;
                     if (res.token) {
+                        localStorage && localStorage.setItem("token", res.token);
                         dispatch(setToken(res.token));
-                        
+
                     }
                     resolve(res);
                 })
@@ -64,6 +65,17 @@ export const login = (creds: ILoginCredits): ThunkAction<Promise<IAuthResponse>,
 
 }
 
+export const tryToLogin = (): ThunkAction<Promise<IAuthResponse>, {}, {}, AnyAction> => {
+    return async (dispatch: ThunkDispatch<{}, {}, AnyAction>): Promise<IAuthResponse> => {
+        return new Promise<IAuthResponse>(async (resolve) => {
+            if (localStorage && localStorage.getItem("token")) {
+                dispatch(setToken(localStorage.getItem("token")));
+            }
+
+            resolve();
+        })
+    }
+}
 // console.log("login with creds", creds)
 
 //         let req = new XMLHttpRequest();

@@ -1,38 +1,38 @@
 .auth-root {
-    height 100%;
+    height: 100%;
     width: 100%;
     display: flex;
     
     &__image {
     // background: #efefef url("./cropped-pexels-photo-373076-6.jpeg");  
-    background: #efefef
+    background: #efefef;
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
     // filter: blur(3px);
-    height 100%;
+    height: 100%;
     width: 100%;
     display: flex;
     position: absolute;
-    z-index 0;
+    z-index: 0;
         }
     }
 
 .auth-form {
-    z-index 1;
+    z-index: 1;
     display: flex;
     border-radius: 10px;
-    box-shadow: 0 0 10px #ccc
+    box-shadow: 0 0 10px #ccc;
     align-self: center;
     margin: auto;
     width: 800px;
-    height 450px;
+    height: 450px;
     background: white;
     
 
     &__image {
         
-        width 50%;
+        width: 50%;
         background: #efefef url("./dc486960-701e-421b-b145-70d04f3b85be.jpg"); 
         background-position: center;
         background-size: cover;
@@ -75,20 +75,20 @@
         &__submit {
             
             // background: linear-gradient(90deg,#1462ef,#27d2f2);
-            background: #1462ef
+            background: #1462ef;
             border: none;
             outline: none;
             color: white;
             padding: 10px 20px;
             font-size: 16px;
             border-radius: 100px;
-            display: flex
+            display: flex;
             // width: 200px;
             box-sizing: content-box;
             margin: 10px;
-            cursor pointer
+            cursor: pointer;
             text-align: center;
-            transition: all .3s
+            transition: all .3s;
 
                 &:hover {
                      background: #2472ff
@@ -101,13 +101,13 @@
         &-change {
             
             display: flex;
-            align-self center;
+            align-self: center;
 
             &__button {
                 
                 margin-left: 5px;
-                color: #1462ef
-                cursor pointer
+                color: #1462ef;
+                cursor: pointer;
                 }
             
             }

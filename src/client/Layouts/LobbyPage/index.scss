@@ -1,0 +1,39 @@
+ .lobby {
+     display: flex;
+     flex-direction: row;
+     width: 100%;
+     margin: 0 auto;
+     background: #020033;
+
+     &__user-info {
+         display: flex;
+         flex: 1;
+         flex-direction: column;
+
+     }
+
+     &__user-filters {
+         display: flex;
+         flex: 3;
+         flex-direction: column;
+
+     }
+
+     &__new-rooms {
+         display: flex;
+         flex: 1;
+         flex-direction: column;
+
+     }
+
+     .container {
+         margin: 10px;
+         border-radius: 10px;
+         padding: 20px;
+         background: #2b2b4b;
+
+         * {
+             color: #9c9caf;
+         }
+     }
+ }

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import "./index.styl";
+import "./index.scss";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { AppState } from "../../store";

@@ -6,15 +6,19 @@ import Lobby from "../LobbyPage";
 import Auth from "../AuthPage";
 import Game from "../GamePage";
 import Admin from "../AdminPage";
+import { ThunkDispatch } from 'redux-thunk';
+import { tryToLogin } from '../../store/Auth/actions';
 
 interface ownProps {
 }
 
 interface stateProps {
   token: string;
+  
 }
 
 interface dispatchProps {
+  tryToLogin: () => any
 }
 
 type Props = stateProps & dispatchProps & ownProps
@@ -37,6 +41,10 @@ class BaseLayout extends React.Component<Props, State>{
     this.setState({
       user
     })
+  }
+
+  componentDidMount() {
+    this.props.tryToLogin();
   }
 
   render() {
@@ -86,8 +94,14 @@ function mapStateToProps(state: AppState, ownProps: ownProps): stateProps {
   }
 }
 
-function mapDispatchToProps(): dispatchProps {
-  return {}
+function mapDispatchToProps(dispatch: ThunkDispatch<{}, {}, any>): dispatchProps {
+  return {
+    tryToLogin: async () => {
+          const res = await dispatch(tryToLogin())
+          console.log('Login completed from token [UI]')
+          return res;
+      }
+  }
 }
 
 export default connect<stateProps, dispatchProps, ownProps>

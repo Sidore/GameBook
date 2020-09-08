@@ -7,14 +7,16 @@ import { GameBookApp } from '../src/server/app';
 
 describe("Main page is login", () => {
     const serverEx = express();
-    let browser : puppeteer.Browser = undefined;
-    let server : GameBookApp = undefined;
+    let browser: puppeteer.Browser = undefined;
+    let server: GameBookApp = undefined;
 
     beforeEach(async () => {
-        browser = await puppeteer.launch({ args: ['--no-sandbox',
-        '--headless',
-        '--disable-gpu',
-        '--window-size=1920x1080'], headless: true });
+        browser = await puppeteer.launch({
+            args: ['--no-sandbox',
+                '--headless',
+                '--disable-gpu',
+                '--window-size=1920x1080'], headless: true
+        });
         server = new GameBookApp(serverEx);
     });
 
@@ -44,17 +46,17 @@ describe("Main page is login", () => {
 
         // console.log(1, "@@@");
         await page.setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3419.0 Safari/537.36');
-        await page.goto('http://localhost:5000', {waitUntil: 'load'}).catch((e) => {
+        await page.goto('http://localhost:5000', { waitUntil: 'load' }).catch((e) => {
             console.log(e);
         });
         // console.log(2, "@@@");
 
         console.log(await page.evaluate(() => document.body.innerHTML));
-        
+
         // await page.waitForNavigation();
         // await page.waitForSelector('.auth-form__content__header');
         // console.log(3, "@@@");
-        
+
         const html = await page.$eval('.auth-form__content__header', e => e.innerHTML);
         expect(html).toBe('Sign In');
 

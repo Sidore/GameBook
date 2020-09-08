@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Redirect, Link } from "react-router-dom";
-import "./index.styl";
+import "./index.scss";
 import { connect } from 'react-redux';
 import { AppState } from '../../store'
 import { IGame  } from '../../../models/Game/IGame';
@@ -28,7 +28,8 @@ interface State {
     roomLink: string,
     game: string,
     [key: string]: any,
-    gameList: IGame[]
+    gameList: IGame[],
+    messages: {type: string, title: string, desc: string}[]
 }
 class LobbyPage extends React.Component<Props, State> {
     constructor(props) {
@@ -38,7 +39,8 @@ class LobbyPage extends React.Component<Props, State> {
             roomName: "",
             roomLink: "",
             gameList: [],
-            game: ""
+            game: "",
+            messages: []
         }
 
         this.createRoom = this.createRoom.bind(this);
@@ -125,19 +127,19 @@ class LobbyPage extends React.Component<Props, State> {
         return (
             <div className="lobby">
                 <div className="lobby__user-info">
-                    <div className="lobby__user-info__logo">
+                    <div className="lobby__user-info__logo container">
                         <div className="lobby__user-info__logo-img" ></div>
                         <div className="lobby__user-info__logo-nick">
                             {user.nickname}
                         </div>
                     </div>
-                    <div className="lobby__user-info__stats">
+                    <div className="lobby__user-info__stats container">
                         <div className="lobby__user-info__stats-img"></div>
                         <div className="lobby__user-info__stats-text">Ранг - Новичек</div>
                         <div className="lobby__user-info__stats-text">Кол. игр - 113</div>
                         <div className="lobby__user-info__stats-text">Время в игре - 22 часа</div>
                     </div>
-                    <div className="lobby__user-info__contact">
+                    <div className="lobby__user-info__contact container">
                         <div className="lobby__user-info__contact-email">
                             {user.email}
                         </div>
@@ -149,7 +151,7 @@ class LobbyPage extends React.Component<Props, State> {
                         </div>
                     </div>
                 </div>
-                <div className="lobby__user-filters">
+                <div className="lobby__user-filters container">
                     <div>
                     Links: 
                         <Link to="/admin">admin</Link>
@@ -165,15 +167,15 @@ class LobbyPage extends React.Component<Props, State> {
 
                     </iframe>
                 </div>
-                <div className="lobby__new-rooms">
-                    <label>
+                <div className="lobby__new-rooms container">
+                    {/* <label>
                         room name:
                             <input type="text" name="roomName" value={this.state.roomName} onChange={this.handleChange} />
                     </label>
 
                     <button onClick={this.createRoom}>
                         create new room
-                        </button>
+                        </button> */}
                 </div>
             </div>
         )
